@@ -1,4 +1,4 @@
-# Age_of_Compiler
+# Age of Compiler
 ## Introduction
 Welcome to the Age of Compiler, a strategy game set in the universe of ENS Paris Saclay and LSV. This game is inspired by the classic game Age of Empires, but with a unique twist, set in the world of computer science and programming.
 

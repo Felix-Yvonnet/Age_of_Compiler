@@ -6,7 +6,7 @@ import sfml.window.*
     val window = use(RenderWindow(VideoMode(1024, 768), "Hello world"))
 
     val texture = use(Texture())
-    texture.loadFromFile("cat.png")
+    texture.loadFromFile("src/resources/cat.png")
 
     val sprite = use(Sprite(texture))
 

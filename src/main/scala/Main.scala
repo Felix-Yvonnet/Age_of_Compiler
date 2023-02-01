@@ -1,23 +1,32 @@
 import sfml.graphics.*
 import sfml.window.*
+import sfml.system.Vector2f
 
 @main def main =
-  scala.util.Using.Manager { use =>
-    val window = use(RenderWindow(VideoMode(1024, 768), "Hello world"))
+  val window = RenderWindow(VideoMode(1024, 768), "Hello world")
 
-    val texture = use(Texture())
-    texture.loadFromFile("src/resources/cat.png")
+  val texture = Texture()
+  texture.loadFromFile("src/resources/cat.png")
+  texture.repeated = true
+  texture.smooth = true
 
-    val sprite = use(Sprite(texture))
+  val sprite = Sprite(texture)
+  sprite.move(500, 400)
+  // sprite.position = Vector2f(10, 320)
+  // sprite.rotation = 90.0
+  // sprite.scale(0.3,0.3)
 
-    while window.isOpen() do
-      for event <- window.pollEvent() do
-        event match {
-          case _: Event.Closed => window.closeWindow()
-          case _ => ()
-        }
+  val sprite2 = Sprite(texture)
+  sprite2.move(300, 400)
 
-      window.clear(Color.Black())
-      window.draw(sprite)
-      window.display()
-  }
+  while window.isOpen() do
+    for event <- window.pollEvent() do
+      event match {
+        case _: Event.Closed => window.closeWindow()
+        case _ => ()
+      }
+
+    window.clear(Color.Black())
+    window.draw(sprite)
+    window.draw(sprite2)
+    window.display()

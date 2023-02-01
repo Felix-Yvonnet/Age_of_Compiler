@@ -16,5 +16,5 @@ project/project/
 project/target/
 target/
 
-# github
-.git
+# VSCode
+.vscode/

@@ -1,9 +1,10 @@
 trait Character:
-    var hp : Int = 1
-    var satiety : Int = 1
-    var pos_x : Int = 0
-    var pos_y : Int = 0
-    var dist_max : Int = 1
+    var hp : Int
+    var satiety : Int
+    var pos_x : Int
+    var pos_y : Int
+    var speed : Int
+    var dmg : Int
     
 
     // Movements

@@ -3,6 +3,8 @@ import sfml.window.*
 import sfml.system.Vector2
 
 import machine.`object`.movable.characters.Player
+import Scene.*
+import machine.`object`.GameObject
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -25,6 +27,9 @@ class Input(
 
 @main def main =
     val window = RenderWindow(VideoMode(1024, 768), "Hello world")
+
+    val grid = Array.ofDim[Option[GameObject]](30,20)
+
     val texture = Texture()
     texture.loadFromFile("src/resources/cat.png")
     texture.repeated = true
@@ -33,7 +38,7 @@ class Input(
     val sprite = Sprite(texture)
     sprite.textureRect = (0,0,600,600)
     sprite.move(500, 400)
-    sprite.position = Vector2(100, 320)
+    sprite.position = Vector2(100, 10)
     sprite.rotation = 90.0
     sprite.scale(0.3, 0.3)
 
@@ -49,7 +54,7 @@ class Input(
 
     val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, 0, 0, 0, 0, Array[Int](0, 0, 0, 0, 0, 0))
     while window.isOpen() do
-        
+
         for event <- window.pollEvent() do
             event match {
                 case _: Event.Closed                                     => window.close()

@@ -1,3 +1,5 @@
+package Scene
+
 import scala.collection.mutable.Queue
 import sfml.system.Vector2
 import scala.collection.mutable.Set

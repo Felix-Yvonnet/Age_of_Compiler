@@ -39,7 +39,7 @@ class Scene(val grid: Array[Array[Option[GameObject]]]):
 
     def place_sthg(thing : Int, pos : Vector2[Int]): Unit =
         grid(pos.x)(pos.y) match
-            case None => val tmp = GameObject(); tmp.typ = thing; grid(pos.x)(pos.y) = Some(tmp)
+            case None => val tmp = GameObject(""); tmp.typ = thing; grid(pos.x)(pos.y) = Some(tmp)
             case Some(x) => x.typ = thing
     def remove_sthg(thing : Int, pos : Vector2[Int]): Unit =
         grid(pos.x)(pos.y) match

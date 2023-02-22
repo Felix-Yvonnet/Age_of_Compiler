@@ -2,9 +2,10 @@ import sfml.graphics.*
 import sfml.window.*
 import sfml.system.Vector2
 
-import machine.`object`.movable.characters.Player
+import machine.`object`.movable.characters.Pown
 import Scene.*
 import machine.`object`.GameObject
+import machine.event.{Input, Handler}
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -14,16 +15,7 @@ val () = println(m2("1"))
 val () = println(m2 contains "1")
  */
 
-class Input(
-    val keyboard: Map[Keyboard.Key, Int],
-    var x: Int,
-    var y: Int,
-    var xrel: Int,
-    var yrel: Int,
-    var xwheel: Int,
-    var ywheel: Int,
-    var mouse: Array[Int]
-)
+
 
 @main def main =
     val window = RenderWindow(VideoMode(1024, 768), "Hello world")
@@ -31,45 +23,36 @@ class Input(
     val grid = Array.ofDim[Option[GameObject]](30,20)
 
     val texture = Texture()
-    texture.loadFromFile("src/resources/cat.png")
+    texture.loadFromFile("src/resources/fixed_objects/cat.png")
     texture.repeated = true
     texture.smooth = true
 
-    val sprite = Sprite(texture)
-    sprite.textureRect = (0,0,600,600)
-    sprite.move(500, 400)
-    sprite.position = Vector2(100, 10)
-    sprite.rotation = 90.0
-    sprite.scale(0.3, 0.3)
+//    val sprite = Sprite(texture)
+//    sprite.textureRect = (0,0,600,600)
+//    sprite.move(500, 400)
+//    sprite.position = Vector2(100, 10)
+//    sprite.rotation = 90.0
+//    sprite.scale(0.3, 0.3)
 
-    val txture = Texture()
-    txture.loadFromFile("src/resources/randomChar1.png")
-    val sprite3 = Sprite(txture)
-    sprite3.position = Vector2[Float](100,100)
 
-    sprite.move(600, 400)
-
-    val sprite2 = Sprite(texture)
-    sprite2.move(100, 400)
-
+    val char = Pown("src/resources/fixed_objects/cat.png")
+    char.pos = Vector2[Float](100,10)
+//
+//    val sprite2 = Sprite(texture)
+//    sprite2.move(100, 400)
+//
     val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, 0, 0, 0, 0, Array[Int](0, 0, 0, 0, 0, 0))
     while window.isOpen() do
-
-        for event <- window.pollEvent() do
-            event match {
-                case _: Event.Closed                                     => window.close()
-                case Event.KeyPressed(c, _, _, _, _): Event.KeyPressed   => status.keyboard.updated(c, 1)
-                case Event.KeyReleased(c, _, _, _, _): Event.KeyReleased => status.keyboard.updated(c, 0)
-                case Event.MouseMoved(x, y): Event.MouseMoved            => status.x = x; status.y = y
-                case Event.MouseWheelScrolled(wheel, delta, x, y)        => status.xwheel = x; status.ywheel = y
-                case Event.MouseButtonPressed(Mouse.Button.Left, x, y)   => status.mouse(0) = 1
-                case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => status.mouse(0) = 1
-                case _                                                   => ()
-            }
+        Handler.handleEvent(window, status, grid)
+        
         //println(Mouse.position)
         //println(System.currentTimeMillis())
         window.clear(Color.Black())
-        window.draw(sprite)
-        window.draw(sprite2)
-        window.draw(sprite3)
+   //     window.draw(sprite)
+   //     window.draw(sprite2)
+        val txt = char.toTexture()
+        val sprt = Sprite(txt)
+        sprt.position = char.pos
+        window.draw(sprt)
         window.display()
+        txt.close()

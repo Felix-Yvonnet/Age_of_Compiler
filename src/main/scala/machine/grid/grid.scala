@@ -6,23 +6,21 @@ import scala.collection.mutable.Set
 import machine.`object`.movable.Movable
 import machine.`object`.GameObject
 
-class Scene(val grid: Array[Array[Option[GameObject]]]):
+class Scene(val grid: Array[Array[List[GameObject]]]):
 
     def place_sthg(thing : GameObject, pos : Vector2[Int]): Unit =
-        grid(pos.x)(pos.y) = Some(thing)
+        grid(pos.x)(pos.y) = thing::grid(pos.x)(pos.y)
     
-    def remove_sthg(thing : Int, pos : Vector2[Int]): Unit =
-        grid(pos.x)(pos.y) match
-            case Some(x) => grid(pos.x)(pos.y) = None
-            case _ => ()
+    def remove_sthg(thing : GameObject, pos : Vector2[Int]): Unit =
+        grid(pos.x)(pos.y) = grid(pos.x)(pos.y).filter(_ == thing)
 
 object Scene :
-    def bfs(grid: Array[Array[Option[GameObject]]], init: Vector2[Int], fin: Vector2[Int]): Option[List[Vector2[Int]]] =
+    def bfs(grid: Array[Array[List[GameObject]]], init: Vector2[Int], fin: Vector2[Int]): Option[List[Vector2[Int]]] =
         val queue = Queue(init)
         var seen = Set(init)
         bfs(grid, fin, seen, queue)
 
-    private def bfs(grid: Array[Array[Option[GameObject]]], goal: Vector2[Int], seen: Set[Vector2[Int]], queue: Queue[Vector2[Int]]): Option[List[Vector2[Int]]] =
+    private def bfs(grid: Array[Array[List[GameObject]]], goal: Vector2[Int], seen: Set[Vector2[Int]], queue: Queue[Vector2[Int]]): Option[List[Vector2[Int]]] =
         val v = queue.dequeue()
         println(v)
         if v == goal then return Some(List(v))
@@ -30,7 +28,7 @@ object Scene :
 
         var neighbours = List((v.x + 1, v.y), (v.x - 1, v.y), (v.x, v.y + 1), (v.x, v.y - 1))
         neighbours = neighbours.filter((x,y) => 0<= x && x < 30 && 0<=y && y<20 && (grid(x)(y) match
-                case Some (_) => false
+                case gO::q => gO.isSuperposable
                 case _ => true ))
 
         for neighbour <- neighbours do

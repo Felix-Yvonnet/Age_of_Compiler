@@ -1,7 +1,6 @@
 package machine.`object`.fixed.wall
 
 import sfml.graphics.*
-import machine.`object`.movable.characters.Pown
 import sfml.system.Vector2
 import machine.`object`.GameObject
 

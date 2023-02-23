@@ -45,7 +45,7 @@ char.pos = Vector2[Int](100,10)
 
 
 @main def main =
-    val window = RenderWindow(VideoMode(1200, 800), "Hello world")
+    val window = RenderWindow(VideoMode(1200, 800), "Age of Compilers")
 
     val scene = Scene(Array.ofDim[Option[GameObject]](30,20))
     val mat = Mathematician()
@@ -57,6 +57,6 @@ char.pos = Vector2[Int](100,10)
         Handler.handleEvent(window, status, scene.grid)
         window.clear(Color.Black())
 
-        Handler.handlePrint(window, scene.grid)
-        //mat.draw(window)
+        // Handler.handlePrint(window, scene.grid)
+        // mat.draw(window)
         window.display()

@@ -24,6 +24,7 @@ object Scene :
 
     private def bfs(grid: Array[Array[Option[GameObject]]], goal: Vector2[Int], seen: Set[Vector2[Int]], queue: Queue[Vector2[Int]]): Option[List[Vector2[Int]]] =
         val v = queue.dequeue()
+        println(v)
         if v == goal then return Some(List(v))
         seen.concat(Set(v))
 

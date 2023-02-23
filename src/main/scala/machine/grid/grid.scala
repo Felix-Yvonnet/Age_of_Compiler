@@ -8,20 +8,13 @@ import machine.`object`.GameObject
 
 class Scene(val grid: Array[Array[Option[GameObject]]]):
 
-    private val gameObjectMovable: List[Movable] = List()
-
-    def doMove() =
-        gameObjectMovable.map(_.move(grid))
-
-
-    def place_sthg(thing : Int, pos : Vector2[Int]): Unit =
-        grid(pos.x)(pos.y) match
-            case None => val tmp = GameObject(""); tmp.typ = thing; grid(pos.x)(pos.y) = Some(tmp)
-            case Some(x) => x.typ = thing
+    def place_sthg(thing : GameObject, pos : Vector2[Int]): Unit =
+        grid(pos.x)(pos.y) = Some(thing)
+    
     def remove_sthg(thing : Int, pos : Vector2[Int]): Unit =
         grid(pos.x)(pos.y) match
-            case None => ()
             case Some(x) => grid(pos.x)(pos.y) = None
+            case _ => ()
 
 object Scene :
     def bfs(grid: Array[Array[Option[GameObject]]], init: Vector2[Int], fin: Vector2[Int]): Option[List[Vector2[Int]]] =
@@ -35,15 +28,15 @@ object Scene :
         seen.concat(Set(v))
 
         val neighbours = List((v.x + 1, v.y), (v.x - 1, v.y), (v.x, v.y + 1), (v.x, v.y - 1))
-        neighbours.filter((x,y) => grid(x)(y) match
-                case None => true
-                case Some (_) => false)
+        neighbours.filter((x,y) => 0<= x && x< 30 && 0<=y && y<20 && (grid(x)(y) match
+                case Some (_) => false
+                case _ => true ))
 
         for neighbour <- neighbours do
             if !seen(neighbour) then
                 queue.enqueue(neighbour)
                 bfs(grid, goal, seen, queue) match
                     case Some(x) => return Some(v :: x)
-                    case None    => ()
+                    case _    => ()
 
         None

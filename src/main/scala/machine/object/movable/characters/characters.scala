@@ -6,8 +6,6 @@ import machine.`object`.GameObject
 import Scene.Scene
 
 class Pown(sprite_path : String) extends GameObject(sprite_path) with Movable :
-    var waitTime = 0
-    private var indice = 100
     
 
     

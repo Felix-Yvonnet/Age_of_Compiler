@@ -24,18 +24,23 @@ object Handler :
                 case Event.KeyReleased(c, _, _, _, _): Event.KeyReleased => status.keyboard.updated(c, 0)
                 case Event.MouseMoved(x, y): Event.MouseMoved            => status.mousex = x; status.mousey = y
                 case Event.MouseButtonPressed(Mouse.Button.Left, x, y)   => 
-                    grid(x/30)(y/30) match
-                        case None => status.selected = None
+                    println(x/40)
+                    println(y/40)
+                    grid(x/40)(y/40) match
                         case Some(gO) => 
-                            if gO.isInstanceOf[Movable] then
+                            if gO.isMovable then
                                 status.selected = Some(gO)
+                                println("selected\n")
                             else status.selected = None
+                        case _ => 
+                            println("not selected\n")
+                            status.selected = None
                     
                 case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => 
                     status.selected match
-                        case None => ()
                         case Some(gO) => 
                             gO.addPath(grid, x, y)
+                        case _ => ()
 
                     
                 case _                                                   => ()
@@ -47,6 +52,6 @@ object Handler :
         for arr <- grid do 
             for someGO <- arr do
                 someGO match
-                    case None => ()
                     case Some(value) => value.draw(window)
+                    case _ => ()
                 

@@ -6,13 +6,18 @@ import machine.`object`.GameObject
 
 class Pown(sprite_path : String) extends GameObject(sprite_path) with Movable :
     var waitTime = 0
-    private var next_pos : List[Vector2[Float]] = List()
+    private var next_pos : List[Vector2[Int]] = List()
     private var indice = 100
 
-    def move(): Unit =
+    def move(grid : Array[Array[Option[GameObject]]]): Unit =
         next_pos match
             case List() => ()
-            case t::q => pos += t
+            case t::q => 
+                val tmp = grid(pos.x)(pos.y)
+                grid(pos.x)(pos.y) = grid(t.x)(t.y)
+                grid(t.x)(t.y) = tmp
+                pos = t
+
     
     
 

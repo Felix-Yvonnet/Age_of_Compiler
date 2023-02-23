@@ -11,7 +11,7 @@ class Scene(val grid: Array[Array[Option[GameObject]]]):
     private val gameObjectMovable: List[Movable] = List()
 
     def doMove() =
-        gameObjectMovable.map(_.move())
+        gameObjectMovable.map(_.move(grid))
 
     def bfs(init: Vector2[Int], fin: Vector2[Int]): Option[List[Vector2[Int]]] =
         val queue = Queue(init)

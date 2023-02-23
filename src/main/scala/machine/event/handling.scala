@@ -4,30 +4,49 @@ import machine.`object`.GameObject
 import sfml.graphics.*
 import sfml.window.*
 import sfml.system.Vector2
+import machine.`object`.movable.Movable
 
 class Input(
     val keyboard: Map[Keyboard.Key, Int],
-    var x: Int,
-    var y: Int,
-    var xrel: Int,
-    var yrel: Int,
-    var xwheel: Int,
-    var ywheel: Int,
-    var mouse: Array[Int]
+    var mousex: Int,
+    var mousey: Int,
+    var selected: Option[GameObject]
 )
 
 
 object Handler :
 
-    def handleEvent(window : Window, status : Input, grid: Array[Array[Option[GameObject]]]) =
+    def handleEvent(window : RenderWindow, status : Input, grid: Array[Array[Option[GameObject]]]) =
         for event <- window.pollEvent() do
             event match {
                 case _: Event.Closed                                     => window.close()
                 case Event.KeyPressed(c, _, _, _, _): Event.KeyPressed   => status.keyboard.updated(c, 1)
                 case Event.KeyReleased(c, _, _, _, _): Event.KeyReleased => status.keyboard.updated(c, 0)
-                case Event.MouseMoved(x, y): Event.MouseMoved            => status.x = x; status.y = y
-                case Event.MouseWheelScrolled(wheel, delta, x, y)        => status.xwheel = x; status.ywheel = y
-                case Event.MouseButtonPressed(Mouse.Button.Left, x, y)   => status.mouse(0) = 1
-                case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => status.mouse(0) = 1
+                case Event.MouseMoved(x, y): Event.MouseMoved            => status.mousex = x; status.mousey = y
+                case Event.MouseButtonPressed(Mouse.Button.Left, x, y)   => 
+                    grid(x/30)(y/30) match
+                        case None => status.selected = None
+                        case Some(gO) => 
+                            if gO.isInstanceOf[Movable] then
+                                status.selected = Some(gO)
+                            else status.selected = None
+                    
+                case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => 
+                    status.selected match
+                        case None => ()
+                        case Some(gO) => 
+                            gO.addPath(grid, x, y)
+
+                    
                 case _                                                   => ()
             }
+    
+
+
+    def handlePrint(window : RenderWindow, grid: Array[Array[Option[GameObject]]] ) : Unit = 
+        for arr <- grid do 
+            for someGO <- arr do
+                someGO match
+                    case None => ()
+                    case Some(value) => value.draw(window)
+                

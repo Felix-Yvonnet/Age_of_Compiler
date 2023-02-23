@@ -18,7 +18,7 @@ val () = println(m2 contains "1")
 
 
 @main def main =
-    val window = RenderWindow(VideoMode(1024, 768), "Hello world")
+    val window = RenderWindow(VideoMode(1200, 800), "Hello world")
 
     val grid = Array.ofDim[Option[GameObject]](30,20)
 
@@ -36,12 +36,12 @@ val () = println(m2 contains "1")
 
 
     val char = Pown("src/resources/fixed_objects/cat.png")
-    char.pos = Vector2[Float](100,10)
+    char.pos = Vector2[Int](100,10)
 //
 //    val sprite2 = Sprite(texture)
 //    sprite2.move(100, 400)
 //
-    val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, 0, 0, 0, 0, Array[Int](0, 0, 0, 0, 0, 0))
+    val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, None)
     while window.isOpen() do
         Handler.handleEvent(window, status, grid)
         
@@ -52,7 +52,7 @@ val () = println(m2 contains "1")
    //     window.draw(sprite2)
         val txt = char.toTexture()
         val sprt = Sprite(txt)
-        sprt.position = char.pos
+        sprt.position = Vector2[Float](char.pos.x, char.pos.y)
         window.draw(sprt)
         window.display()
         txt.close()

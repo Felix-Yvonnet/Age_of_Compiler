@@ -13,12 +13,23 @@ class Scene(val grid: Array[Array[Option[GameObject]]]):
     def doMove() =
         gameObjectMovable.map(_.move(grid))
 
-    def bfs(init: Vector2[Int], fin: Vector2[Int]): Option[List[Vector2[Int]]] =
+
+    def place_sthg(thing : Int, pos : Vector2[Int]): Unit =
+        grid(pos.x)(pos.y) match
+            case None => val tmp = GameObject(""); tmp.typ = thing; grid(pos.x)(pos.y) = Some(tmp)
+            case Some(x) => x.typ = thing
+    def remove_sthg(thing : Int, pos : Vector2[Int]): Unit =
+        grid(pos.x)(pos.y) match
+            case None => ()
+            case Some(x) => grid(pos.x)(pos.y) = None
+
+object Scene :
+    def bfs(grid: Array[Array[Option[GameObject]]], init: Vector2[Int], fin: Vector2[Int]): Option[List[Vector2[Int]]] =
         val queue = Queue(init)
         var seen = Set(init)
-        bfs(fin, seen, queue)
+        bfs(grid, fin, seen, queue)
 
-    private def bfs(goal: Vector2[Int], seen: Set[Vector2[Int]], queue: Queue[Vector2[Int]]): Option[List[Vector2[Int]]] =
+    private def bfs(grid: Array[Array[Option[GameObject]]], goal: Vector2[Int], seen: Set[Vector2[Int]], queue: Queue[Vector2[Int]]): Option[List[Vector2[Int]]] =
         val v = queue.dequeue()
         if v == goal then return Some(List(v))
         seen.concat(Set(v))
@@ -31,17 +42,8 @@ class Scene(val grid: Array[Array[Option[GameObject]]]):
         for neighbour <- neighbours do
             if !seen(neighbour) then
                 queue.enqueue(neighbour)
-                bfs(goal, seen, queue) match
+                bfs(grid, goal, seen, queue) match
                     case Some(x) => return Some(v :: x)
                     case None    => ()
 
         None
-
-    def place_sthg(thing : Int, pos : Vector2[Int]): Unit =
-        grid(pos.x)(pos.y) match
-            case None => val tmp = GameObject(""); tmp.typ = thing; grid(pos.x)(pos.y) = Some(tmp)
-            case Some(x) => x.typ = thing
-    def remove_sthg(thing : Int, pos : Vector2[Int]): Unit =
-        grid(pos.x)(pos.y) match
-            case None => ()
-            case Some(x) => grid(pos.x)(pos.y) = None

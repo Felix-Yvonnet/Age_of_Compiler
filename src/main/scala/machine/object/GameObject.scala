@@ -42,7 +42,7 @@ class GameObject(var sprite_path : String = "") :
   def draw(window: RenderWindow): Unit = 
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
-      sprite.position = Vector2[Float]((pos.x+1)*40,(pos.y+1)*40)
+      sprite.position = Vector2[Float]((pos.x-2)*40,(pos.y-2)*40)
       window.draw(sprite)
   
   def toTexture() : Texture =

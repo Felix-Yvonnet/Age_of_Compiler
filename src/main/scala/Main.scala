@@ -57,6 +57,6 @@ char.pos = Vector2[Int](100,10)
         Handler.handleEvent(window, status, scene.grid)
         window.clear(Color.Black())
 
-        // Handler.handlePrint(window, scene.grid)
+        Handler.handlePrint(window, scene.grid)
         // mat.draw(window)
         window.display()

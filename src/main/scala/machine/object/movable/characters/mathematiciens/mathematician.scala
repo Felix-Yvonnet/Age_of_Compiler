@@ -4,7 +4,7 @@ import machine.`object`.movable.characters.Pown
 import sfml.system.Vector2
 import machine.`object`.GameObject
 
-class Mathematician(sprite_path : String = "src/resources/fixed_objects/cat.png") extends GameObject(sprite_path) :
+class Mathematician(sprite_path : String = "src/resources/moving_objects/characters/matheux_1.png") extends GameObject(sprite_path) :
     isMovable = true
     waitTime = 100
     speed = 100

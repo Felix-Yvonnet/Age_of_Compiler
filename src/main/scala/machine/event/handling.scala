@@ -40,7 +40,6 @@ object Handler :
                     status.selected match
                         case Some(gO) =>
                             gO.tp(grid,x/40,y/40)
-                            println("lolilol")
                             // gO.addPath(grid, x, y)
                         case _ => ()
 

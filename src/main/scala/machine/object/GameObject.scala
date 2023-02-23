@@ -31,15 +31,18 @@ class GameObject(var sprite_path : String = "") :
             waitTime = speed
           waitTime -= 1
 
-  def move(grid : Array[Array[Option[GameObject]]], destx : Int, desty : Int): Unit =
+  def tp(grid : Array[Array[Option[GameObject]]], destx : Int, desty : Int): Unit =
     if 0 <= destx && 0<= desty && 30>destx && 20>desty then
       grid(destx)(desty) match
-        case Some(_) => 
+        case Some(_) => println("Looks like there is something there")
         case _ => 
           grid(destx)(desty) = Some(this)
           grid(this.pos.x)(this.pos.y) = None
-          this.pos = Vector2[Int](destx,desty)  
-      
+          this.pos = Vector2[Int](destx,desty)
+          // println("everything looks right here") 
+    else
+      println("Revois ta taille Félix")   
+
 
   def addPath(grid : Array[Array[Option[GameObject]]], destx : Int, desty : Int) : Unit =
     val tmp = Scene.bfs(grid, pos, Vector2[Int](destx,desty))
@@ -51,7 +54,7 @@ class GameObject(var sprite_path : String = "") :
   def draw(window: RenderWindow): Unit = 
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
-      sprite.position = Vector2[Float]((pos.x+1)*40,(pos.y+1)*40)
+      sprite.position = Vector2[Float]((pos.x-2)*40,(pos.y-2)*40)
       window.draw(sprite)
   
   def toTexture() : Texture =

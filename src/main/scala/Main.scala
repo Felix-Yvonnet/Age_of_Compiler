@@ -7,6 +7,7 @@ import Scene.*
 import machine.`object`.GameObject
 import machine.event.{Input, Handler}
 import machine.`object`.movable.characters.mathematiciens.Mathematician
+import machine.`object`.movable.characters.Player
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -51,12 +52,12 @@ char.pos = Vector2[Int](100,10)
     val mat = Mathematician()
     scene.place_sthg(mat,mat.pos)
 
-
+    val player = Player("Héro")
     val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, None)
     while window.isOpen() do
         Handler.handleEvent(window, status, scene.grid)
         window.clear(Color.Black())
-
         Handler.handlePrint(window, scene.grid)
         // mat.draw(window)
+        player.draw(window)
         window.display()

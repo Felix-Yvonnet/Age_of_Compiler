@@ -30,7 +30,7 @@ class GameObject(var sprite_path : String = "") :
             pos = t
             waitTime = speed
           waitTime -= 1
-    
+
   def move(grid : Array[Array[Option[GameObject]]], destx : Int, desty : Int): Unit =
     if 0 <= destx && 0<= desty && 30>destx && 20>desty then
       grid(destx)(desty) match

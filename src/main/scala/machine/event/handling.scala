@@ -16,7 +16,7 @@ class Input(
 
 object Handler :
 
-    def handleEvent(window : RenderWindow, status : Input, grid: Array[Array[Option[GameObject]]]) =
+    def handleEvent(window : RenderWindow, status : Input, grid: Array[Array[List[GameObject]]]) =
         for event <- window.pollEvent() do
             event match {
                 case _: Event.Closed                                     => window.close()
@@ -27,7 +27,7 @@ object Handler :
                     println(x/40)
                     println(y/40)
                     grid(x/40)(y/40) match
-                        case Some(gO) => 
+                        case gO::q => 
                             if gO.isMovable then
                                 status.selected = Some(gO)
                                 println("selected\n")
@@ -49,9 +49,9 @@ object Handler :
     
 
 
-    def handlePrint(window : RenderWindow, grid: Array[Array[Option[GameObject]]] ) : Unit = 
+    def handlePrint(window : RenderWindow, grid: Array[Array[List[GameObject]]] ) : Unit = 
         for arr <- grid do 
             for someGO <- arr do
                 someGO match
-                    case Some(value) => value.draw(window)
+                    case value::q => value.draw(window)
                     case _ => ()

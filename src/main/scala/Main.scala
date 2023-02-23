@@ -2,7 +2,6 @@ import sfml.graphics.*
 import sfml.window.*
 import sfml.system.Vector2
 
-import machine.`object`.movable.characters.Pown
 import Scene.*
 import machine.`object`.GameObject
 import machine.event.{Input, Handler}
@@ -51,7 +50,7 @@ char.pos = Vector2[Int](100,10)
 @main def main =
     val window = RenderWindow(VideoMode(1200, 800), "Age of Compilers")
 
-    val scene = Scene(Array.ofDim[Option[GameObject]](30,20))
+    val scene = Scene(Array.ofDim[List[GameObject]](30,20))
     val mat = Mathematician()
     scene.place_sthg(mat,mat.pos)
     val walle = Wall()

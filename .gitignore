@@ -1,6 +1,6 @@
 # bloop and metals
 .bloop
-.bsp
+.bsp*
 
 # metals
 project/metals.sbt
@@ -17,4 +17,4 @@ project/target/
 target/
 
 # VSCode
-.vscode/
+.vscode*

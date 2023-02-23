@@ -38,8 +38,9 @@ object Handler :
                     
                 case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => 
                     status.selected match
-                        case Some(gO) => 
-                            gO.addPath(grid, x, y)
+                        case Some(gO) =>
+                            gO.move(grid,x,y)
+                            // gO.addPath(grid, x, y)
                         case _ => ()
 
                     

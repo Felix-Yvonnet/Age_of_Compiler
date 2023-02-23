@@ -49,9 +49,9 @@ object Handler :
     
 
 
-    def handlePrint(window : RenderWindow, grid: Array[Array[Option[GameObject]]] ) : Unit = 
+    def handlePrint(window : RenderWindow, grid: Array[Array[List[GameObject]]] ) : Unit = 
         for arr <- grid do 
             for someGO <- arr do
                 someGO match
-                    case Some(value) => value.draw(window)
+                    case value::q => value.draw(window)
                     case _ => ()

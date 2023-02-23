@@ -1,7 +1,6 @@
 package machine.`object`.movable.characters.mathematiciens
 
 import sfml.graphics.*
-import machine.`object`.movable.characters.Pown
 import sfml.system.Vector2
 import machine.`object`.GameObject
 

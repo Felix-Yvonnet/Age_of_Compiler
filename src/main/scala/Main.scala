@@ -8,6 +8,8 @@ import machine.`object`.GameObject
 import machine.event.{Input, Handler}
 import machine.`object`.movable.characters.mathematiciens.Mathematician
 
+
+
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
 
@@ -50,7 +52,6 @@ char.pos = Vector2[Int](100,10)
     val scene = Scene(Array.ofDim[Option[GameObject]](30,20))
     val mat = Mathematician()
     scene.place_sthg(mat,mat.pos)
-
 
     val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, None)
     while window.isOpen() do

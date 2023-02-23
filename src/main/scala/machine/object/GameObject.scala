@@ -30,7 +30,17 @@ class GameObject(var sprite_path : String = "") :
             pos = t
             waitTime = speed
           waitTime -= 1
-      
+  def tp(grid : Array[Array[Option[GameObject]]], destx : Int, desty : Int): Unit =
+    if 0 <= destx && 0<= desty && 30>destx && 20>desty then
+      grid(destx)(desty) match
+        case Some(_) => println("Looks like there is something there")
+        case _ => 
+          grid(destx)(desty) = Some(this)
+          grid(this.pos.x)(this.pos.y) = None
+          this.pos = Vector2[Int](destx,desty)
+          // println("everything looks right here") 
+    else
+      println("Revois ta taille Félix")   
 
   def addPath(grid : Array[Array[Option[GameObject]]], destx : Int, desty : Int) : Unit =
     val tmp = Scene.bfs(grid, pos, Vector2[Int](destx,desty))

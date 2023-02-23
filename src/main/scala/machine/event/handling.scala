@@ -38,8 +38,10 @@ object Handler :
                     
                 case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => 
                     status.selected match
-                        case Some(gO) => 
-                            gO.addPath(grid, x, y)
+                        case Some(gO) =>
+                            gO.tp(grid,x/40,y/40)
+                            println("lolilol")
+                            // gO.addPath(grid, x, y)
                         case _ => ()
 
                     
@@ -54,4 +56,3 @@ object Handler :
                 someGO match
                     case Some(value) => value.draw(window)
                     case _ => ()
-                

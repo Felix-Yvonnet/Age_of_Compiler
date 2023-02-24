@@ -23,7 +23,7 @@ object Handler :
                 case Event.KeyPressed(c, _, _, _, _): Event.KeyPressed   => status.keyboard.updated(c, 1)
                 case Event.KeyReleased(c, _, _, _, _): Event.KeyReleased => status.keyboard.updated(c, 0)
                 case Event.MouseMoved(x, y): Event.MouseMoved            => status.mousex = x; status.mousey = y
-                case Event.MouseButtonPressed(Mouse.Button.Left, x, y)   => 
+                case Event.MouseButtonPressed(Mouse.Button.Left, x, y)   => {
                     println(x/40)
                     println(y/40)
                     grid(x/40)(y/40) match
@@ -35,13 +35,15 @@ object Handler :
                         case _ => 
                             println("not selected\n")
                             status.selected = None
+                }
                     
-                case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => 
+                case Event.MouseButtonPressed(Mouse.Button.Right, x, y)  => {
                     status.selected match
                         case Some(gO) =>
                             gO.tp(grid,x/40,y/40)
                             // gO.addPath(grid, x, y)
                         case _ => ()
+                }
 
                     
                 case _                                                   => ()

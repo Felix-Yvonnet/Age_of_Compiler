@@ -6,7 +6,7 @@ import machine.`object`.GameObject
 import sfml.graphics.RenderWindow
 import sfml.system.Vector2
 
-class Player(name : String) extends GameObject:
+class Player(name : String) extends GameObject :
     var béton = 0
     var argent = 0
 

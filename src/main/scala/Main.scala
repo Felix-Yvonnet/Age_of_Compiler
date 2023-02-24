@@ -8,7 +8,7 @@ import machine.event.{Input, Handler}
 import machine.`object`.movable.characters.mathematiciens.Mathematician
 import machine.`object`.movable.characters.Player
 import machine.`object`.fixed.wall.Wall
-
+import machine.`object`.fixed.resources.Tree
 
 
 /*
@@ -55,6 +55,9 @@ char.pos = Vector2[Int](100,10)
     scene.place_sthg(mat,mat.pos)
     val walle = Wall()
     scene.place_sthg(walle, walle.pos)
+
+    val tree = Tree()
+    scene.place_sthg(tree, tree.pos)
 
     val player = Player("Héro")
     val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, None)

@@ -16,12 +16,15 @@ class GameObject(var sprite_path : String = "") :
   var agility : Int = 0 // speed for extracting resources
   var isSuperposable : Boolean = true
 
-
   val texture = Texture()
-  texture.loadFromFile(sprite_path)
+
+  if sprite_path != "" then
+    texture.loadFromFile(sprite_path)
+
 
   private var nextPos : List[Vector2[Int]] = List()
 
+  /*
   def move(grid : Array[Array[List[GameObject]]]): Unit =
     nextPos match
         case List() => ()
@@ -33,18 +36,21 @@ class GameObject(var sprite_path : String = "") :
             pos = t
             waitTimeMove = speed
           waitTimeMove -= 1
+          */
 
   def tp(grid : Array[Array[List[GameObject]]], destx : Int, desty : Int): Unit =
     if 0 <= destx && 0<= desty && 30>destx && 20>desty then
       grid(destx)(desty) match {
         case gO::q => 
           if gO.isSuperposable then
-            grid(destx)(desty) = this::gO::q
-            grid(this.pos.x)(this.pos.y) = grid(this.pos.x)(this.pos.y).tail
+            grid(destx)(desty) = this :: grid(destx)(desty)
+            if grid(this.pos.x)(this.pos.y) != List() then
+              grid(this.pos.x)(this.pos.y) = grid(this.pos.x)(this.pos.y).tail
           else println("Looks like there is something there")
         case _ => 
           grid(destx)(desty) = List(this)
-          grid(this.pos.x)(this.pos.y) = grid(this.pos.x)(this.pos.y).tail
+          if grid(this.pos.x)(this.pos.y) != List() then
+            grid(this.pos.x)(this.pos.y) = grid(this.pos.x)(this.pos.y).tail
           this.pos = Vector2[Int](destx,desty)
           // println("everything looks right here")
       }

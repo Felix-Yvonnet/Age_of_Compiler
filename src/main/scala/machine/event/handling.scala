@@ -53,9 +53,8 @@ object Handler :
 
 
     def handlePrint(window : RenderWindow, grid: Array[Array[List[GameObject]]] ) : Unit = 
-        for i <- grid.length-1 to 0 by -1 do 
-            for j <- grid(i).length-1 to 0 by -1 do
-                val someGO = grid(i)(j)
+        for arr <- grid do 
+            for someGO <-arr do
                 someGO match
                     case value::q => handlePrint(window, someGO) //someGO.foreach { println }; value.draw(window)
                     case _ => ()

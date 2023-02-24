@@ -9,6 +9,7 @@ import machine.`object`.movable.characters.mathematiciens.Mathematician
 import machine.`object`.movable.characters.Player
 import machine.`object`.fixed.wall.Wall
 import machine.`object`.fixed.resources.Tree
+import java.beans.VetoableChangeSupport
 
 
 /*
@@ -54,7 +55,14 @@ char.pos = Vector2[Int](100,10)
     val mat = Mathematician()
     scene.place_sthg(mat,mat.pos)
     val walle = Wall()
+    walle.pos = Vector2[Int](11,0)
     scene.place_sthg(walle, walle.pos)
+    val walle2 = Wall()
+    walle2.pos = Vector2[Int](12,0)
+    scene.place_sthg(walle2, walle2.pos)
+    val walle3 = Wall()
+    walle3.pos = Vector2[Int](13,0)
+    scene.place_sthg(walle3, walle3.pos)
 
     val tree = Tree()
     scene.place_sthg(tree, tree.pos)

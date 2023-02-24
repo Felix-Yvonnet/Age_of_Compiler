@@ -23,6 +23,6 @@ class Tree(sprite_path : String = "src/resources/fixed_objects/tree_hand_made.pn
     override def draw (window: RenderWindow): Unit = 
       if this.sprite_path != "" then
         val sprite = Sprite(this.texture)
-        sprite.scale(0.02,0.03)
-        sprite.position = Vector2[Float]((pos.x)*40,(pos.y-2)*40)
+        sprite.scale(0.018,0.028)
+        sprite.position = Vector2[Float]((pos.x)*40,(pos.y-1)*40)
         window.draw(sprite)

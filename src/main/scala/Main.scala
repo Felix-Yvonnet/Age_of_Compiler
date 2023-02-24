@@ -62,7 +62,7 @@ char.pos = Vector2[Int](100,10)
     val player = Player("Héro")
     val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, None)
     while window.isOpen() do
-        Handler.handleEvent(window, status, scene.grid)
+        Handler.handleEvent(window, status, scene.grid, player)
         window.clear(Color.Black())
 
         Handler.handlePrint(window, scene.grid)

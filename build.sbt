@@ -5,9 +5,9 @@ scalaVersion := "3.2.2"
 enablePlugins(ScalaNativePlugin)
 
 nativeConfig ~= {
-    _.withIncrementalCompilation(true)
-        .withLTO(LTO.none)
-        .withMode(Mode.debug)
+  _.withIncrementalCompilation(true)
+     .withLTO(LTO.thin)
+     .withMode(Mode.releaseFull)
 }
 
 githubSuppressPublicationWarning := true

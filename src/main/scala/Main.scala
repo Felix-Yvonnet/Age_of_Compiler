@@ -11,7 +11,6 @@ import machine.`object`.fixed.wall.Wall
 import machine.`object`.fixed.resources.Tree
 import java.beans.VetoableChangeSupport
 
-
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
 
@@ -46,22 +45,20 @@ char.pos = Vector2[Int](100,10)
 
  */
 
-
-
 @main def main =
     val window = RenderWindow(VideoMode(1200, 800), "Age of Compilers")
 
-    val scene = Scene(Array.ofDim[List[GameObject]](30,20))
+    val scene = Scene(Array.ofDim[List[GameObject]](30, 20))
     val mat = Mathematician()
-    scene.place_sthg(mat,mat.pos)
+    scene.place_sthg(mat, mat.pos)
     val walle = Wall()
-    walle.pos = Vector2[Int](11,0)
+    walle.pos = Vector2[Int](11, 0)
     scene.place_sthg(walle, walle.pos)
     val walle2 = Wall()
-    walle2.pos = Vector2[Int](12,0)
+    walle2.pos = Vector2[Int](12, 0)
     scene.place_sthg(walle2, walle2.pos)
     val walle3 = Wall()
-    walle3.pos = Vector2[Int](13,0)
+    walle3.pos = Vector2[Int](13, 0)
     scene.place_sthg(walle3, walle3.pos)
 
     val tree = Tree()

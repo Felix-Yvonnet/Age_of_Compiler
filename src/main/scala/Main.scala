@@ -9,7 +9,6 @@ import machine.`object`.movable.characters.mathematiciens.Mathematician
 import machine.`object`.movable.characters.Player
 import machine.`object`.fixed.wall.Wall
 import machine.`object`.fixed.resources.Tree
-import java.beans.VetoableChangeSupport
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]

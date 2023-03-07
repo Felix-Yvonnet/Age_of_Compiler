@@ -39,25 +39,6 @@ class GameObject(var sprite_path: String = ""):
           waitTimeMove -= 1
    */
 
-  def tp(grid: Array[Array[List[GameObject]]], destx: Int, desty: Int, player: Player): Unit =
-    if 0 <= destx && 0 <= desty && 30 > destx && 20 > desty then
-      grid(destx)(desty) match {
-        case gO :: q =>
-          if gO.isInstanceOf[Tree] then player.béton = player.béton + gO.waitTimeResources
-
-          if gO.isSuperposable then
-            grid(destx)(desty) = this :: grid(destx)(desty)
-            if grid(this.pos.x)(this.pos.y) != List() then
-              grid(this.pos.x)(this.pos.y) = grid(this.pos.x)(this.pos.y).tail
-              this.pos = Vector2[Int](destx, desty)
-          else println("Looks like there is something there")
-        case _ =>
-          grid(destx)(desty) = List(this)
-          if grid(this.pos.x)(this.pos.y) != List() then grid(this.pos.x)(this.pos.y) = grid(this.pos.x)(this.pos.y).tail
-          this.pos = Vector2[Int](destx, desty)
-        // println("everything looks right here")
-      }
-    else println("Revois ta taille Félix")
 
   def addPath(grid: Array[Array[List[GameObject]]], destx: Int, desty: Int): Unit =
     val tmp = Scene.bfs(grid, pos, Vector2[Int](destx, desty))

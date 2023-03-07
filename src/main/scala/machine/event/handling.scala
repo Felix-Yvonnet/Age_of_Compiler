@@ -39,7 +39,7 @@ object Handler:
         case Event.MouseButtonPressed(Mouse.Button.Right, x, y) => {
           status.selected match
             case Some(gO) =>
-              gO.tp(grid, x / 40, y / 40, player)
+              gO.rightClicked(grid, x / 40, y / 40, player)
             // gO.addPath(grid, x, y)
             case _ => ()
         }

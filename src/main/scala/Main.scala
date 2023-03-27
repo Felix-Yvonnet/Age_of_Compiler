@@ -1,16 +1,17 @@
 import sfml.graphics.*
 import sfml.window.*
+import scala.util.Using
 import sfml.system.Vector2
 
-import Scene.*
-import machine.`object`.GameObject
+import machine.go.GameObject
 import machine.event.{Input, Handler}
-import machine.`object`.movable.characters.mathematiciens.Mathematician
-import machine.`object`.movable.characters.Player
-import machine.`object`.fixed.wall.Wall
-import machine.`object`.fixed.resources.Tree
-
-
+import machine.go.movable.characters.mathematiciens.Mathematician
+import machine.go.printable.fixed.decoration.Wall
+import machine.go.printable.fixed.resources.Tree
+import machine.scene.Point
+import machine.scene.GameMap
+import sfml.Immutable
+import machine.go.invisible.Player
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
 
@@ -45,27 +46,43 @@ char.pos = Vector2[Int](100,10)
 
  */
 
-
-
 @main def main =
-    val window = RenderWindow(VideoMode(1200, 800), "Age of Compilers")
+  Using.Manager { use =>
+    val width = 1200
+    val height = 800
+    val shapeX = 30
+    val shapeY = 20
+    val ratioX = width / shapeX
+    val ratioY = height / shapeY
+    val view = View((0, 0, width, height))
 
-    val scene = Scene(Array.ofDim[List[GameObject]](30,20))
+    val window = use(RenderWindow(VideoMode(width, height), "Age of Compilers"))
+
+    val scene = GameMap(Array.ofDim[List[GameObject]](shapeX, shapeY))
     val mat = Mathematician()
-    scene.place_sthg(mat,mat.pos)
+    scene.place_sthg(mat, mat.pos)
     val walle = Wall()
+    walle.pos = Point(11, 0)
     scene.place_sthg(walle, walle.pos)
+    val walle2 = Wall()
+    walle2.pos = Point(12, 0)
+    scene.place_sthg(walle2, walle2.pos)
+    val walle3 = Wall()
+    walle3.pos = Point(13, 0)
+    scene.place_sthg(walle3, walle3.pos)
 
-    val tree = Tree()
+    val tree = Tree(Point(10,10))
     scene.place_sthg(tree, tree.pos)
 
     val player = Player("Héro")
-    val status = Input(Map[Keyboard.Key, Int]().empty, 0, 0, None)
+    val handler = Handler(window, scene.grid, ratioX, ratioY, view)
     while window.isOpen() do
-        Handler.handleEvent(window, status, scene.grid, player)
-        window.clear(Color.Black())
+      // window.view = Immutable(view)
+      handler.handleEvent()
+      window.clear()
 
-        Handler.handlePrint(window, scene.grid)
-        // mat.draw(window)
-        player.draw(window)
-        window.display()
+
+      player.draw(window)
+      handler.handlePrint()
+      window.display()
+  }

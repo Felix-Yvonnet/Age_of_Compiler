@@ -4,17 +4,19 @@ import sfml.graphics.*
 import sfml.window.*
 import sfml.system.Vector2
 import machine.scene.Point
+import machine.scene.GameMap
 
-class GameObject(var sprite_path: String = ""):
-  var pos = Point(0, 0)
+class GameObject(var pos: Point = Point(0,0), var sprite_path: String = "") :
   var isSelectable: Boolean = false
   var isSuperposable: Boolean = true
+  val pathToTextures = "src/resources/"
+  var health: Int = 0
 
   val texture = Texture()
 
-  if sprite_path != "" then texture.loadFromFile(sprite_path)
+  if sprite_path != "" then texture.loadFromFile(pathToTextures + sprite_path)
 
-  def rightClicked(grid: Array[Array[List[GameObject]]], destx: Int, desty: Int): Unit = ()
+  def rightClicked(scene: GameMap, dest: Point): Unit = ()
 
   def draw(window: RenderWindow): Unit =
     if this.sprite_path != "" then
@@ -26,6 +28,14 @@ class GameObject(var sprite_path: String = ""):
     val tmp = Texture()
     tmp.loadFromFile(sprite_path)
     tmp
+
+  def action(scene: GameMap) : Unit =
+    ()
+  def isAttacked(damage: Int, scene: GameMap) : Unit =
+    if health - damage <= 0 then
+      scene.removeSthg(this, this.pos)
+      this.destroy()
+    else health = health - damage
 
   def destroy(): Unit =
     texture.close()

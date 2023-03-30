@@ -5,8 +5,8 @@ import sfml.system.Vector2
 import machine.go.GameObject
 import machine.scene.Point
 
-class Wall(sprite_path: String = "src/resources/fixed_objects/mur_pierres.png") extends GameObject(sprite_path):
-  pos = Point(3, 19)
+class Wall(pos: Point) extends GameObject(pos, "fixed_objects/mur_pierres.png"):
+
   isSuperposable = false
   override def draw(window: RenderWindow): Unit =
     if this.sprite_path != "" then

@@ -5,6 +5,6 @@ import machine.go.GameObject
 import machine.go.invisible.Player
 import machine.go.movable.Movable
 
-abstract class Resource(sprite_path: String, var position: Point) extends GameObject(sprite_path) {
+abstract class Resource(var position: Point, sprite_path: String) extends GameObject(position, sprite_path) {
   def collect(player: Player, char: Movable): Unit
 }

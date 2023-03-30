@@ -3,7 +3,7 @@ package machine.go.printable.fixed.buildings
 import machine.scene.Point
 import scala.collection.mutable.Queue
 
-class ProductionBuilding(name: String, position: Point, health: Int, val unitType: String, val productionTime: Int) extends Building(name, position, health) {
+class ProductionBuilding(name: String, position: Point, val unitType: String, val productionTime: Int) extends Building(name, position) {
   private var productionProgress: Int = 0
   var productionQueue: Queue[Unit] = Queue()
 

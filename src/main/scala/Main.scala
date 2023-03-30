@@ -3,8 +3,7 @@ import sfml.window.*
 import scala.util.Using
 import sfml.system.Vector2
 
-import machine.go.GameObject
-import machine.event.{Input, Handler}
+import machine.event.{Input, Handler, Scalaseries}
 import machine.go.movable.characters.mathematiciens.Mathematician
 import machine.go.printable.fixed.decoration.Wall
 import machine.go.printable.fixed.resources.Tree
@@ -12,6 +11,7 @@ import machine.scene.Point
 import machine.scene.GameMap
 import sfml.Immutable
 import machine.go.invisible.Player
+import machine.event.Scalaseries
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
 
@@ -48,41 +48,50 @@ char.pos = Vector2[Int](100,10)
 
 @main def main =
   Using.Manager { use =>
+    // size of the window
     val width = 1200
     val height = 800
+    // size of the map
     val shapeX = 30
     val shapeY = 20
+    // ratio to convert from one to another
     val ratioX = width / shapeX
     val ratioY = height / shapeY
+    // views
     val view = View((0, 0, width, height))
 
+    // the window that will be shown
     val window = use(RenderWindow(VideoMode(width, height), "Age of Compilers"))
+    window.verticalSync = true
+    window.framerateLimit = 2
 
-    val scene = GameMap(Array.ofDim[List[GameObject]](shapeX, shapeY))
-    val mat = Mathematician()
+    // define the game map
+    val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX,ratioY))
+
+    // one texture to rule them all
+    val tileMapTexture = Texture()
+    tileMapTexture.loadFromFile("src/resources/fixed_objects/Tilemap/tilemap.png")
+
+    val mat = Mathematician(Point(10,15))
     scene.place_sthg(mat, mat.pos)
-    val walle = Wall()
-    walle.pos = Point(11, 0)
+    val walle = Wall(Point(11,0))
     scene.place_sthg(walle, walle.pos)
-    val walle2 = Wall()
-    walle2.pos = Point(12, 0)
+    val walle2 = Wall(Point(12,0))
     scene.place_sthg(walle2, walle2.pos)
-    val walle3 = Wall()
-    walle3.pos = Point(13, 0)
+    val walle3 = Wall(Point(13,0))
     scene.place_sthg(walle3, walle3.pos)
 
     val tree = Tree(Point(10,10))
     scene.place_sthg(tree, tree.pos)
 
     val player = Player("Héro")
-    val handler = Handler(window, scene.grid, ratioX, ratioY, view)
+    val handler = Handler(window, scene, ratioX, ratioY, view)
     while window.isOpen() do
       // window.view = Immutable(view)
       handler.handleEvent()
       window.clear()
-
-
       player.draw(window)
+      // handler.handleAction()
       handler.handlePrint()
       window.display()
   }

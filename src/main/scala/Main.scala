@@ -63,14 +63,19 @@ char.pos = Vector2[Int](100,10)
     // the window that will be shown
     val window = use(RenderWindow(VideoMode(width, height), "Age of Compilers"))
     window.verticalSync = true
-    window.framerateLimit = 2
+    window.framerateLimit = 30
 
     // define the game map
     val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX,ratioY))
-
+    
     // one texture to rule them all
     val tileMapTexture = Texture()
     tileMapTexture.loadFromFile("src/resources/fixed_objects/Tilemap/tilemap.png")
+    val trucATester =  Sprite(tileMapTexture)
+    trucATester.textureRect = (96,0,32,32)
+    trucATester.scale(2, 2)
+    trucATester.position = Vector2[Float](11 * 40, 11 * 40)
+    
 
     val mat = Mathematician(Point(10,15))
     scene.place_sthg(mat, mat.pos)
@@ -93,5 +98,6 @@ char.pos = Vector2[Int](100,10)
       player.draw(window)
       // handler.handleAction()
       handler.handlePrint()
+      window.draw(trucATester)
       window.display()
   }

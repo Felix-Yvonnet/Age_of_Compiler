@@ -16,7 +16,6 @@ class Mathematician(position: Point) extends Fighters(position, "moving_objects/
   damage = 100
 
   override def draw(window: RenderWindow): Unit =
-    println(pos)
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
       sprite.scale(0.2, 0.2)
@@ -38,28 +37,7 @@ class Mathematician(position: Point) extends Fighters(position, "moving_objects/
       }
     }
 
-  def tp(scene: GameMap, dest: Point): Unit =
-      val elemOnPos = scene.getAtPos(dest.x, dest.y)
-      println("I got elemOnPos")
-      elemOnPos match
-        case t::q =>
-          println("un autre truc")
-          if t.isSuperposable then
-            scene.place_sthg(this, dest)
-            scene.removeSthg(this, this.pos)
-            scene.getAtPos(this.pos.x, this.pos.y).foreach(println(_))
-            this.pos = dest
-        case _ =>
-          scene.place_sthg(this, dest)
-          scene.removeSthg(this, this.pos)
-          scene.getAtPos(this.pos.x, this.pos.y).foreach(println(_))
-          println(this.pos)
-          this.pos = dest
-          println(dest == this.pos) // false !!!!
-          println(this.pos)
-          scene.getAtPos(this.pos.x, this.pos.y).foreach(println(_))
+  
 
   override def rightClicked(scene: GameMap, dest: Point): Unit =
-    println("j'ai atteint tp")
     tp(scene, dest)
-    println("j'ai fini tp")

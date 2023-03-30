@@ -40,7 +40,6 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
           for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) + 1 do
             for j <- fst.y.min(mousePos.y) to fst.y.max(mousePos.y) + 1 do
               addSelectedToStatus(scene.getAtPos(i, j))
-          println("finish realesed")
           status.rectFst = None
         }
 
@@ -63,14 +62,10 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
     gOl match 
       case gO :: q => status.selected = gO :: status.selected; addSelectedToStatus(q)
       case _ => ()
-    println(status.selected)
 
   def handlePrint(): Unit =
-    for arr <- scene.grid do
-      for someGO <- arr do
-        someGO match
-          case value :: q => handlePrint(someGO) // someGO.foreach { println }; value.draw(window)
-          case _          => ()
+    for (arr <- 1 to scene.grid.length; someGO <- scene.grid(scene.grid.length-arr)) do 
+      someGO.reverse.foreach(_.draw(window))
 
     status.rectFst match 
       case Some(point) => 
@@ -80,17 +75,8 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
         selectionRect.outlineThickness = .1f
         selectionRect.outlineColor = Color(50, 50, 250, 200)
         selectionRect.position = ((point.x min last.x) * ratioX, (point.y min last.y) * ratioY)
-        // println((point.x, point.y, last.x, last.y))
-        // println((point.x min last.x, point.y min last.y))
-        // println((((last.x - point.x).abs, (last.y - point.y).abs)))
         window.draw(selectionRect)
       case None => ()
-
-  def handlePrint(listGO: List[GameObject]): Unit =
-    listGO match {
-      case gO :: q => handlePrint(q); gO.draw(window)
-      case _       => ()
-    }
 
   def handleAction(): Unit =
     for (row <- scene.grid; elemL <- row) do elemL.foreach(_.action(scene))

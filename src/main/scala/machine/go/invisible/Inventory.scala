@@ -14,7 +14,7 @@ class Inventory {
 
   def removeResource(resourceType: ResourceType, amount: Int): Boolean = {
     val currentAmount = resources.getOrElse(resourceType, 0)
-    if (currentAmount >= amount) {
+    if currentAmount >= amount then {
       resources += (resourceType -> (currentAmount - amount))
       true
     } else false

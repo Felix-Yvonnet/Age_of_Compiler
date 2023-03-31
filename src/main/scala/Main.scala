@@ -72,30 +72,29 @@ char.pos = Vector2[Int](100,10)
     window.framerateLimit = 30
 
     // define the game map
-    val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX,ratioY))
-    
+    val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX, ratioY))
+
     // one texture to rule them all
     val tileMapTexture = Texture()
     tileMapTexture.loadFromFile("src/resources/fixed_objects/Tilemap/tilemap.png")
-    val trucATester =  Sprite(tileMapTexture)
+    val trucATester = Sprite(tileMapTexture)
     trucATester.textureRect = (5 * 16 + 5, 0, 16, 16 + 2)
     trucATester.scale(2, 2)
     trucATester.position = Vector2[Float](11 * 40, 11 * 40)
 
-
-    val mat = Mathematician(Point(10,15))
+    val mat = Mathematician(Point(3, 3))
     scene.place_sthg(mat, mat.pos)
-    val walle = Wall(Point(11,0))
+    val walle = Wall(Point(11, 0))
     scene.place_sthg(walle, walle.pos)
-    val walle2 = Wall(Point(12,0))
+    val walle2 = Wall(Point(12, 0))
     scene.place_sthg(walle2, walle2.pos)
-    val walle3 = Wall(Point(13,0))
+    val walle3 = Wall(Point(13, 0))
     scene.place_sthg(walle3, walle3.pos)
 
-    val tree = Tree(Point(10,10))
+    val tree = Tree(Point(10, 10))
     scene.place_sthg(tree, tree.pos)
 
-    val méchant = Centralien(Point(15,15))
+    val méchant = Centralien(Point(15, 15))
     scene.place_sthg(méchant, méchant.pos)
 
     val player = Player("Héro")

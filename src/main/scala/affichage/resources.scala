@@ -16,7 +16,7 @@ object Resources:
   text.fillColor = Color.White()
 
   def drawText(message: String, window: RenderWindow): Unit =
-    drawText(message, window, Vector2[Float](0,0))
+    drawText(message, window, Vector2[Float](0, 0))
 
   def drawText(message: String, window: RenderWindow, pos: Vector2[Float]): Unit =
 

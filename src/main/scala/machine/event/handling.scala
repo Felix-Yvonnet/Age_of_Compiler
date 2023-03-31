@@ -11,15 +11,15 @@ import machine.scene.Point
 import machine.scene.GameMap
 import sfml.Immutable
 
-class Input ( 
+class Input(
     val keyboard: Map[Keyboard.Key, Int],
     var selected: List[GameObject],
     var rectFst: Option[Point]
-) :
+):
   def this() =
     this(Map[Keyboard.Key, Int]().empty, List(), None)
 
-class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, view : View):
+class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, view: View):
   val status = Input()
 
   def handleEvent() =
@@ -29,12 +29,11 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
         case Event.KeyPressed(c, _, _, _, _): Event.KeyPressed   => status.keyboard.updated(c, 1)
         case Event.KeyReleased(c, _, _, _, _): Event.KeyReleased => status.keyboard.updated(c, 0)
         case Event.MouseButtonPressed(Mouse.Button.Left, x, y) => {
-          
+
           val newPos = getCoords()
           if newPos.y >= scene.grid(0).length then
             handlePrompterThings(Event.MouseButtonPressed(Mouse.Button.Left, newPos.x, newPos.y))
-
-          else 
+          else
             status.selected = Nil
             status.rectFst = Some(newPos)
         }
@@ -42,13 +41,12 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
         case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => {
           val mousePos = getCoords()
           if mousePos.y >= scene.grid(0).length then
+            println("Hello there")
             handlePrompterThings(Event.MouseButtonReleased(Mouse.Button.Left, mousePos.x, mousePos.y))
-          
-          else 
-            val fst = status.rectFst.getOrElse(Point(0,0))
-            for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) + 1 do
-              for j <- fst.y.min(mousePos.y) to fst.y.max(mousePos.y) + 1 do
-                addSelectedToStatus(scene.getAtPos(i, j))
+          else
+            val fst = status.rectFst.getOrElse(Point(0, 0))
+            for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) do
+              for j <- fst.y.min(mousePos.y) to fst.y.max(mousePos.y) do addSelectedToStatus(scene.getAtPos(i, j))
             status.rectFst = None
         }
 
@@ -56,41 +54,33 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
           val mousePos = getCoords()
           if mousePos.y >= scene.grid(0).length then
             handlePrompterThings(Event.MouseButtonReleased(Mouse.Button.Right, mousePos.x, mousePos.y))
-
-          else 
-            status.selected.foreach(_.rightClicked(scene,mousePos))
+          else status.selected.foreach(_.rightClicked(scene, mousePos))
         }
 
         case _ => ()
       }
-  
 
-  def getMousePos() : Point =
-    Point(window.mapPixelToCoords(Mouse.position(window), view)) 
+  def getMousePos(): Point =
+    Point(window.mapPixelToCoords(Mouse.position(window), view))
 
-  def getCoords() : Point = 
-    Point(window.mapPixelToCoords(Mouse.position(window), view)) / (ratioX,ratioY)
+  def getCoords(): Point =
+    Point(window.mapPixelToCoords(Mouse.position(window), view)) / (ratioX, ratioY)
 
-  def addSelectedToStatus(gOl : List[GameObject]) : Unit =
-    gOl match 
+  def addSelectedToStatus(gOl: List[GameObject]): Unit =
+    gOl match
       case gO :: q => status.selected = gO :: status.selected; addSelectedToStatus(q)
-      case _ => ()
-
-  
+      case _       => ()
 
   def handlePrompterThings(thing: Event) =
     thing match
       case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => ()
-      case _ => ()
+      case _                                                  => ()
 
-    
-  
   def handlePrint(): Unit =
-    for (arr <- 1 to scene.grid.length; someGO <- scene.grid(scene.grid.length-arr)) do 
-      someGO.reverse.foreach(_.draw(window))
+    for arr <- 1 to scene.grid.length; someGO <- scene.grid(scene.grid.length - arr) do someGO.reverse.foreach(_.draw(window))
 
-    status.rectFst match 
-      case Some(point) => 
+    status.rectFst match
+      case Some(point) =>
         val last = getCoords()
         val selectionRect = new RectangleShape(((last.x - point.x).abs * ratioX, (last.y - point.y).abs * ratioY))
         selectionRect.fillColor = Color(50, 50, 100, 100)
@@ -101,6 +91,4 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
       case None => ()
 
   def handleAction(): Unit =
-    for (row <- scene.grid; elemL <- row) do elemL.foreach(_.action(scene))
-
-
+    for row <- scene.grid; elemL <- row do elemL.foreach(_.action(scene))

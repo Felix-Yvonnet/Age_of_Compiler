@@ -6,11 +6,12 @@ import sfml.system.Vector2
 import machine.scene.Point
 import machine.scene.GameMap
 
-class GameObject(var pos: Point = Point(0,0), var sprite_path: String = "") :
+class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
   var isSelectable: Boolean = false
   var isSuperposable: Boolean = true
   val pathToTextures = "src/resources/"
   var belongsToThePlayer: Boolean = true
+  var health: Int = 0
 
   val texture = Texture()
 
@@ -29,9 +30,9 @@ class GameObject(var pos: Point = Point(0,0), var sprite_path: String = "") :
     tmp.loadFromFile(sprite_path)
     tmp
 
-  def action(scene: GameMap) : Unit = ()
-  
-  def isAttacked(damage: Int, scene: GameMap) : Boolean = false
+  def action(scene: GameMap): Unit = ()
+
+  def isAttacked(damage: Int, scene: GameMap): Boolean = false
 
   def destroy(): Unit =
     texture.close()

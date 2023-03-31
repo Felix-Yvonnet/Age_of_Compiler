@@ -5,11 +5,11 @@ import machine.go.movable.Movable
 import machine.scene.{GameMap, Point}
 
 class Fighters(position: Point, sprite_path: String) extends GameObject(position, sprite_path = sprite_path) with Movable {
-  var waitTimeMove: Int = 50
-  var waitTimeResources: Int = 50
+  var waitTimeMove: Int = 2
+  var waitTimeResources: Int = 1
   health = 500
   var damage: Int = 100
-  var range: Int = 1
+  var rangeAttack: Int = 1
   var targetEnnemy: Option[GameObject] = None
 
   def attack(other: GameObject, scene: GameMap): Unit =
@@ -17,13 +17,24 @@ class Fighters(position: Point, sprite_path: String) extends GameObject(position
 
   def actionAttack(scene: GameMap): Unit =
     targetEnnemy match
-      case None => 
-      case Some(value) => 
-        if (value.pos distanceTo this.pos) <= range then
-          attack(value, scene)
+      case None =>
+      case Some(value) =>
+        if (value.pos distanceTo this.pos) <= range then attack(value, scene)
 
-  
-  override def action(scene: GameMap): Unit = 
+  override def action(scene: GameMap): Unit =
     actionAttack(scene)
-  
+    move(scene)
+
+  override def rightClicked(scene: GameMap, dest: Point): Unit =
+    scene.getAtPos(dest.x, dest.y) match
+      case Nil => ()
+      case _ =>
+        scene.getAtPos(dest.x, dest.y).filter(_.health > 0) match
+          case Nil    => ()
+          case t :: q => targetEnnemy = Some(t)
+    goalMoving = Some(dest)
+    lastTimeChanged = System.currentTimeMillis()
+
+    move(scene)
+
 }

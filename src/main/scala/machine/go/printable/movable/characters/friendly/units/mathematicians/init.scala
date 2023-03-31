@@ -23,18 +23,10 @@ class Mathematician(position: Point) extends Fighters(position, "moving_objects/
       window.draw(sprite)
 
 
-  def move(to: Point, grid: Array[Array[List[GameObject]]]): Unit = {
-      val pathFinder = new AStar(pos, to, grid)
-
-      pathFinder.search() match {
-        case Some(path) => {
-          path.tail.foreach { point =>
-            pos = point
-            Thread.sleep(500) // simulate movement delay
-          }
-        }
-        case None => println("No path found")
-      }
+  def move(goal: Point, scene: GameMap): Unit = {
+    this.pos.to(goal, scene) match
+      case Some(place) => this.pos = place
+      case _ => ()    
     }
 
   

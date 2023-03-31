@@ -2,8 +2,9 @@ package machine.go.movable
 
 import machine.go.GameObject
 import machine.scene.{GameMap, Point}
+import machine.go.printable.Alive
 
-trait Movable extends GameObject:
+trait Movable extends Alive:
   isSelectable = true
   isSuperposable = false
   var waitTimeMove : Int

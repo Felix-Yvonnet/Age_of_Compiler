@@ -9,10 +9,21 @@ class Fighters(position: Point, sprite_path: String) extends GameObject(position
   var waitTimeResources: Int = 50
   health = 500
   var damage: Int = 100
+  var range: Int = 1
   var targetEnnemy: Option[GameObject] = None
 
   def attack(other: GameObject, scene: GameMap): Unit =
     other.isAttacked(damage, scene)
 
+  def actionAttack(scene: GameMap): Unit =
+    targetEnnemy match
+      case None => 
+      case Some(value) => 
+        if (value.pos distanceTo this.pos) <= range then
+          attack(value, scene)
+
+  
+  override def action(scene: GameMap): Unit = 
+    actionAttack(scene)
   
 }

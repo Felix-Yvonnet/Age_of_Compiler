@@ -6,11 +6,9 @@ import sfml.system.Vector2
 object Resources:
 
   val font = Font()
-
-  if !(font.loadFromFile("src/resources/fixed_objects/arial.ttf")) then println("An error occured")
+  if !(font.loadFromFile("src/resources/fixed_objects/arial.ttf")) then println("An error occured loading the font")
 
   val text = Text()
-
   // select the font
   text.font = font
 

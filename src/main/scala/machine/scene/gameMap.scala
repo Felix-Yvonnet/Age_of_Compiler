@@ -7,14 +7,9 @@ import machine.go.movable.Movable
 import machine.go.GameObject
 
 class GameMap (val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int]):
-        
-  def listMem(liste : List[GameObject], elem: GameObject) : Boolean =
-    liste match
-      case t :: q => t == elem || listMem(q, elem)
-      case _ => false
 
   def place_sthg(thing: GameObject, pos: Point): Unit =
-    if !listMem(grid(pos.x)(pos.y), thing) then
+    if !(grid(pos.x)(pos.y) contains thing) then
       grid(pos.x)(pos.y) match
         case t :: q => grid(pos.x)(pos.y) = thing :: grid(pos.x)(pos.y)
         case _ => grid(pos.x)(pos.y) = List(thing)
@@ -33,3 +28,9 @@ class GameMap (val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int]
           case go :: q => grid(i)(j)
           case _ => Nil
 
+
+  def isAccessible(position: Point): Boolean =
+    getAtPos(position.x, position.y) match
+      case t :: q => t.isSuperposable
+      case _ => true
+    

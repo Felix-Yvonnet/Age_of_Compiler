@@ -12,6 +12,9 @@ import machine.scene.GameMap
 import sfml.Immutable
 import machine.go.invisible.Player
 import machine.event.Scalaseries
+import affichage.design.DrawDecorations
+import machine.go.printable.movable.characters.enemy.Centralien
+
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
 
@@ -58,7 +61,10 @@ char.pos = Vector2[Int](100,10)
     val ratioX = width / shapeX
     val ratioY = height / shapeY
     // views
-    val view = View((0, 0, width, height))
+    val viewForTheWorld = View()
+    viewForTheWorld.viewport = (0.0, 0.0, 1.0, 0.995)
+    val viewForTheCommentaries = View()
+    viewForTheCommentaries.viewport = (0.0, 0.995, 1.0, 0.005)
 
     // the window that will be shown
     val window = use(RenderWindow(VideoMode(width, height), "Age of Compilers"))
@@ -72,10 +78,10 @@ char.pos = Vector2[Int](100,10)
     val tileMapTexture = Texture()
     tileMapTexture.loadFromFile("src/resources/fixed_objects/Tilemap/tilemap.png")
     val trucATester =  Sprite(tileMapTexture)
-    trucATester.textureRect = (96,0,32,32)
+    trucATester.textureRect = (5 * 16 + 5, 0, 16, 16 + 2)
     trucATester.scale(2, 2)
     trucATester.position = Vector2[Float](11 * 40, 11 * 40)
-    
+
 
     val mat = Mathematician(Point(10,15))
     scene.place_sthg(mat, mat.pos)
@@ -89,14 +95,20 @@ char.pos = Vector2[Int](100,10)
     val tree = Tree(Point(10,10))
     scene.place_sthg(tree, tree.pos)
 
+    val méchant = Centralien(Point(15,15))
+    scene.place_sthg(méchant, méchant.pos)
+
     val player = Player("Héro")
-    val handler = Handler(window, scene, ratioX, ratioY, view)
+
+    val decorationDrawer = DrawDecorations(scene)
+    val handler = Handler(window, scene, ratioX, ratioY, viewForTheWorld)
     while window.isOpen() do
-      // window.view = Immutable(view)
+      window.view = Immutable(viewForTheWorld)
       handler.handleEvent()
       window.clear()
+      decorationDrawer.drawBaseFloor(window)
       player.draw(window)
-      // handler.handleAction()
+      handler.handleAction()
       handler.handlePrint()
       window.draw(trucATester)
       window.display()

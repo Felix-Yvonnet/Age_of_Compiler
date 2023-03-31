@@ -29,23 +29,36 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
         case Event.KeyPressed(c, _, _, _, _): Event.KeyPressed   => status.keyboard.updated(c, 1)
         case Event.KeyReleased(c, _, _, _, _): Event.KeyReleased => status.keyboard.updated(c, 0)
         case Event.MouseButtonPressed(Mouse.Button.Left, x, y) => {
+          
           val newPos = getCoords()
-          status.selected = Nil
-          status.rectFst = Some(newPos)
+          if newPos.y >= scene.grid(0).length then
+            handlePrompterThings(Event.MouseButtonPressed(Mouse.Button.Left, newPos.x, newPos.y))
+
+          else 
+            status.selected = Nil
+            status.rectFst = Some(newPos)
         }
 
         case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => {
           val mousePos = getCoords()
-          val fst = status.rectFst.getOrElse(Point(0,0))
-          for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) + 1 do
-            for j <- fst.y.min(mousePos.y) to fst.y.max(mousePos.y) + 1 do
-              addSelectedToStatus(scene.getAtPos(i, j))
-          status.rectFst = None
+          if mousePos.y >= scene.grid(0).length then
+            handlePrompterThings(Event.MouseButtonReleased(Mouse.Button.Left, mousePos.x, mousePos.y))
+          
+          else 
+            val fst = status.rectFst.getOrElse(Point(0,0))
+            for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) + 1 do
+              for j <- fst.y.min(mousePos.y) to fst.y.max(mousePos.y) + 1 do
+                addSelectedToStatus(scene.getAtPos(i, j))
+            status.rectFst = None
         }
 
         case Event.MouseButtonReleased(Mouse.Button.Right, x, y) => {
           val mousePos = getCoords()
-          status.selected.foreach(_.rightClicked(scene,mousePos))
+          if mousePos.y >= scene.grid(0).length then
+            handlePrompterThings(Event.MouseButtonReleased(Mouse.Button.Right, mousePos.x, mousePos.y))
+
+          else 
+            status.selected.foreach(_.rightClicked(scene,mousePos))
         }
 
         case _ => ()
@@ -63,6 +76,15 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX : Int, ratioY : Int, 
       case gO :: q => status.selected = gO :: status.selected; addSelectedToStatus(q)
       case _ => ()
 
+  
+
+  def handlePrompterThings(thing: Event) =
+    thing match
+      case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => ()
+      case _ => ()
+
+    
+  
   def handlePrint(): Unit =
     for (arr <- 1 to scene.grid.length; someGO <- scene.grid(scene.grid.length-arr)) do 
       someGO.reverse.foreach(_.draw(window))

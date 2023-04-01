@@ -11,7 +11,7 @@ import machine.scene.Point
 import machine.scene.GameMap
 import sfml.Immutable
 
-class Input(
+class Input private (
     val keyboard: Map[Keyboard.Key, Int],
     var selected: List[GameObject],
     var rectFst: Option[Point]
@@ -81,7 +81,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
     status.rectFst match
       case Some(point) =>
         val last = getCoords()
-        val selectionRect = new RectangleShape(((last.x - point.x).abs * ratioX + 1, (last.y - point.y).abs * ratioY + 1))
+        val selectionRect = new RectangleShape(((last.x - point.x +1).abs * ratioX, (last.y - point.y+1).abs * ratioY))
         selectionRect.fillColor = Color(50, 50, 100, 100)
         selectionRect.outlineThickness = .1f
         selectionRect.outlineColor = Color(50, 50, 250, 200)

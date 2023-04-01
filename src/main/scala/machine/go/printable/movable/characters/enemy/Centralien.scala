@@ -38,3 +38,4 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
       sprite.scale = (0.9, 0.9)
       sprite.position = ((pos.x) * 40, (pos.y) * 40)
       window.draw(sprite)
+      drawLifeBar(window)

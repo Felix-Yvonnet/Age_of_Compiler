@@ -8,11 +8,11 @@ import machine.scene.AStar
 trait Movable extends Alive:
   isSelectable = true
   isSuperposable = false
-  var waitTimeMove: Int
-  var waitTimeResources: Int
+  var waitTimeMove: Int = 2000
+  var waitTimeResources: Int = 2000
   var goalMoving: Option[Point] = None
   var lastTimeChanged: Long = 0
-  var diffTimeBeforeNextMove: Long = 500
+  var diffTimeBeforeNextMove: Long = 200
 
   def move(scene: GameMap): Unit =
     this.goalMoving match

@@ -24,15 +24,10 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
       val sprite = Sprite(this.texture)
       sprite.position = Vector2[Float]((pos.x) * 40, (pos.y) * 40)
       window.draw(sprite)
-
-  def toTexture(): Texture =
-    val tmp = Texture()
-    tmp.loadFromFile(sprite_path)
-    tmp
-
+  
   def action(scene: GameMap): Unit = ()
 
   def isAttacked(damage: Int, scene: GameMap): Boolean = false
 
-  def destroy(): Unit =
-    texture.close()
+  def destroy(): Unit = 
+    this.texture.close()

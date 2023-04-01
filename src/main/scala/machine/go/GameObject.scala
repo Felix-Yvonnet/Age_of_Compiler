@@ -11,7 +11,7 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
   var isSuperposable: Boolean = true
   val pathToTextures = "src/resources/"
   var belongsToThePlayer: Boolean = true
-  var health: Int = 0
+  var isAlive: Boolean = false
 
   val texture = Texture()
 

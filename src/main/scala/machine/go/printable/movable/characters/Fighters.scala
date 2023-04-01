@@ -16,10 +16,10 @@ class Fighters(position: Point, sprite_path: String) extends GameObject(position
     other.isAttacked(damage, scene)
 
   def actionAttack(scene: GameMap): Unit =
-    targetEnnemy match
+    this.targetEnnemy match
       case None =>
       case Some(value) =>
-        if (value.pos distanceTo this.pos) <= range then attack(value, scene)
+        if (value.pos distanceTo this.pos) <= this.rangeAttack then attack(value, scene)
 
   override def action(scene: GameMap): Unit =
     actionAttack(scene)
@@ -29,9 +29,9 @@ class Fighters(position: Point, sprite_path: String) extends GameObject(position
     scene.getAtPos(dest.x, dest.y) match
       case Nil => ()
       case _ =>
-        scene.getAtPos(dest.x, dest.y).filter(_.health > 0) match
+        scene.getAtPos(dest.x, dest.y).filter(_.isAlive) match
           case Nil    => ()
-          case t :: q => targetEnnemy = Some(t)
+          case t :: q => this.targetEnnemy = Some(t)
     goalMoving = Some(dest)
     lastTimeChanged = System.currentTimeMillis()
 

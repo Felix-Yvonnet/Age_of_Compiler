@@ -94,7 +94,7 @@ char.pos = Vector2[Int](100,10)
     val tree = Tree(Point(10, 10))
     scene.place_sthg(tree, tree.pos)
 
-    val méchant = Centralien(Point(15, 15))
+    val méchant = Centralien(Point(4, 4))
     scene.place_sthg(méchant, méchant.pos)
 
     val player = Player("Héro")

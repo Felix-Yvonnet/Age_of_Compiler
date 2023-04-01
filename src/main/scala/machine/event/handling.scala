@@ -41,7 +41,6 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
         case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => {
           val mousePos = getCoords()
           if mousePos.y >= scene.grid(0).length then
-            println("Hello there")
             handlePrompterThings(Event.MouseButtonReleased(Mouse.Button.Left, mousePos.x, mousePos.y))
           else
             val fst = status.rectFst.getOrElse(Point(0, 0))
@@ -82,7 +81,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
     status.rectFst match
       case Some(point) =>
         val last = getCoords()
-        val selectionRect = new RectangleShape(((last.x - point.x).abs * ratioX, (last.y - point.y).abs * ratioY))
+        val selectionRect = new RectangleShape(((last.x - point.x).abs * ratioX + 1, (last.y - point.y).abs * ratioY + 1))
         selectionRect.fillColor = Color(50, 50, 100, 100)
         selectionRect.outlineThickness = .1f
         selectionRect.outlineColor = Color(50, 50, 250, 200)

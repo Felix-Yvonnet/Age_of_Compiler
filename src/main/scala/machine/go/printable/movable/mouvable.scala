@@ -15,23 +15,20 @@ trait Movable extends Alive:
   var diffTimeBeforeNextMove: Long = 500
 
   def move(scene: GameMap): Unit =
-    println("moved")
     this.goalMoving match
       case Some(place) =>
-        println("Some")
         if System.currentTimeMillis() - lastTimeChanged > diffTimeBeforeNextMove then
           searchMoveTo(scene, place)
           lastTimeChanged = System.currentTimeMillis()
       case _ => ()
 
   def searchMoveTo(scene: GameMap, goal: Point): Unit =
-    println("Searched")
     this.pos.to(goal, scene) match
-      case None            => println("no path found")
+      case None => println("No path found"); this.goalMoving = None
       case Some(nextPoint) => tp(scene, nextPoint)
+        
 
   def tp(scene: GameMap, dest: Point): Unit =
-    println("Came on TP")
     val elemOnPos = scene.getAtPos(dest.x, dest.y)
     elemOnPos match
       case t :: q =>

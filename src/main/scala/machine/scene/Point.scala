@@ -20,10 +20,22 @@ case class Point(x: Int, y: Int) {
         i >= 0 && j >= 0 && i < scene.grid.length && j < scene.grid(i).length && scene.grid(i)(j).forall(_.isSuperposable)
       }
       .map { case (i, j) => Point(i, j) }
+    
+
+  def getNeighboursEnemyIn (scene: GameMap): List[Point] =
+    val (x, y) = (this.x, this.y)
+
+      val neighbors = List((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1))
+
+      neighbors
+        .filter { case (i, j) =>
+          i >= 0 && j >= 0 && i < scene.grid.length && j < scene.grid(i).length 
+        }
+        .map { case (i, j) => Point(i, j) }
 
   def to(goal: Point, scene: GameMap): Option[Point] =
     AStar.search(this, goal, scene) match
-      case t :: q => println(t :: q); Some(t)
+      case t :: q => Some(t)
       case _      => None
 
 }

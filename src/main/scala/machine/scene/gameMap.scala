@@ -32,3 +32,15 @@ class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int])
     getAtPos(position.x, position.y) match
       case t :: q => t.isSuperposable
       case _      => true
+
+  def allClotherThan(point: Point, range: Int): List[Point] =
+    allClotherThan(point, point, range, Set())
+
+  def allClotherThan(currentPos: Point, initial: Point, range: Int, seen: Set[Point]): List[Point] =
+    seen += currentPos
+    val neighbours = (currentPos getNeighboursEnemyIn this).filter( pos => 
+      {!(seen contains pos) && 
+        (pos.x >=0) && (pos.x < this.grid.length) && (pos.y >= 0) && (pos.y < this.grid(0).length) && 
+        ((pos distanceTo initial) <= range)})
+    neighbours ++ neighbours.map(allClotherThan(_,initial, range, seen + currentPos))
+                            .flatten

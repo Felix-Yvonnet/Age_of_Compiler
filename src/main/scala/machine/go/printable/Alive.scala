@@ -5,13 +5,15 @@ import machine.go.GameObject
 
 trait Alive extends GameObject {
 
-  health = 500
+  var health = 500
+  isAlive = true
   override def isAttacked(damage: Int, scene: GameMap): Boolean =
-    if health - damage <= 0 then
+    println("is attacked")
+    if this.health - damage <= 0 then
       scene.removeSthg(this, this.pos)
       this.destroy()
       true
     else
-      health = health - damage
+      this.health = this.health - damage
       false
 }

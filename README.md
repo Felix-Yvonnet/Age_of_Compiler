@@ -144,3 +144,23 @@ scala
 
 ## Conclusion
 We hope you enjoy playing Age of Compiler! We hope that you will find the game to be both challenging and fun. Don't hesitate if you want to give us a five star on jvc.com or senscritique.com : the most reliable sites.
+
+
+
+
+
+## Why I hate Scala
+- It is slow
+- It uses sbt which is slow
+- sbt may :
+    - fails and/or be killed for no reason
+    - fail for a good reason
+    - succeed even though the code is bad (no array overtaking verification)
+    - succeed when it has to
+  so no possibility to trust it...
+- error messages are poop : no explanation just java saying it's dead with code error 138 or clang saying that it doesn't like me (and when I restart without changing nothing it works again...)
+- Hence I hate scala
+
+
+
+

@@ -7,26 +7,26 @@ import machine.scene.GameMap
 import machine.go.GameObject
 
 class Centralien(position: Point) extends Fighters(position, "moving_objects/characters/avg_centralien.png"):
-  belongsToThePlayer = false
-  var rangeView: Int = 2
+  // The main class for enemy characters
+  isEnemy = true
+  rangeAttack = 1
+
 
   def ia(scene: GameMap) =
-    this.targetEnnemy match
-      case None => println("Im no enemy")
-        scene.allClotherThan(this.pos, rangeView).map( point => scene.getAtPos(point.x, point.y))
-                                                .flatten
-                                                .filter(_.isAlive)
-                                                .filter(_.belongsToThePlayer) match
-          case gO :: q => println("enemy selected"); this.targetEnnemy = Some(gO)
-          case _ => 
+    // Choose the enemy to attack if it sees one
+    this.targetSelection match
+      case None =>
+        scene.allClotherThan(this.pos, this.rangeAttack).map(scene.getAtPos(_))
+                                                        .flatten
+                                                        .filter(_.isAlive)
+                                                        .filter(!_.isEnemy) match
+                case gO :: q => this.targetSelection = Some(gO)
+                case _ => 
       case Some(gO) => 
-                                             
-
-    
-
 
 
   override def action(scene: GameMap): Unit =
+    // add searching enemies via `ia`
     ia(scene)
     actionAttack(scene)
     move(scene)
@@ -39,3 +39,7 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
       sprite.position = ((pos.x) * 40, (pos.y) * 40)
       window.draw(sprite)
       drawLifeBar(window)
+
+  override def move(scene: GameMap): Unit = 
+    // don't
+    

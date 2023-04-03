@@ -5,8 +5,13 @@ import sfml.system.Vector2
 import scala.collection.mutable.Set
 import machine.go.movable.Movable
 import machine.go.GameObject
+import machine.go.invisible.Player
 
-class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int]):
+final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int], val vectActors: (Player, Player)):
+  // The map of the world and every actors present in it
+
+  case class Actors(gamer: Player, enemy: Player)
+  val actors = Actors(vectActors._1, vectActors._2)
 
   def place_sthg(thing: GameObject, pos: Point): Unit =
     if !(grid(pos.x)(pos.y) contains thing) then
@@ -28,8 +33,11 @@ class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int])
       case go :: q => grid(i)(j)
       case _       => Nil
 
+  def getAtPos(point: Point): List[GameObject] =
+    getAtPos(point.x,point.y)
+
   def isAccessible(position: Point): Boolean =
-    getAtPos(position.x, position.y) match
+    getAtPos(position) match
       case t :: q => t.isSuperposable
       case _      => true
 
@@ -38,9 +46,29 @@ class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int])
 
   def allClotherThan(currentPos: Point, initial: Point, range: Int, seen: Set[Point]): List[Point] =
     seen += currentPos
-    val neighbours = (currentPos getNeighboursEnemyIn this).filter( pos => 
+    val neighbours = (currentPos getAllNeighboursIn this).filter( pos => 
       {!(seen contains pos) && 
         (pos.x >=0) && (pos.x < this.grid.length) && (pos.y >= 0) && (pos.y < this.grid(0).length) && 
         ((pos distanceTo initial) <= range)})
     neighbours ++ neighbours.map(allClotherThan(_,initial, range, seen + currentPos))
                             .flatten
+
+
+
+  def searchClosePlaceToPutUnits(originalPos: Point): Option[Point] =
+    searchClosePlaceToPutUnits(originalPos, Set[Point]())
+
+  def searchClosePlaceToPutUnits(oldPos: Point, seen: Set[Point]): Option[Point] =
+    getAtPos(oldPos) match
+      case Nil => Some(oldPos)
+      case t :: q if (t :: q).forall(_.isSuperposable) => Some(oldPos)
+      case _ => 
+        seen += oldPos
+        if getAtPos(oldPos).filter(_.isAlive) != Nil then
+          (oldPos getAllNeighboursIn this).filter(pos => !(seen contains pos))
+                                          .map(searchClosePlaceToPutUnits(_, seen).getOrElse(Point(-1,-1)))
+                                          .filter(_.isPos()) match
+            case Nil => None
+            case t :: q => Some(t)
+        else None
+                                          

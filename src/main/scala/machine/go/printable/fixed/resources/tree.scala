@@ -9,26 +9,14 @@ import machine.go.movable.*
 
 import machine.go.invisible.Player
 
-class Tree(position: Point) extends Resource(position, "fixed_objects/tree_hand_made.png") {
-
-  val apportBéton = 10
-  val apportMoula = 0
-  private val waitTime = 10
-  private var lastCollectedTime: Long = 0
-
-  override def collect(player: Player, char: Movable): Unit = {
-    val currentTime = System.currentTimeMillis() / 1000
-    if currentTime - lastCollectedTime >= char.waitTimeResources then {
-      println(s"Collecting wood")
-      player.inventory.addResource(Beton, apportBéton)
-      lastCollectedTime = currentTime
-    }
-  }
-
+class Tree(position: Point) extends Resource(position, "fixed_objects/Tilemap/tilemap.png") :
+  // a simple resource : a tree giving basic resources
   override def draw(window: RenderWindow): Unit =
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
-      sprite.scale(0.017, 0.0225)
-      sprite.position = Vector2[Float](pos.x * 40, pos.y * 40)
+      sprite.textureRect = (4 * 17, 2 * 17, 16, 17)
+      sprite.scale(2, 2.7)
+      sprite.position = Vector2[Float](this.pos.x * 40, this.pos.y * 40)
       window.draw(sprite)
-}
+      drawLifeBar(window)
+

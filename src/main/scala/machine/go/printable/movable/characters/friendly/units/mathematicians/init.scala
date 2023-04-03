@@ -2,13 +2,13 @@ package machine.go.movable.characters.mathematiciens
 
 import sfml.graphics.*
 import sfml.system.Vector2
-import machine.go.GameObject
-import machine.go.movable.Movable
-import machine.scene.{Point, GameMap, AStar}
+import machine.scene.Point
 import machine.go.printable.movable.characters.Fighters
+import machine.go.printable.movable.characters.friendly.units.Friendly
 
-class Mathematician(position: Point) extends Fighters(position, "moving_objects/characters/matheux_1.png"):
+class Mathematician(position: Point) extends Fighters(position, "moving_objects/characters/matheux_1.png") with Friendly:
 
+  rangeAttack = 2
   waitTimeMove = 50
   waitTimeResources = 50
   health = 500

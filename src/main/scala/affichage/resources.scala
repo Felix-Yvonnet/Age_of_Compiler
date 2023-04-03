@@ -23,3 +23,4 @@ object Resources:
     text.string = message
     text.position = pos
     window.draw(text)
+

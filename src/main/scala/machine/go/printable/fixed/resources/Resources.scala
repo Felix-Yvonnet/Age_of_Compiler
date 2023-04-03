@@ -2,9 +2,20 @@ package machine.go.printable.fixed.resources
 
 import machine.scene.Point
 import machine.go.GameObject
-import machine.go.invisible.Player
-import machine.go.movable.Movable
+import machine.go.printable.Alive
+import machine.go.invisible.Beton
 
-abstract class Resource(var position: Point, sprite_path: String) extends GameObject(position, sprite_path) {
-  def collect(player: Player, char: Movable): Unit
-}
+class Resource(pos: Point, sprite_path: String) extends GameObject(pos, sprite_path) with Alive :
+  // what it is to be a resource : nothing special but a different default value
+  bonusWhenKilled = List((Beton, 10))
+
+    
+  
+
+
+
+
+
+
+    
+

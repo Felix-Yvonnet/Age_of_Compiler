@@ -6,7 +6,6 @@ import machine.go.printable.Alive
 import machine.scene.AStar
 
 trait Movable extends Alive:
-  isSelectable = true
   isSuperposable = false
   var waitTimeMove: Int = 2000
   var waitTimeResources: Int = 2000
@@ -15,6 +14,7 @@ trait Movable extends Alive:
   var diffTimeBeforeNextMove: Long = 200
 
   def move(scene: GameMap): Unit =
+    // Logic of moving
     this.goalMoving match
       case Some(place) =>
         if System.currentTimeMillis() - lastTimeChanged > diffTimeBeforeNextMove then
@@ -23,14 +23,15 @@ trait Movable extends Alive:
       case _ => ()
 
   def searchMoveTo(scene: GameMap, goal: Point): Unit =
+    // Search a path and move to it
     this.pos.to(goal, scene) match
       case None => println("No path found"); this.goalMoving = None
       case Some(nextPoint) => tp(scene, nextPoint)
         
 
   def tp(scene: GameMap, dest: Point): Unit =
-    val elemOnPos = scene.getAtPos(dest.x, dest.y)
-    elemOnPos match
+    // Basic teleportation 
+    scene.getAtPos(dest) match
       case t :: q =>
         if t.isSuperposable then
           scene.removeSthg(this, this.pos)

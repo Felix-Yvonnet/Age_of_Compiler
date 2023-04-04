@@ -16,7 +16,7 @@ class Tree(position: Point) extends Resource(position, "fixed_objects/Tilemap/ti
       val sprite = Sprite(this.texture)
       sprite.textureRect = (4 * 17, 2 * 17, 16, 17)
       sprite.scale(2, 2.7)
-      sprite.position = Vector2[Float](this.pos.x * 40, this.pos.y * 40)
+      sprite.position = (this.pos.x * 40, this.pos.y * 40)
       window.draw(sprite)
       drawLifeBar(window)
 

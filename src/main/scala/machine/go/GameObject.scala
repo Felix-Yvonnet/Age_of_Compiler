@@ -26,10 +26,11 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = "") :
   def draw(window: RenderWindow): Unit =
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
-      sprite.position = Vector2[Float]((pos.x) * 40, (pos.y) * 40)
+      sprite.position = ((pos.x) * 40, (pos.y) * 40)
       window.draw(sprite)
   
-  def drawSelected(window: RenderWindow): Unit = ()    
+  def drawSelected(window: RenderWindow): Unit = () 
+  def prompted(place: Point): Unit = ()   
 
   // All things to do without a human action
   def action(scene: GameMap): Unit = ()

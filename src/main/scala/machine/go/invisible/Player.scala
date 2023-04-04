@@ -5,7 +5,7 @@ import sfml.graphics.RenderWindow
 import affichage.Resources
 import sfml.system.Vector2
 
-class Player(val name: String) extends GameObject():
+class Player(name: String) extends GameObject():
   val inventory: Inventory = new Inventory
 
   override def draw(window: RenderWindow): Unit =

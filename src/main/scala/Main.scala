@@ -85,7 +85,7 @@ char.pos = Vector2[Int](100,10)
     val trucATester = Sprite(tileMapTexture)
     trucATester.textureRect = (5 * 16 + 5, 0, 16, 16 + 2)
     trucATester.scale(2, 2)
-    trucATester.position = Vector2[Float](11 * 40, 11 * 40)
+    trucATester.position = (11 * 40, 11 * 40)
     */
 
     val mat = Mathematician(Point(3, 3))

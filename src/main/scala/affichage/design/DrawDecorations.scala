@@ -24,7 +24,7 @@ class DrawDecorations(scene: GameMap):
     for i <- 0 to scene.grid.length - 1; j <- 0 to scene.grid(0).length - 1 do
 
       val spriteForGreenFloor = getRandomBaseFloorPattern(i, j)
-      spriteForGreenFloor.position = Vector2[Float](i * 40, j * 40)
+      spriteForGreenFloor.position = (i * 40, j * 40)
       window.draw(spriteForGreenFloor)
 
   def getRandomBaseFloorPattern(i: Int, j: Int) =

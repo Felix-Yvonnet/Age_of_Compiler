@@ -18,6 +18,6 @@ class Mathematician(position: Point) extends Fighters(position, "moving_objects/
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
       sprite.scale(0.2, 0.2)
-      sprite.position = Vector2[Float](pos.x * 40, pos.y * 40)
+      sprite.position = (pos.x * 40, pos.y * 40)
       window.draw(sprite)
       drawLifeBar(window)

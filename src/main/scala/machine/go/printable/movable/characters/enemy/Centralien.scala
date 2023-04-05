@@ -11,19 +11,19 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
   isEnemy = true
   rangeAttack = 1
 
-
   def ia(scene: GameMap) =
     // Choose the enemy to attack if it sees one
     this.targetSelection match
       case None =>
-        scene.allClotherThan(this.pos, this.rangeAttack).map(scene.getAtPos(_))
-                                                        .flatten
-                                                        .filter(_.isAlive)
-                                                        .filter(!_.isEnemy) match
-                case gO :: q => this.targetSelection = Some(gO)
-                case _ => 
-      case Some(gO) => 
-
+        scene
+          .allClotherThan(this.pos, this.rangeAttack)
+          .map(scene.getAtPos(_))
+          .flatten
+          .filter(_.isAlive)
+          .filter(!_.isEnemy) match
+          case gO :: q => this.targetSelection = Some(gO)
+          case _       =>
+      case Some(gO) =>
 
   override def action(scene: GameMap): Unit =
     // add searching enemies via `ia`
@@ -40,6 +40,5 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
       window.draw(sprite)
       drawLifeBar(window)
 
-  override def move(scene: GameMap): Unit = 
-    // don't
-    
+  override def move(scene: GameMap): Unit = ()
+  // don't

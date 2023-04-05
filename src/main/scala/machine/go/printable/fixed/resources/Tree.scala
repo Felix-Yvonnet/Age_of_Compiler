@@ -9,7 +9,7 @@ import machine.go.movable.*
 
 import machine.go.invisible.Player
 
-class Tree(position: Point) extends Resource(position, "fixed_objects/Tilemap/tilemap.png") :
+class Tree(position: Point) extends Resource(position, "fixed_objects/Tilemap/tilemap.png"):
   // a simple resource : a tree giving basic resources
   override def draw(window: RenderWindow): Unit =
     if this.sprite_path != "" then
@@ -19,4 +19,3 @@ class Tree(position: Point) extends Resource(position, "fixed_objects/Tilemap/ti
       sprite.position = (this.pos.x * 40, this.pos.y * 40)
       window.draw(sprite)
       drawLifeBar(window)
-

@@ -1,7 +1,8 @@
-package machine.go.movable
+package machine.go.printable.movable
 
 import machine.go.GameObject
-import machine.scene.{GameMap, Point}
+import machine.scene.{Point}
+import machine.scene.GameMap
 import machine.go.printable.Alive
 import machine.scene.AStar
 
@@ -25,12 +26,14 @@ trait Movable extends Alive:
   def searchMoveTo(scene: GameMap, goal: Point): Unit =
     // Search a path and move to it
     this.pos.to(goal, scene) match
-      case None => println("No path found"); this.goalMoving = None
-      case Some(nextPoint) => tp(scene, nextPoint)
-        
+      case None            => println("No path found"); this.goalMoving = None
+      case Some(nextPoint) => 
+        if nextPoint == this.pos then
+          goalMoving = None
+        else tp(scene, nextPoint)
 
   def tp(scene: GameMap, dest: Point): Unit =
-    // Basic teleportation 
+    // Basic teleportation
     scene.getAtPos(dest) match
       case t :: q =>
         if t.isSuperposable then

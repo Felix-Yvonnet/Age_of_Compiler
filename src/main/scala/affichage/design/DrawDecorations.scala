@@ -28,7 +28,7 @@ class DrawDecorations(scene: GameMap):
       window.draw(spriteForGreenFloor)
 
   def getRandomBaseFloorPattern(i: Int, j: Int) =
-    // Return the sprite according to the random distribution 
+    // Return the sprite according to the random distribution
     val spriteForGreenFloor = Sprite(tileMapTextureGreenFloor)
 
     if texturePositionMap(i)(j) < 0 then

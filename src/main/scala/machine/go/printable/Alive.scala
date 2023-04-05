@@ -5,10 +5,10 @@ import machine.go.GameObject
 import sfml.graphics.RectangleShape
 import sfml.graphics.Color
 import sfml.graphics.RenderWindow
-import machine.go.invisible._
+import machine.go.invisible.*
 
-trait Alive extends GameObject :
-  // Describe all living elements on the game : friendly or enemy characters and resources (eg tree) 
+trait Alive extends GameObject:
+  // Describe all living elements on the game : friendly or enemy characters and resources (eg tree)
 
   var maxLife = 500
   var health = this.maxLife
@@ -27,7 +27,6 @@ trait Alive extends GameObject :
       this.health -= damage
       false
 
-
   def drawLifeBar(window: RenderWindow): Unit =
     // Draw a lifebar over the character once it has lost life
     if this.health < this.maxLife then
@@ -38,10 +37,8 @@ trait Alive extends GameObject :
       outlineRectangle.position = (this.pos.x * 40, this.pos.y * 40)
       val inlineRectangle = RectangleShape((((this.health.toFloat / this.maxLife.toFloat) * 40).toInt + 1, 10))
       inlineRectangle.fillColor = Color(250, 10, 10)
-      inlineRectangle.position = (this.pos.x * 40 +1 , this.pos.y * 40 +1)
+      inlineRectangle.position = (this.pos.x * 40 + 1, this.pos.y * 40 + 1)
       window.draw(inlineRectangle)
       window.draw(outlineRectangle)
       inlineRectangle.close()
       outlineRectangle.close()
-      
-

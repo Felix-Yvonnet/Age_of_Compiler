@@ -3,7 +3,7 @@ package machine.scene
 import scala.collection.mutable.Queue
 import sfml.system.Vector2
 import scala.collection.mutable.Set
-import machine.go.movable.Movable
+import machine.go.printable.movable.Movable
 import machine.go.GameObject
 import machine.go.invisible.Player
 
@@ -34,7 +34,7 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
       case _       => Nil
 
   def getAtPos(point: Point): List[GameObject] =
-    getAtPos(point.x,point.y)
+    getAtPos(point.x, point.y)
 
   def isAccessible(position: Point): Boolean =
     getAtPos(position) match
@@ -46,29 +46,27 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
 
   def allClotherThan(currentPos: Point, initial: Point, range: Int, seen: Set[Point]): List[Point] =
     seen += currentPos
-    val neighbours = (currentPos getAllNeighboursIn this).filter( pos => 
-      {!(seen contains pos) && 
-        (pos.x >=0) && (pos.x < this.grid.length) && (pos.y >= 0) && (pos.y < this.grid(0).length) && 
-        ((pos distanceTo initial) <= range)})
-    neighbours ++ neighbours.map(allClotherThan(_,initial, range, seen + currentPos))
-                            .flatten
-
-
+    val neighbours = (currentPos getAllNeighboursIn this).filter(pos => {
+      !(seen contains pos) &&
+      (pos.x >= 0) && (pos.x < this.grid.length) && (pos.y >= 0) && (pos.y < this.grid(0).length) &&
+      ((pos distanceTo initial) <= range)
+    })
+    neighbours ++ neighbours.map(allClotherThan(_, initial, range, seen)).flatten
 
   def searchClosePlaceToPutUnits(originalPos: Point): Option[Point] =
     searchClosePlaceToPutUnits(originalPos, Set[Point]())
 
   def searchClosePlaceToPutUnits(oldPos: Point, seen: Set[Point]): Option[Point] =
     getAtPos(oldPos) match
-      case Nil => Some(oldPos)
+      case Nil                                         => Some(oldPos)
       case t :: q if (t :: q).forall(_.isSuperposable) => Some(oldPos)
-      case _ => 
+      case _ =>
         seen += oldPos
         if getAtPos(oldPos).filter(_.isAlive) != Nil then
-          (oldPos getAllNeighboursIn this).filter(pos => !(seen contains pos))
-                                          .map(searchClosePlaceToPutUnits(_, seen).getOrElse(Point(-1,-1)))
-                                          .filter(_.isPos()) match
-            case Nil => None
+          (oldPos getAllNeighboursIn this)
+            .filter(pos => !(seen contains pos))
+            .map(searchClosePlaceToPutUnits(_, seen).getOrElse(Point(-1, -1)))
+            .filter(_.isPos()) match
+            case Nil    => None
             case t :: q => Some(t)
         else None
-                                          

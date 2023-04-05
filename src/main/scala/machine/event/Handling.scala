@@ -4,7 +4,7 @@ import machine.go.GameObject
 import sfml.graphics.*
 import sfml.window.*
 import sfml.system.Vector2
-import machine.go.movable.Movable
+import machine.go.printable.movable.Movable
 import sfml.graphics.View
 import scala.collection.mutable.ListBuffer
 import machine.scene.Point
@@ -26,22 +26,22 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
 
   def handleEvent() =
     if getCoords().y >= scene.grid(0).length then handlePrompterThings()
-    else 
-      // Check the interaction between the human and the world and react 
+    else
+      // Check the interaction between the human and the world and react
       for event <- window.pollEvent() do
         event match {
           case _: Event.Closed                                     => window.close()
           case Event.KeyPressed(c, _, _, _, _): Event.KeyPressed   => status.keyboard.updated(c, 1)
           case Event.KeyReleased(c, _, _, _, _): Event.KeyReleased => status.keyboard.updated(c, 0)
-          case Event.MouseButtonPressed(Mouse.Button.Left, x, y)   => {
+          case Event.MouseButtonPressed(Mouse.Button.Left, x, y) => {
 
             val newPos = getCoords()
-            
+
             status.selected = Nil
             status.rectFst = Some(newPos)
           }
 
-          case Event.MouseButtonReleased(Mouse.Button.Left, x, y)  => {
+          case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => {
             val mousePos = getCoords()
             val fst = status.rectFst.getOrElse(Point(0, 0))
             for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) do
@@ -83,18 +83,16 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
     status.rectFst match
       case Some(point) =>
         val last = getCoords()
-        val selectionRect = new RectangleShape(((last.x - point.x +1).abs * ratioX, (last.y - point.y+1).abs * ratioY))
+        val selectionRect = new RectangleShape(((last.x - point.x + 1).abs * ratioX, (last.y - point.y + 1).abs * ratioY))
         selectionRect.fillColor = Color(50, 50, 100, 100)
         selectionRect.outlineThickness = .1f
         selectionRect.outlineColor = Color(50, 50, 250, 200)
         selectionRect.position = ((point.x min last.x) * ratioX, (point.y min last.y) * ratioY)
         window.draw(selectionRect)
       case None => ()
-    
 
     scene.actors.gamer.draw(window)
     status.selected.foreach(_.drawSelected(window))
-    
 
   def handleAction(): Unit =
     // everybody does its action

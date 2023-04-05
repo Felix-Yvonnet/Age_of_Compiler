@@ -7,7 +7,7 @@ import machine.scene.Point
 import machine.scene.GameMap
 import machine.go.invisible.ResourceType
 
-class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = "") :
+class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
   // The general class giving basic properties for all its child
   var isSuperposable: Boolean = true
   val pathToTextures = "src/resources/"
@@ -28,9 +28,9 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = "") :
       val sprite = Sprite(this.texture)
       sprite.position = ((pos.x) * 40, (pos.y) * 40)
       window.draw(sprite)
-  
-  def drawSelected(window: RenderWindow): Unit = () 
-  def prompted(place: Point): Unit = ()   
+
+  def drawSelected(window: RenderWindow): Unit = ()
+  def prompted(place: Point, scene: GameMap): Unit = ()
 
   // All things to do without a human action
   def action(scene: GameMap): Unit = ()
@@ -39,5 +39,5 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = "") :
   def isAttacked(damage: Int, scene: GameMap): Boolean = false
 
   // destroy the texture to avoid memory problems
-  def destroy(): Unit = 
+  def destroy(): Unit =
     this.texture.close()

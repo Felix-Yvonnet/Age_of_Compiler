@@ -6,7 +6,7 @@ import sfml.system.Vector2
 object Resources:
 
   val font = Font()
-  if !(font.loadFromFile("src/resources/fixed_objects/arial.ttf")) then 
+  if !(font.loadFromFile("src/resources/fixed_objects/arial.ttf")) then
     println("An error occured loading the font")
     throw Exception("Something unexpected happend")
 
@@ -26,7 +26,6 @@ object Resources:
     text.string = message
     text.position = pos
     window.draw(text)
-
 
   def drawText(message: String, size: Int, window: RenderWindow, pos: Vector2[Float]): Unit =
     text.characterSize = size

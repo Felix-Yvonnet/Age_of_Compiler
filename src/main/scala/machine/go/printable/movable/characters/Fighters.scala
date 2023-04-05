@@ -1,11 +1,13 @@
 package machine.go.printable.movable.characters
 
 import machine.go.GameObject
-import machine.go.movable.Movable
-import machine.scene.{GameMap, Point}
+import machine.go.printable.movable.Movable
+import machine.scene.{Point}
+import machine.scene.GameMap
 import machine.go.invisible.Money
 
-abstract class Fighters(position: Point, sprite_path: String) extends GameObject(position, sprite_path = sprite_path) with Movable :
+import machine.go.printable.movable.Movable
+abstract class Fighters(position: Point, sprite_path: String) extends GameObject(position, sprite_path = sprite_path) with Movable:
   // Describes a character that can attack on another character or farm resources (all can do both)
 
   health = 500
@@ -19,19 +21,16 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
   // For stopping moving when we see an enemy
   var wasAttackingBefore = false
 
-
   def attack(other: GameObject, scene: GameMap): Unit =
     // Returns to initial conditions if the enemy is killed by the attack
-    if other.isAttacked(this.damage, scene) then
-      this.targetSelection = None
-
+    if other.isAttacked(this.damage, scene) then this.targetSelection = None
 
   def actionAttack(scene: GameMap): Unit =
     // Logic for what to do if we have something in target
     this.targetSelection match
-      case None => 
+      case None =>
       case Some(enemy) =>
-        if (enemy.pos distanceTo this.pos) <= this.rangeAttack then 
+        if (enemy.pos distanceTo this.pos) <= this.rangeAttack then
           if !this.wasAttackingBefore then this.goalMoving = None
           this.wasAttackingBefore = true
           if System.currentTimeMillis() - this.lastTimeAttacking > this.diffTimeBeforeNextAttack then
@@ -39,25 +38,25 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
             attack(enemy, scene)
 
   override def action(scene: GameMap): Unit =
-    // add the attack action 
+    // add the attack action
     actionAttack(scene)
     move(scene)
+    
 
   override def rightClicked(scene: GameMap, dest: Point): Unit =
-    // add the selection of an enemy or resource 
+    // add the selection of an enemy or resource
     scene.getAtPos(dest) match
       case Nil => this.targetSelection = None
       case _ =>
         scene.getAtPos(dest).filter(_.isAlive) match
           case Nil    => this.targetSelection = None
-          case t :: q => 
+          case t :: q =>
             // Does not attack its friends
             if this.isEnemy then this.targetSelection = Some(t)
             if this.isFriendly then
               (t :: q).filter(x => !(x.isFriendly)) match
-                case Nil =>  this.targetSelection = None
+                case Nil    => this.targetSelection = None
                 case t :: q => this.targetSelection = Some(t)
-              
     this.wasAttackingBefore = false
     this.goalMoving = Some(dest)
     this.lastTimeChanged = System.currentTimeMillis()

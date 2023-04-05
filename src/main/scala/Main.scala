@@ -3,7 +3,7 @@ import sfml.window.*
 import scala.util.Using
 import sfml.system.Vector2
 
-import machine.event.{Input, Handler, Scalaseries}
+import machine.event.{Scalaseries, Input, Handler}
 import machine.go.movable.characters.mathematiciens.Mathematician
 import machine.go.printable.fixed.decoration.Wall
 import machine.go.printable.fixed.resources.Tree
@@ -15,6 +15,7 @@ import machine.event.Scalaseries
 import affichage.design.DrawDecorations
 import machine.go.printable.movable.characters.enemy.Centralien
 import machine.go.printable.fixed.buildings.GeorgesSand
+import scala.collection.immutable.Queue
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -78,7 +79,6 @@ char.pos = Vector2[Int](100,10)
     // define the game map
     val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX, ratioY), (player, enemy))
 
-
     /* one texture to rule them all
     val tileMapTexture = Texture()
     tileMapTexture.loadFromFile("src/resources/fixed_objects/Tilemap/tilemap.png")
@@ -86,7 +86,7 @@ char.pos = Vector2[Int](100,10)
     trucATester.textureRect = (5 * 16 + 5, 0, 16, 16 + 2)
     trucATester.scale(2, 2)
     trucATester.position = (11 * 40, 11 * 40)
-    */
+     */
 
     val mat = Mathematician(Point(3, 3))
     scene.place_sthg(mat, mat.pos)
@@ -100,18 +100,18 @@ char.pos = Vector2[Int](100,10)
     val tree = Tree(Point(10, 10))
     scene.place_sthg(tree, tree.pos)
 
-    val gs = GeorgesSand(Point(0,0))
+    val gs = GeorgesSand(Point(0, 0))
     scene.place_sthg(gs, gs.pos)
 
     val méchant = Centralien(Point(3, 7))
     scene.place_sthg(méchant, méchant.pos)
 
+    window.view = Immutable(viewForTheCommentaries)
+    window.draw(Sprite())
+    window.view = Immutable(viewForTheWorld)
     val decorationDrawer = DrawDecorations(scene)
     val handler = Handler(window, scene, ratioX, ratioY, viewForTheWorld, viewForTheCommentaries)
     while window.isOpen() do
-      window.view = Immutable(viewForTheCommentaries)
-      player.draw(window)
-      window.view = Immutable(viewForTheWorld)
       handler.handleEvent()
       window.clear()
       decorationDrawer.drawBaseFloor(window)

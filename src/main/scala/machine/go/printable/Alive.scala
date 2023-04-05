@@ -18,7 +18,7 @@ trait Alive extends GameObject:
   isAlive = true
   override def isAttacked(damage: Int, scene: GameMap): Boolean =
     // Logic for loosing life, returns true if killed
-    if this.health - damage <= 0 then
+    if this.health - damage <= 0 && this.existsInTheGame then
       scene.removeSthg(this, this.pos)
       this.destroy()
       this.bonusWhenKilled.foreach((typ, amount) => scene.actors.gamer.inventory.addResource(typ, amount))

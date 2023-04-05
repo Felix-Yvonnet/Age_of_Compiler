@@ -30,11 +30,11 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
   def produceUnits(toBuildUnit: String, scene: GameMap): Boolean =
     // Main logic for the production of units, match the name of the thing we have to build with known names and create them
     scene searchClosePlaceToPutUnits this.pos match
-      case None => 
-        this.productionQueue.dequeue()
+      case None =>
         println("No place for putting the char")
         false
       case Some(newPosition) =>
+        this.productionQueue.dequeue()
         var toBuildUnitGameObject =
           toBuildUnit match
             case "mathematician" => Mathematician(newPosition)
@@ -57,9 +57,8 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
     })
     this.productionQueue.find(_ => true) match
       case None => ()
-      case Some(nameElem) => 
-        Resources.drawText(s"$nameElem in ${this.diffTimeBeforeNextBuild(nameElem)/1000} seconds", window, (0, 23 * 40 ))
-
+      case Some(nameElem) =>
+        Resources.drawText(s"$nameElem in ${this.diffTimeBeforeNextBuild(nameElem) / 1000} seconds", window, (0, 23 * 40))
 
   override def prompted(place: Point, scene: GameMap): Unit =
     println("No cap")
@@ -74,7 +73,6 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
             println(s"$element has been produced")
       })
       println("Well placed")
-
 
   /*
   def produceUnit(): Unit = {

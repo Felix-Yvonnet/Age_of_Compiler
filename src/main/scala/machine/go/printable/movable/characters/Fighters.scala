@@ -2,9 +2,7 @@ package machine.go.printable.movable.characters
 
 import machine.go.GameObject
 import machine.go.printable.movable.Movable
-import machine.scene.{Point}
-import machine.scene.GameMap
-import machine.go.invisible.Money
+import machine.scene.{Point, GameMap}
 
 import machine.go.printable.movable.Movable
 abstract class Fighters(position: Point, sprite_path: String) extends GameObject(position, sprite_path = sprite_path) with Movable:
@@ -41,7 +39,6 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
     // add the attack action
     actionAttack(scene)
     move(scene)
-    
 
   override def rightClicked(scene: GameMap, dest: Point): Unit =
     // add the selection of an enemy or resource

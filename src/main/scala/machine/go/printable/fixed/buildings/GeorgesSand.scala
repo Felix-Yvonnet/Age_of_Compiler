@@ -8,10 +8,10 @@ import machine.go.GameObject
 class GeorgesSand(position: Point) extends ProductionBuilding(position, "fixed_objects/Tilemap/tilemap_packed.png") with Friendly:
 
   diffTimeBeforeNextBuild = Map(
-      "mathematician" -> 10000
+      "mathematician" -> 1000
   )
   priceForEntity = Map(
-      "mathematician" -> 10000
+      "mathematician" -> 10
   )
 
   override def draw(window: RenderWindow): Unit =

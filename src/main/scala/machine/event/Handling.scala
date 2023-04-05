@@ -73,7 +73,10 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
     for event <- window.pollEvent() do
       // Not coded yet : interaction between human and prompter at the bottom of the screen
       event match
-        case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => print(getCoords())
+        case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => 
+          val mousePos = getCoords()
+          status.selected.foreach(_.prompted(mousePos, scene))
+
         case _                                                  => ()
 
   def handlePrint(): Unit =

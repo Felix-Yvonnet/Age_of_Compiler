@@ -26,10 +26,9 @@ trait Movable extends Alive:
   def searchMoveTo(scene: GameMap, goal: Point): Unit =
     // Search a path and move to it
     this.pos.to(goal, scene) match
-      case None            => println("No path found"); this.goalMoving = None
-      case Some(nextPoint) => 
-        if nextPoint == this.pos then
-          goalMoving = None
+      case None => println("No path found"); this.goalMoving = None
+      case Some(nextPoint) =>
+        if nextPoint == this.pos then goalMoving = None
         else tp(scene, nextPoint)
 
   def tp(scene: GameMap, dest: Point): Unit =

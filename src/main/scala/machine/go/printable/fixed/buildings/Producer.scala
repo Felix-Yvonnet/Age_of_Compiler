@@ -4,14 +4,13 @@ import machine.scene.Point
 import scala.collection.mutable.Queue
 import machine.go.GameObject
 import machine.scene.GameMap
-import machine.scene.AStar.search
 import sfml.graphics.*
 import affichage.Resources
-import machine.go.movable.characters.mathematiciens.Mathematician
+import machine.go.printable.movable.characters.friendly.units.mathematicians.Mathematician
+import machine.go.printable.movable.characters.friendly.units.physicians.Physician
 import machine.go.printable.movable.characters.enemy.Centralien
 import machine.go.invisible.Money
 
-import machine.scene.AStar
 class ProductionBuilding(position: Point, sprite_path: String) extends Building(sprite_path, position):
 
   var lastTimeBuilding: Long = 0
@@ -39,6 +38,7 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
           toBuildUnit match
             case "mathematician" => Mathematician(newPosition)
             case "centralien"    => Centralien(newPosition)
+            case "physician"     => Physician(newPosition)
             case _               => println("Unknown GO"); throw Exception("Unknown type")
 
         scene.place_sthg(toBuildUnitGameObject, newPosition)
@@ -58,10 +58,10 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
     this.productionQueue.find(_ => true) match
       case None => ()
       case Some(nameElem) =>
-        Resources.drawText(s"$nameElem in ${this.diffTimeBeforeNextBuild(nameElem) / 1000} seconds", window, (0, 23 * 40))
+        Resources.drawText(s"$nameElem \nin ${(this.diffTimeBeforeNextBuild(nameElem) - System.currentTimeMillis() + this.lastTimeBuilding ) / 1000} seconds", 15, window, (0, 23 * 40))
 
   override def prompted(place: Point, scene: GameMap): Unit =
-    println("No cap")
+    // Handle the problems when somehing is clicked on the menue
     assert(place.y >= 20)
     if place.x >= 4 then
       var corrNum = (place.x - 4) / 5 + (place.y - 20) / 2 * 4
@@ -71,8 +71,8 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
             this.productionQueue += element
             this.lastTimeBuilding = System.currentTimeMillis()
             println(s"$element has been produced")
-      })
-      println("Well placed")
+        corrNum -= 1
+})
 
   /*
   def produceUnit(): Unit = {

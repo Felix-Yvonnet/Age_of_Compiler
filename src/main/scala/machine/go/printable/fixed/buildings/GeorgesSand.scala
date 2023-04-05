@@ -5,13 +5,16 @@ import sfml.graphics.*
 import machine.go.printable.movable.characters.friendly.units.Friendly
 import machine.go.GameObject
 
-class GeorgesSand(position: Point) extends ProductionBuilding(position, "fixed_objects/Tilemap/tilemap_packed.png") with Friendly:
+class GeorgesSand(position: Point) extends ProductionBuilding(position, "fixed_objects/Tilemap/tilemap_packed.png"):
+  isFriendly = true
 
   diffTimeBeforeNextBuild = Map(
-      "mathematician" -> 1000
+      "mathematician" -> 5000,
+      "physician" -> 10000
   )
   priceForEntity = Map(
-      "mathematician" -> 10
+      "mathematician" -> 10,
+      "physician" -> 10
   )
 
   override def draw(window: RenderWindow): Unit =

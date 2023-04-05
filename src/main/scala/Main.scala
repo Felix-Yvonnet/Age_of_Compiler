@@ -4,7 +4,7 @@ import scala.util.Using
 import sfml.system.Vector2
 
 import machine.event.{Scalaseries, Input, Handler}
-import machine.go.movable.characters.mathematiciens.Mathematician
+import machine.go.printable.movable.characters.friendly.units.mathematicians.Mathematician
 import machine.go.printable.fixed.decoration.Wall
 import machine.go.printable.fixed.resources.Tree
 import machine.scene.Point

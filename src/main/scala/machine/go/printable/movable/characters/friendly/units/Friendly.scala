@@ -11,4 +11,3 @@ abstract class Friendly(position: Point, sprite_path: String) extends Fighters(p
   waitTimeResources = 50
   health = 500
   damage = 100
-

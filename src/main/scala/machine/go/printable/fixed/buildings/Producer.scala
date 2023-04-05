@@ -58,7 +58,12 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
     this.productionQueue.find(_ => true) match
       case None => ()
       case Some(nameElem) =>
-        Resources.drawText(s"$nameElem \nin ${(this.diffTimeBeforeNextBuild(nameElem) - System.currentTimeMillis() + this.lastTimeBuilding ) / 1000} seconds", 15, window, (0, 23 * 40))
+        Resources.drawText(
+            s"$nameElem \nin ${(this.diffTimeBeforeNextBuild(nameElem) - System.currentTimeMillis() + this.lastTimeBuilding) / 1000} seconds",
+            15,
+            window,
+            (0, 23 * 40)
+        )
 
   override def prompted(place: Point, scene: GameMap): Unit =
     // Handle the problems when somehing is clicked on the menue
@@ -72,7 +77,7 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
             this.lastTimeBuilding = System.currentTimeMillis()
             println(s"$element has been produced")
         corrNum -= 1
-})
+      })
 
   /*
   def produceUnit(): Unit = {

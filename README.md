@@ -136,13 +136,18 @@ scala
 - [ ] Create many different characters with reasonable stats
 - [x] Characters can attack, move and collect resources 
 - [x] Characters cannot attack friends
-- [ ] Make buildings produce fighters (almost done)
+- [x] Make buildings produce fighters
 - [ ] Clean the code (At the very end)
 - [x] Write the story and interactions
 - [x] Add a prompter at the bottom to show specification about characters and buildings
 - [ ] Add an introduction pannel
 - [ ] Don't forgot to make centraliens attack by wave
-- [ ] Add a remover for the units building
+- [ ] Add a remover for the units builder
+- [ ] Add a place for building buildings (defense towers, money extractors...)
+- [ ] Increase the size of the map
+- [ ] Add a tree placer
+- [ ] Code a better IA for the Centralien (but not too good)
+
 
 ## Conclusion
 We hope you enjoy playing Age of Compiler! We hope that you will find the game to be both challenging and fun. Don't hesitate if you want to give us a five star on jvc.com or senscritique.com : the most reliable sites.

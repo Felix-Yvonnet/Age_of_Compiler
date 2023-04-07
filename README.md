@@ -146,7 +146,7 @@ scala
 - [ ] Add a place for building buildings (defense towers, money extractors...)
 - [ ] Increase the size of the map
 - [ ] Add a tree placer
-- [ ] Code a better IA for the Centralien (but not too good)
+- [x] Code a better IA for the Centralien (but not too good)
 
 
 ## Conclusion

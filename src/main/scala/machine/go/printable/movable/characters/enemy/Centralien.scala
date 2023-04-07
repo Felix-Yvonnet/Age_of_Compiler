@@ -12,6 +12,8 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
   isEnemy = true
   rangeAttack = 1
   damage = 25
+  maxLife = 500
+  health = maxLife
   diffTimeBeforeNextMove = 600
   var diffTimeBeforeRandomMove: Long = 10000
   var lastTimeRandomMove: Long = 1000

@@ -16,6 +16,8 @@ import affichage.design.DrawDecorations
 import machine.go.printable.movable.characters.enemy.Centralien
 import machine.go.printable.fixed.buildings.GeorgesSand
 import scala.collection.immutable.Queue
+import machine.go.printable.movable.characters.friendly.units.physicians.Physician
+import affichage.design.RandomForest
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -88,7 +90,7 @@ char.pos = Vector2[Int](100,10)
     trucATester.position = (11 * 40, 11 * 40)
      */
 
-    val mat = Mathematician(Point(3, 3))
+    val mat = Physician(Point(3, 3))
     scene.place_sthg(mat, mat.pos)
     val walle = Wall(Point(11, 0))
     scene.place_sthg(walle, walle.pos)
@@ -109,6 +111,8 @@ char.pos = Vector2[Int](100,10)
 
     val méchant2 = Centralien(Point(9, 7))
     scene.place_sthg(méchant2, méchant2.pos)
+
+    RandomForest.randomForest(scene, Point(15,15), 5)
 
     window.view = Immutable(viewForTheCommentaries)
     window.draw(Sprite())

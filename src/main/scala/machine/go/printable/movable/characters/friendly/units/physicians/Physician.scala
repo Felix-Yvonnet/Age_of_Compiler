@@ -9,7 +9,8 @@ class Physician(position: Point) extends Friendly(position, "moving_objects/char
   rangeAttack = 1
   waitTimeMove = 30
   waitTimeResources = 50
-  health = 1000
+  maxLife = 1000
+  health = maxLife
   damage = 200
 
   override def draw(window: RenderWindow): Unit =

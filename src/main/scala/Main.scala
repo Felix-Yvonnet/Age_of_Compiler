@@ -106,6 +106,10 @@ char.pos = Vector2[Int](100,10)
     val méchant = Centralien(Point(3, 7))
     scene.place_sthg(méchant, méchant.pos)
 
+
+    val méchant2 = Centralien(Point(9, 7))
+    scene.place_sthg(méchant2, méchant2.pos)
+
     window.view = Immutable(viewForTheCommentaries)
     window.draw(Sprite())
     window.view = Immutable(viewForTheWorld)
@@ -118,4 +122,4 @@ char.pos = Vector2[Int](100,10)
       handler.handleAction()
       handler.handlePrint()
       window.display()
-  }
+  }.get

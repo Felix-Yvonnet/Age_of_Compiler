@@ -2,11 +2,7 @@ package affichage.design
 
 import machine.scene.GameMap
 import sfml.graphics.{RenderWindow, Texture, Sprite}
-import sfml.system.Vector2
 
-sealed trait TilesDecoration
-case object GreenFloor extends TilesDecoration
-case object GreenFloorWithFlowers extends TilesDecoration
 
 class DrawDecorations(scene: GameMap):
 

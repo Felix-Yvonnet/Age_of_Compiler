@@ -18,9 +18,9 @@ trait Movable extends Alive:
     // Logic of moving
     this.goalMoving match
       case Some(place) =>
-        if System.currentTimeMillis() - lastTimeChanged > diffTimeBeforeNextMove then
+        if System.currentTimeMillis() - this.lastTimeChanged > this.diffTimeBeforeNextMove then
           searchMoveTo(scene, place)
-          lastTimeChanged = System.currentTimeMillis()
+          this.lastTimeChanged = System.currentTimeMillis()
       case _ => ()
 
   def searchMoveTo(scene: GameMap, goal: Point): Unit =
@@ -28,7 +28,7 @@ trait Movable extends Alive:
     this.pos.to(goal, scene) match
       case None => println("No path found"); this.goalMoving = None
       case Some(nextPoint) =>
-        if nextPoint == this.pos then goalMoving = None
+        if nextPoint == this.pos then this.goalMoving = None
         else tp(scene, nextPoint)
 
   def tp(scene: GameMap, dest: Point): Unit =

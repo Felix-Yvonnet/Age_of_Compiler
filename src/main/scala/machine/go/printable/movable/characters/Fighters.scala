@@ -9,13 +9,14 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
   // Describes a character that can attack on another character or farm resources (all can do both)
 
   health = 500
+  var rangeView: Int = 3
   var damage: Int = 100
   var rangeAttack: Int = 2
   // The character selected and that we want to attack
   var targetSelection: Option[GameObject] = None
   // Variables to know when to attack and when to wait
   var lastTimeAttacking: Long = 0
-  var diffTimeBeforeNextAttack: Long = 2000
+  var diffTimeBeforeNextAttack: Long = 1000
   // For stopping moving when we see an enemy
   var wasAttackingBefore = false
 
@@ -34,6 +35,12 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
           if System.currentTimeMillis() - this.lastTimeAttacking > this.diffTimeBeforeNextAttack then
             this.lastTimeAttacking = System.currentTimeMillis()
             attack(enemy, scene)
+        else
+          if this.isEnemy then
+            this.targetSelection = None
+            if (enemy.pos distanceTo this.pos) <= this.rangeView then
+              this.goalMoving = Some(enemy.pos)
+
 
   override def action(scene: GameMap): Unit =
     // add the attack action

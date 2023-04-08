@@ -3,6 +3,7 @@ package machine.scene
 import sfml.system.Vector2
 import machine.scene.AStar
 import machine.scene.GameMap
+import machine.go.printable.movable.Movable
 
 case class Point(x: Int, y: Int):
   // Some useful functions to deal with position in the world
@@ -20,7 +21,7 @@ case class Point(x: Int, y: Int):
 
     neighbors
       .filter { case (i, j) =>
-        i >= 0 && j >= 0 && i < scene.grid.length && j < scene.grid(i).length && scene.grid(i)(j).forall(_.isSuperposable)
+        i >= 0 && j >= 0 && i < scene.width && j < scene.height && scene.grid(i)(j).forall(_.isSuperposable)
       }
       .map { case (i, j) => Point(i, j) }
 
@@ -33,13 +34,13 @@ case class Point(x: Int, y: Int):
       .map { case (i, j) => Point(i, j) }
       .filter(_ isWellFormedIn scene)
 
-  def to(goal: Point, scene: GameMap): Option[Point] =
-    AStar.search(this, goal, scene) match
+  def to(goal: Point, scene: GameMap, rangeView: Int): Option[Point] =
+    AStar.search(this, goal, scene, rangeView) match
       case t :: q => Some(t)
       case _      => None
 
   def isWellFormedIn(scene: GameMap) =
-    this.x >= 0 && this.y >= 0 && this.x < scene.grid.length && this.y < scene.grid(0).length
+    this.x >= 0 && this.y >= 0 && this.x < scene.width && this.y < scene.height
 
   def isPos() = this.x >= 0 && this.y >= 0
 

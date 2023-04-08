@@ -10,6 +10,8 @@ import machine.go.invisible.Player
 final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int], val vectActors: (Player, Player)):
   // The map of the world and every actors present in it
 
+  val width = grid.length
+  val height = grid(0).length
   case class Actors(gamer: Player, enemy: Player)
   val actors = Actors(vectActors._1, vectActors._2)
 
@@ -23,10 +25,10 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
     grid(pos.x)(pos.y) = grid(pos.x)(pos.y).filter(_ != thing)
 
   def getAtPos(i: Int, j: Int): List[GameObject] =
-    if i < 0 || i >= grid.length then
+    if i < 0 || i >= width then
       println((s"The ith coordinate is bad : i=$i"))
       throw new Exception(s"The ith coordinate is bad : i=$i")
-    if j < 0 || j >= grid(0).length then
+    if j < 0 || j >= height then
       println(s"The jth coordinate is bad : j=$j")
       throw new Exception(s"The jth coordinate is bad : j=$j")
     grid(i)(j) match
@@ -40,6 +42,8 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
     getAtPos(position) match
       case t :: q => t.isSuperposable
       case _      => true
+  def isAccessible(positionx: Int, positiony: Int): Boolean =
+    isAccessible(Point(positionx, positiony))
 
   def allClotherThan(point: Point, range: Int): List[Point] =
     allClotherThan(point, point, range, Set())
@@ -48,7 +52,7 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
     seen += currentPos
     val neighbours = (currentPos getAllNeighboursIn this).filter(pos => {
       !(seen contains pos) &&
-      (pos.x >= 0) && (pos.x < this.grid.length) && (pos.y >= 0) && (pos.y < this.grid(0).length) &&
+      (pos.x >= 0) && (pos.x < this.width) && (pos.y >= 0) && (pos.y < this.height) &&
       ((pos distanceTo initial) <= range)
     })
     neighbours ++ neighbours.map(allClotherThan(_, initial, range, seen)).flatten

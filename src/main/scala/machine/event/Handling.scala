@@ -25,7 +25,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
   val status = Input()
 
   def handleEvent() =
-    if getCoords().y >= scene.grid(0).length then handlePrompterThings()
+    if getCoords().y >= scene.height then handlePrompterThings()
     else
       // Check the interaction between the human and the world and react
       for event <- window.pollEvent() do
@@ -81,7 +81,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
 
   def handlePrint(): Unit =
     // Print everything needed
-    for arr <- 1 to scene.grid.length; someGO <- scene.grid(scene.grid.length - arr) do someGO.reverse.foreach(_.draw(window))
+    for arr <- 1 to scene.width; someGO <- scene.grid(scene.width - arr) do someGO.reverse.foreach(_.draw(window))
 
     status.rectFst match
       case Some(point) =>

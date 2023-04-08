@@ -112,8 +112,8 @@ char.pos = Vector2[Int](100,10)
     val méchant2 = Centralien(Point(9, 7))
     scene.place_sthg(méchant2, méchant2.pos)
 
-    RandomForest.randomForest(scene, Point(15,15), 5)
-
+    RandomForest.placeForests(scene)
+    
     window.view = Immutable(viewForTheCommentaries)
     window.draw(Sprite())
     window.view = Immutable(viewForTheWorld)

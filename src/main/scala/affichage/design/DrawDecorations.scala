@@ -8,8 +8,8 @@ class DrawDecorations(scene: GameMap):
 
   // Build a random map to fix a decoration
   val randomGen = scala.util.Random
-  val texturePositionMap = Array.ofDim[Int](scene.grid.length, scene.grid(0).length)
-  for row <- texturePositionMap; elem <- 0 to scene.grid(0).length - 1 do row(elem) = randomGen.nextInt
+  val texturePositionMap = Array.ofDim[Int](scene.width, scene.height)
+  for row <- texturePositionMap; elem <- 0 until scene.height do row(elem) = randomGen.nextInt
 
   // Get the texture for the floor
   val tileMapTextureGreenFloor = Texture()
@@ -17,7 +17,7 @@ class DrawDecorations(scene: GameMap):
 
   def drawBaseFloor(window: RenderWindow) =
     // Draw the floor with flowers
-    for i <- 0 to scene.grid.length - 1; j <- 0 to scene.grid(0).length - 1 do
+    for i <- 0 until scene.width; j <- 0 until scene.height do
 
       val spriteForGreenFloor = getRandomBaseFloorPattern(i, j)
       spriteForGreenFloor.position = (i * 40, j * 40)

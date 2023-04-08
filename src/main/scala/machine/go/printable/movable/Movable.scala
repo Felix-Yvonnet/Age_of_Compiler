@@ -13,6 +13,7 @@ trait Movable extends Alive:
   var goalMoving: Option[Point] = None
   var lastTimeChanged: Long = 0
   var diffTimeBeforeNextMove: Long = 200
+  var rangeAttack: Int = 1
 
   def move(scene: GameMap): Unit =
     // Logic of moving
@@ -25,7 +26,7 @@ trait Movable extends Alive:
 
   def searchMoveTo(scene: GameMap, goal: Point): Unit =
     // Search a path and move to it
-    this.pos.to(goal, scene) match
+    this.pos.to(goal, scene, rangeAttack) match
       case None => println("No path found"); this.goalMoving = None
       case Some(nextPoint) =>
         if nextPoint == this.pos then this.goalMoving = None

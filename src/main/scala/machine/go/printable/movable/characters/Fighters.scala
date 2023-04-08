@@ -11,7 +11,7 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
   health = 500
   var rangeView: Int = 3
   var damage: Int = 100
-  var rangeAttack: Int = 2
+  rangeAttack = 2
   // The character selected and that we want to attack
   var targetSelection: Option[GameObject] = None
   // Variables to know when to attack and when to wait

@@ -34,8 +34,7 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
           if System.currentTimeMillis() - this.lastTimeRandomMove > this.diffTimeBeforeRandomMove then
             val neighbours = this.pos getAllNeighboursIn scene
             if neighbours != Nil && Random.nextBoolean() then
-              val random = new Random
-              val newPos = neighbours(random.nextInt(neighbours.length))
+              val newPos = neighbours(Random.nextInt(neighbours.length))
               this.goalMoving = Some(newPos)
             this.lastTimeChanged = System.currentTimeMillis()
             this.lastTimeRandomMove = System.currentTimeMillis()
@@ -48,11 +47,7 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
             this.goalMoving = Some(gO.pos)
             this.wasAttackingBefore = false
             this.lastTimeChanged = System.currentTimeMillis()
-
-            
     
-      
-
   override def action(scene: GameMap): Unit =
     // add searching enemies via `ia`
     ia(scene)

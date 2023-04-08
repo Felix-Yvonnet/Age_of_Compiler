@@ -4,34 +4,23 @@ import machine.scene.Point
 import machine.scene.GameMap
 import machine.go.printable.fixed.resources.Tree
 import scala.util.Random
+import machine.scene.GameMap
 
 object RandomForest :
   // Define the probability of a tile being a tree
   val treeProbability = 0.1
 
   // Define the minimum and maximum sizes of a forest
-  val minForestSize = 2
-  val maxForestSize = 4
+  val minForestSize = 1
+  val maxForestSize = 3
 
   // Define the minimum and maximum distances between forests
   val minForestDistance = 5
   val maxForestDistance = 8
 
-  def randomForest(scene: GameMap, initial: Point, numTrees: Int) = 
-    for iter <- 0 to numTrees do
-      addTreeFromHere(initial, scene, Set())
-
-  def addTreeFromHere(currentPoint: Point, scene: GameMap, seen: Set[Point]): Unit =
-    if !(seen contains currentPoint) then
-      scene.getAtPos(currentPoint) match
-        case t::q if !t.isSuperposable =>
-            val neighbours = (currentPoint getAllNeighboursIn scene)
-            val random = new Random
-            val newPos = neighbours(random.nextInt(neighbours.length))
-            addTreeFromHere(newPos, scene, seen + currentPoint)
-        case _ => 
-            scene.place_sthg(Tree(currentPoint), currentPoint)
-
+  // Define the reaparition rate of trees
+  val diffTimeBeforeNextAppearance: Long = 30000
+  var lastTimeAppearing: Long = 0
 
   def generateForest(x: Int, y: Int, scene: GameMap): Unit =
       val forestSize = Random.nextInt(maxForestSize - minForestSize + 1) + minForestSize
@@ -52,10 +41,36 @@ object RandomForest :
         y += 1
       
       x += 1
-    
+
+  def treePos(scene: GameMap): List[Point] =
+    var treePosList: List[Point] = Nil
+    for (row <- 0 until scene.width; col <- 0 until scene.height) do
+      scene.getAtPos(row,col).filter(_.isInstanceOf[Tree]) match
+        case Nil =>
+        case t :: q => treePosList = Point(row,col) :: treePosList
+    treePosList
 
 
+  def addMoreTrees(scene: GameMap) =
+    if System.currentTimeMillis() - this.lastTimeAppearing > this.diffTimeBeforeNextAppearance then
+      var treePosition = treePos(scene)
+      if treePosition.length == 0 then
+        var isThereAPlaceForATreeInThisCrualWorld: Boolean = false
+        for (row <- 0 until scene.width; col <- 0 until scene.height) {if (scene.getAtPos(row,col).filter(!_.isSuperposable).isEmpty) {isThereAPlaceForATreeInThisCrualWorld = true}}
+        if isThereAPlaceForATreeInThisCrualWorld then
+          
+          var newRandomPosForTree = Point(Random.nextInt(scene.width),Random.nextInt(scene.height))
+          while !(scene.getAtPos(newRandomPosForTree).filter(!_.isSuperposable).isEmpty) do
+            newRandomPosForTree = Point(Random.nextInt(scene.width),Random.nextInt(scene.height))
+          scene.place_sthg(Tree(newRandomPosForTree), newRandomPosForTree)
+          treePosition = newRandomPosForTree :: treePosition
+        else println("No place found")
 
-                                    
-
+      treePosition(Random.nextInt(treePosition.length)) getNeighboursIn scene match
+        case t :: q => 
+          val newPlace = ((t :: q)(Random.nextInt((t :: q).length)))
+          scene.place_sthg(Tree(newPlace), newPlace)
+        case Nil => ()
+      
+      lastTimeAppearing = System.currentTimeMillis()
 

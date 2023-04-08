@@ -14,10 +14,11 @@ import machine.go.invisible.Player
 import machine.event.Scalaseries
 import affichage.design.DrawDecorations
 import machine.go.printable.movable.characters.enemy.Centralien
-import machine.go.printable.fixed.buildings.GeorgesSand
+import machine.go.printable.fixed.buildings.friendly.GeorgesSand
 import scala.collection.immutable.Queue
 import machine.go.printable.movable.characters.friendly.units.physicians.Physician
 import affichage.design.RandomForest
+import machine.go.printable.fixed.buildings.enemy.Centrale
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -65,10 +66,10 @@ char.pos = Vector2[Int](100,10)
     val ratioX = width / shapeX
     val ratioY = height / shapeY
     // views
-    val viewForTheWorld = View()
-    viewForTheWorld.viewport = (0.0, 0.0, 1.0, 0.995)
-    val viewForTheCommentaries = View()
-    viewForTheCommentaries.viewport = (0.0, 0.995, 1.0, 0.005)
+    val viewForTheWorld = View((0, 0, width, height))
+    viewForTheWorld.viewport = (0.0, 0.0, 1.0, 0.80)
+    val viewForTheCommentaries = View((0, 0, width, height))
+    viewForTheCommentaries.viewport = (0.0, 0.80, 1.0, 0.20)
 
     // the window that will be shown
     val window = use(RenderWindow(VideoMode(width, height), "Age of Compilers"))
@@ -105,6 +106,10 @@ char.pos = Vector2[Int](100,10)
     val gs = GeorgesSand(Point(0, 0))
     scene.place_sthg(gs, gs.pos)
 
+
+    val centrale = Centrale(Point(29, 19))
+    scene.place_sthg(centrale, centrale.pos)
+
     val méchant = Centralien(Point(3, 7))
     scene.place_sthg(méchant, méchant.pos)
 
@@ -113,13 +118,14 @@ char.pos = Vector2[Int](100,10)
     scene.place_sthg(méchant2, méchant2.pos)
 
     RandomForest.placeForests(scene)
-    
+
     window.view = Immutable(viewForTheCommentaries)
     window.draw(Sprite())
     window.view = Immutable(viewForTheWorld)
     val decorationDrawer = DrawDecorations(scene)
     val handler = Handler(window, scene, ratioX, ratioY, viewForTheWorld, viewForTheCommentaries)
     while window.isOpen() do
+      RandomForest.addMoreTrees(scene)
       handler.handleEvent()
       window.clear()
       decorationDrawer.drawBaseFloor(window)

@@ -51,8 +51,8 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
     // draw the selection tool to build troops and buildings
     var tmp = 0
     this.priceForEntity.foreach((element, price) => {
-      Resources.drawText(element, window, (4 * 40 + 5 * 40 * (tmp % 4), (20 + 2 * (tmp / 4)) * 40))
-      Resources.drawText(s"$price euros", 15, window, (4 * 40 + 5 * 40 * (tmp % 4) + 20, (20 + 2 * (tmp / 4)) * 40 + 30))
+      Resources.drawText(element, window, (4 * 40 + 5 * 40 * (tmp % 4), (16 + 2 * (tmp / 4)) * 40))
+      Resources.drawText(s"$price euros", 15, window, (4 * 40 + 5 * 40 * (tmp % 4) + 20, (16 + 2 * (tmp / 4)) * 40 + 30))
       tmp += 1
     })
     this.productionQueue.find(_ => true) match
@@ -62,7 +62,7 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
             s"$nameElem \nin ${(this.diffTimeBeforeNextBuild(nameElem) - System.currentTimeMillis() + this.lastTimeBuilding) / 1000} seconds",
             15,
             window,
-            (0, 23 * 40)
+            (0, 19 * 40)
         )
 
   override def prompted(place: Point, scene: GameMap): Unit =

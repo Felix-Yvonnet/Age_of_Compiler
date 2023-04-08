@@ -58,10 +58,16 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
         }
 
   def getMousePos(): Point =
-    Point(window.mapPixelToCoords(Mouse.position(window), viewMainMap))
+    getMousePos(viewMainMap)
 
   def getCoords(): Point =
-    Point(window.mapPixelToCoords(Mouse.position(window), viewMainMap)) / (ratioX, ratioY)
+    getCoords(viewMainMap)
+
+  def getMousePos(view: View): Point =
+    Point(window.mapPixelToCoords(Mouse.position(window), view))
+
+  def getCoords(view: View): Point =
+    Point(window.mapPixelToCoords(Mouse.position(window), view)) / (ratioX, ratioY)
 
   def addSelectedToStatus(gOl: List[GameObject]): Unit =
     // Add all the selectable objects in gOl to status.selected
@@ -94,8 +100,10 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
         window.draw(selectionRect)
       case None => ()
 
+    window.view = window.defaultView
     scene.actors.gamer.draw(window)
     status.selected.foreach(_.drawSelected(window))
+    window.view = viewMainMap
 
   def handleAction(): Unit =
     // everybody does its action

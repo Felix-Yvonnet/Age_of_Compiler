@@ -35,12 +35,9 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
           if System.currentTimeMillis() - this.lastTimeAttacking > this.diffTimeBeforeNextAttack then
             this.lastTimeAttacking = System.currentTimeMillis()
             attack(enemy, scene)
-        else
-          if this.isEnemy then
-            this.targetSelection = None
-            if (enemy.pos distanceTo this.pos) <= this.rangeView then
-              this.goalMoving = Some(enemy.pos)
-
+        else if this.isEnemy then
+          this.targetSelection = None
+          if (enemy.pos distanceTo this.pos) <= this.rangeView then this.goalMoving = Some(enemy.pos)
 
   override def action(scene: GameMap): Unit =
     // add the attack action

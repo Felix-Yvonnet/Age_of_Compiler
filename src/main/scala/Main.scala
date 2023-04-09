@@ -106,13 +106,11 @@ char.pos = Vector2[Int](100,10)
     val gs = GeorgesSand(Point(0, 0))
     scene.place_sthg(gs, gs.pos)
 
-
     val centrale = Centrale(Point(29, 19))
     scene.place_sthg(centrale, centrale.pos)
 
     val méchant = Centralien(Point(3, 7))
     scene.place_sthg(méchant, méchant.pos)
-
 
     val méchant2 = Centralien(Point(9, 7))
     scene.place_sthg(méchant2, méchant2.pos)

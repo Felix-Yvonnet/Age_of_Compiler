@@ -3,7 +3,6 @@ package affichage.design
 import machine.scene.GameMap
 import sfml.graphics.{RenderWindow, Texture, Sprite}
 
-
 class DrawDecorations(scene: GameMap):
 
   // Build a random map to fix a decoration

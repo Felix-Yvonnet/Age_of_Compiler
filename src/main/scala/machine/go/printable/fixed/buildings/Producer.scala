@@ -80,5 +80,3 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
               println(s"$element has been produced")
           corrNum -= 1
         })
-
-

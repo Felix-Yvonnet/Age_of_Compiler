@@ -102,7 +102,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
 
     window.view = window.defaultView
     scene.actors.gamer.draw(window)
-    status.selected.foreach(_.drawSelected(window))
+    status.selected.filter(_.isFriendly).foreach(_.drawSelected(window))
     window.view = viewMainMap
 
   def handleAction(): Unit =

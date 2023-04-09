@@ -38,7 +38,7 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
           toBuildUnit match
             case "mathematician" => Mathematician(newPosition)
             case "centralien"    => Centralien(newPosition)
-            case "physician"     => Physician(newPosition)
+            case "physicien"     => Physician(newPosition)
             case _               => println("Unknown GO"); throw Exception("Unknown type")
 
         scene.place_sthg(toBuildUnitGameObject, newPosition)
@@ -49,42 +49,36 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
 
   override def drawSelected(window: RenderWindow): Unit =
     // draw the selection tool to build troops and buildings
-    var tmp = 0
-    this.priceForEntity.foreach((element, price) => {
-      Resources.drawText(element, window, (4 * 40 + 5 * 40 * (tmp % 4), (16 + 2 * (tmp / 4)) * 40))
-      Resources.drawText(s"$price euros", 15, window, (4 * 40 + 5 * 40 * (tmp % 4) + 20, (16 + 2 * (tmp / 4)) * 40 + 30))
-      tmp += 1
-    })
-    this.productionQueue.find(_ => true) match
-      case None => ()
-      case Some(nameElem) =>
-        Resources.drawText(
-            s"$nameElem \nin ${(this.diffTimeBeforeNextBuild(nameElem) - System.currentTimeMillis() + this.lastTimeBuilding) / 1000} seconds",
-            15,
-            window,
-            (0, 19 * 40)
-        )
+    if this.isFriendly then
+      var tmp = 0
+      this.priceForEntity.foreach((element, price) => {
+        Resources.drawText(element, window, (4 * 40 + 5 * 40 * (tmp % 4), (16 + 2 * (tmp / 4)) * 40))
+        Resources.drawText(s"$price euros", 15, window, (4 * 40 + 5 * 40 * (tmp % 4) + 20, (16 + 2 * (tmp / 4)) * 40 + 30))
+        tmp += 1
+      })
+      this.productionQueue.find(_ => true) match
+        case None => ()
+        case Some(nameElem) =>
+          Resources.drawText(
+              s"$nameElem \nin ${(this.diffTimeBeforeNextBuild(nameElem) - System.currentTimeMillis() + this.lastTimeBuilding) / 1000} seconds",
+              15,
+              window,
+              (0, 19 * 40)
+          )
 
   override def prompted(place: Point, scene: GameMap): Unit =
     // Handle the problems when somehing is clicked on the menue
-    assert(place.y >= 20)
-    if place.x >= 4 then
-      var corrNum = (place.x - 4) / 5 + (place.y - 20) / 2 * 4
-      this.priceForEntity.foreach((element, price) => {
-        if corrNum == 0 then
-          if scene.actors.gamer.inventory.removeResource(Money, price) then
-            this.productionQueue += element
-            this.lastTimeBuilding = System.currentTimeMillis()
-            println(s"$element has been produced")
-        corrNum -= 1
-      })
+    if this.isFriendly then
+      assert(place.y >= 20)
+      if place.x >= 4 then
+        var corrNum = (place.x - 4) / 5 + (place.y - 20) / 2 * 4
+        this.priceForEntity.foreach((element, price) => {
+          if corrNum == 0 then
+            if scene.actors.gamer.inventory.removeResource(Money, price) then
+              this.productionQueue += element
+              this.lastTimeBuilding = System.currentTimeMillis()
+              println(s"$element has been produced")
+          corrNum -= 1
+        })
 
-  /*
-  def produceUnit(): Unit = {
-      // TODO: Implement production of units
-      if (productionQueue.nonEmpty) {
-        val unit = productionQueue.dequeue()
-        unit.position = position
-        unit.addSelfToGameMap()
-      }
-    }*/
+

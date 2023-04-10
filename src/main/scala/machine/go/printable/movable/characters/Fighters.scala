@@ -5,6 +5,8 @@ import machine.go.printable.movable.Movable
 import machine.scene.{Point, GameMap}
 
 import machine.go.printable.movable.Movable
+import sfml.graphics.RenderWindow
+import affichage.Resources
 abstract class Fighters(position: Point, sprite_path: String) extends GameObject(position, sprite_path = sprite_path) with Movable:
   // Describes a character that can attack on another character or farm resources (all can do both)
 
@@ -35,6 +37,7 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
           if System.currentTimeMillis() - this.lastTimeAttacking > this.diffTimeBeforeNextAttack then
             this.lastTimeAttacking = System.currentTimeMillis()
             attack(enemy, scene)
+        else if this.isFriendly && !this.wasAttackingBefore then this.goalMoving = Some(enemy.pos)
         else if this.isEnemy then
           this.targetSelection = None
           if (enemy.pos distanceTo this.pos) <= this.rangeView then this.goalMoving = Some(enemy.pos)
@@ -62,3 +65,13 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
     this.goalMoving = Some(dest)
     this.lastTimeChanged = System.currentTimeMillis()
     move(scene)
+
+
+  override def drawSelected(window: RenderWindow): Unit = 
+    Resources.drawText(this.name, window, (0, 18 * 40))
+    Resources.drawText("Damage: " + this.damage, window, (5 * 40, 16 * 40))
+    Resources.drawText("Health: " + this.health+"/"+this.maxLife, window, (5 * 40, 17 * 40))
+    Resources.drawText("Attack Speed: " + this.diffTimeBeforeNextAttack, window, (15 * 40, 16 * 40))
+    Resources.drawText("Range: " + this.rangeAttack, window, (15 * 40, 17 * 40))
+    Resources.drawText("Speed: " + this.diffTimeBeforeNextMove, window, (5 * 40, 18 * 40))
+    Resources.drawText("Eye Sight: " + this.rangeAttack, window, (15 * 40, 18 * 40))

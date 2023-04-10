@@ -34,8 +34,8 @@ case class Point(x: Int, y: Int):
       .map { case (i, j) => Point(i, j) }
       .filter(_ isWellFormedIn scene)
 
-  def to(goal: Point, scene: GameMap, rangeView: Int): Option[Point] =
-    AStar.search(this, goal, scene, rangeView) match
+  def to(goal: Point, scene: GameMap, rangeAttack: Int): Option[Point] =
+    AStar.search(this, goal, scene, rangeAttack) match
       case t :: q => Some(t)
       case _      => None
 

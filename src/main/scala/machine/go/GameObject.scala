@@ -15,6 +15,7 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
   var isFriendly: Boolean = false
   var isAlive: Boolean = false
   var existsInTheGame: Boolean = true
+  var name: String = ""
 
   // Get the texture of the object (will be moved later in order to have one texture for all characters of a specific type)
   val texture = Texture()

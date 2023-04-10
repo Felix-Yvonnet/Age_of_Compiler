@@ -1,4 +1,4 @@
-package machine.go.printable.fixed.resources
+package machine.go.printable.fixed.resource
 
 import machine.scene.Point
 import machine.go.GameObject

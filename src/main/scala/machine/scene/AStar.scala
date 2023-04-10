@@ -8,7 +8,7 @@ object AStar:
 
   case class Node(point: Point, var parent: Option[Node], var h: Cost, var cost: Cost)
 
-  def search(start: Point, goal: Point, scene: GameMap, rangeView: Int): List[Point] =
+  def search(start: Point, goal: Point, scene: GameMap, rangeAttack: Int): List[Point] =
 
     val openQueue = PriorityQueue.empty[Node](Ordering.by(-_.h))
     val closedSet = scala.collection.mutable.Set[Point]()
@@ -20,7 +20,7 @@ object AStar:
       val current = openQueue.dequeue()
 
       val currentDistance = current.point distanceTo goal
-      if currentDistance == 0 || (currentDistance <= rangeView && !(scene isAccessible goal)) then return getPath(current, start)
+      if currentDistance == 0 || (currentDistance <= rangeAttack && !(scene isAccessible goal)) then return getPath(current, start)
 
       val neighbors = current.point getNeighboursIn scene
 

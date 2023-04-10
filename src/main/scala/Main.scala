@@ -6,7 +6,7 @@ import sfml.system.Vector2
 import machine.event.{Scalaseries, Input, Handler}
 import machine.go.printable.movable.characters.friendly.units.mathematicians.Mathematician
 import machine.go.printable.fixed.decoration.Wall
-import machine.go.printable.fixed.resources.Tree
+import machine.go.printable.fixed.resource.Tree
 import machine.scene.Point
 import machine.scene.GameMap
 import sfml.Immutable
@@ -16,9 +16,10 @@ import affichage.design.DrawDecorations
 import machine.go.printable.movable.characters.enemy.Centralien
 import machine.go.printable.fixed.buildings.friendly.GeorgesSand
 import scala.collection.immutable.Queue
-import machine.go.printable.movable.characters.friendly.units.physicians.Physician
+import machine.go.printable.movable.characters.friendly.units.physiciens.Physicien
 import affichage.design.RandomForest
 import machine.go.printable.fixed.buildings.enemy.Centrale
+import machine.go.printable.fixed.buildings.friendly.towers.TeslaBuilding
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -91,7 +92,7 @@ char.pos = Vector2[Int](100,10)
     trucATester.position = (11 * 40, 11 * 40)
      */
 
-    val mat = Physician(Point(3, 3))
+    val mat = Physicien(Point(3, 3))
     scene.place_sthg(mat, mat.pos)
     val walle = Wall(Point(11, 0))
     scene.place_sthg(walle, walle.pos)
@@ -102,6 +103,8 @@ char.pos = Vector2[Int](100,10)
 
     val tree = Tree(Point(10, 10))
     scene.place_sthg(tree, tree.pos)
+    val tesla = TeslaBuilding(Point(2, 0))
+    scene.place_sthg(tesla, tesla.pos)
 
     val gs = GeorgesSand(Point(0, 0))
     scene.place_sthg(gs, gs.pos)

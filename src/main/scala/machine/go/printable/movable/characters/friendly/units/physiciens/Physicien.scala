@@ -1,11 +1,12 @@
-package machine.go.printable.movable.characters.friendly.units.physicians
+package machine.go.printable.movable.characters.friendly.units.physiciens
 
 import machine.go.printable.movable.characters.friendly.units.Friendly
 import machine.scene.Point
 import sfml.graphics.*
 
-class Physician(position: Point) extends Friendly(position, "moving_objects/characters/physicien_1.png"):
+class Physicien(position: Point) extends Friendly(position, "moving_objects/characters/physicien_1.png"):
 
+  name = "Physicien"
   rangeAttack = 1
   waitTimeMove = 30
   waitTimeResources = 50

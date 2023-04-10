@@ -9,6 +9,7 @@ import scala.util.Random
 
 class Centralien(position: Point) extends Fighters(position, "moving_objects/characters/avg_centralien.png"):
   // The main class for enemy characters
+  name = "centralien"
   isEnemy = true
   rangeAttack = 1
   damage = 25

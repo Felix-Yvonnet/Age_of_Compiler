@@ -1,14 +1,10 @@
-package machine.go.printable.fixed.resources
+package machine.go.printable.fixed.resource
 
 import machine.scene.Point
-import machine.go.GameObject
-import machine.go.invisible.*
-import sfml.graphics.*
-import sfml.system.Vector2
-import machine.go.movable.*
+import sfml.graphics._
 
-import machine.go.invisible.Player
 
+import machine.go.printable.fixed.resource.Resource
 class Tree(position: Point) extends Resource(position, "fixed_objects/Tilemap/tilemap.png"):
   // a simple resource : a tree giving basic resources
   override def draw(window: RenderWindow): Unit =

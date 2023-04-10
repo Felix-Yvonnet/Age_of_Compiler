@@ -7,7 +7,7 @@ import machine.scene.GameMap
 import sfml.graphics.*
 import affichage.Resources
 import machine.go.printable.movable.characters.friendly.units.mathematicians.Mathematician
-import machine.go.printable.movable.characters.friendly.units.physicians.Physician
+import machine.go.printable.movable.characters.friendly.units.physiciens.Physicien
 import machine.go.printable.movable.characters.enemy.Centralien
 import machine.go.invisible.Money
 
@@ -34,11 +34,11 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
         false
       case Some(newPosition) =>
         this.productionQueue.dequeue()
-        var toBuildUnitGameObject =
+        val toBuildUnitGameObject =
           toBuildUnit match
             case "mathematician" => Mathematician(newPosition)
             case "centralien"    => Centralien(newPosition)
-            case "physicien"     => Physician(newPosition)
+            case "physicien"     => Physicien(newPosition)
             case _               => println("Unknown GO"); throw Exception("Unknown type")
 
         scene.place_sthg(toBuildUnitGameObject, newPosition)

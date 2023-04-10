@@ -110,7 +110,7 @@ scala
 
         │           │           │   └── pm.scala
 
-        │           │           └── physicians
+        │           │           └── physiciens
 
         │           │               ├── alainAspect.scala
 

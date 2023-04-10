@@ -2,7 +2,7 @@ package affichage.design
 
 import machine.scene.Point
 import machine.scene.GameMap
-import machine.go.printable.fixed.resources.Tree
+import machine.go.printable.fixed.resource.Tree
 import scala.util.Random
 import machine.scene.GameMap
 
@@ -36,7 +36,8 @@ object RandomForest:
     while x < scene.width do
       var y = 0
       while y < scene.height do
-        if scene.isAccessible(x, y) && Random.nextDouble() < treeProbability then RandomForest.generateForest(x, y, scene)
+        if scene.isAccessible(x, y) && Random.nextDouble() < treeProbability && (Point(x, y) distanceTo Point(0, 0)) >= 5 then
+          RandomForest.generateForest(x, y, scene)
         y += 1
 
       x += 1

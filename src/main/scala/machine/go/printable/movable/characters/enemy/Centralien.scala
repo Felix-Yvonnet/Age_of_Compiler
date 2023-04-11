@@ -53,11 +53,11 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
     this.actionAttack(scene)
     this.move(scene)
 
-  override def draw(window: RenderWindow): Unit =
+  override def draw(window: RenderWindow, position: Point): Unit =
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
-      sprite.textureRect = (10, 10, 44, 64) // de dos
+      sprite.textureRect = (10, 15, 44, 64) // de dos
       sprite.scale = (0.9, 0.9)
-      sprite.position = ((pos.x) * 40, (pos.y) * 40)
+      sprite.position = (position.x * 40, position.y * 40)
       window.draw(sprite)
       drawLifeBar(window)

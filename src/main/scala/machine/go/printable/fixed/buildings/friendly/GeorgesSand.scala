@@ -18,11 +18,11 @@ class GeorgesSand(position: Point) extends ProductionBuilding(position, "fixed_o
       "physicien" -> 10
   )
 
-  override def draw(window: RenderWindow): Unit =
+  override def draw(window: RenderWindow, position: Point): Unit =
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
       sprite.textureRect = (0, 4 * 16, 4 * 16, 4 * 16)
-      sprite.scale(0.7, 0.7)
-      sprite.position = (this.pos.x * 40, this.pos.y * 40)
+      sprite.scale(0.6, 0.6)
+      sprite.position = (position.x * 40, position.y * 40)
       window.draw(sprite)
       drawLifeBar(window)

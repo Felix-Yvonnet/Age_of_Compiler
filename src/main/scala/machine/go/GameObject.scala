@@ -25,11 +25,15 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
   def rightClicked(scene: GameMap, dest: Point): Unit = ()
 
   // How to draw basically
-  def draw(window: RenderWindow): Unit =
+  def draw(window: RenderWindow, position: Point): Unit =
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
-      sprite.position = ((pos.x) * 40, (pos.y) * 40)
+      sprite.position = (position.x * 40, position.y * 40)
       window.draw(sprite)
+
+
+  def draw(window: RenderWindow): Unit =
+    draw(window, this.pos)
 
   def drawSelected(window: RenderWindow): Unit = ()
   def prompted(place: Point, scene: GameMap): Unit = ()

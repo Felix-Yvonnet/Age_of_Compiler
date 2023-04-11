@@ -14,10 +14,10 @@ class Physicien(position: Point) extends Friendly(position, "moving_objects/char
   health = maxLife
   damage = 200
 
-  override def draw(window: RenderWindow): Unit =
+  override def draw(window: RenderWindow, position: Point): Unit =
     if this.sprite_path != "" then
       val sprite = Sprite(this.texture)
       sprite.scale(0.3, 0.35)
-      sprite.position = (pos.x * 40, pos.y * 40)
+      sprite.position = (position.x * 40, position.y * 40)
       window.draw(sprite)
       drawLifeBar(window)

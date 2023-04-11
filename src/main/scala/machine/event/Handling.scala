@@ -15,10 +15,11 @@ import sfml.Immutable
 class Input private (
     val keyboard: Map[Keyboard.Key, Int],
     var selected: List[GameObject],
-    var rectFst: Option[Point]
+    var rectFst: Option[Point],
+    var rectFstForDrawing: Point
 ):
   def this() =
-    this(Map[Keyboard.Key, Int]().empty, List(), None)
+    this(Map[Keyboard.Key, Int]().empty, List(), None, Point(0,0))
 
 class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, viewMainMap: View, viewPrompter: View):
   // Does all checks and prints I don't want to put in the Main loop
@@ -39,6 +40,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
 
             status.selected = Nil
             status.rectFst = Some(newPos)
+            status.rectFstForDrawing = getMousePos()
           }
 
           case Event.MouseButtonReleased(Mouse.Button.Left, x, y) => {
@@ -46,12 +48,17 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
             val fst = status.rectFst.getOrElse(Point(0, 0))
             for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) do
               for j <- fst.y.min(mousePos.y) to fst.y.max(mousePos.y) do addSelectedToStatus(scene.getAtPos(i, j))
+
+            if (status.rectFst.getOrElse(Point(0,0)) distanceTo getCoords()) < 1 then
+              scene.actors.gamer.isLeftClickedWhileProbablyBuying(mousePos, scene)
+
             status.rectFst = None
           }
 
           case Event.MouseButtonReleased(Mouse.Button.Right, x, y) => {
             val mousePos = getCoords()
             status.selected.foreach(_.rightClicked(scene, mousePos))
+            scene.actors.gamer.isRightClickedWhileProbablyBuying()
           }
 
           case _ => ()
@@ -77,11 +84,11 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
 
   def handlePrompterThings() =
     for event <- window.pollEvent() do
-      // Not coded yet : interaction between human and prompter at the bottom of the screen
       event match
         case Event.MouseButtonReleased(Mouse.Button.Left, x, y) =>
           val mousePos = getCoords()
           status.selected.foreach(_.prompted(mousePos, scene))
+          scene.actors.gamer.findWhatToDoWhenSomeoneIsProbablyBuying(mousePos)
 
         case _ => ()
 
@@ -90,19 +97,23 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
     for arr <- 1 to scene.width; someGO <- scene.grid(scene.width - arr) do someGO.reverse.foreach(_.draw(window))
 
     status.rectFst match
-      case Some(point) =>
-        val last = getCoords()
-        val selectionRect = new RectangleShape(((last.x - point.x + 1).abs * ratioX, (last.y - point.y + 1).abs * ratioY))
+      case Some(_) =>
+        val point = status.rectFstForDrawing
+        val last = getMousePos()
+        val selectionRect = new RectangleShape(((last.x - point.x).abs, (last.y - point.y).abs))
         selectionRect.fillColor = Color(50, 50, 100, 100)
         selectionRect.outlineThickness = .1f
         selectionRect.outlineColor = Color(50, 50, 250, 200)
-        selectionRect.position = ((point.x min last.x) * ratioX, (point.y min last.y) * ratioY)
+        selectionRect.position = ((point.x min last.x), (point.y min last.y))
         window.draw(selectionRect)
       case None => ()
 
+
+    val mousePos = getCoords()
+    scene.actors.gamer.drawBuying(window, mousePos, scene)
     window.view = window.defaultView
     scene.actors.gamer.draw(window)
-    status.selected.filter(_.isFriendly) match
+    status.selected match
       case head :: next => head.drawSelected(window)
       case _ => 
     window.view = viewMainMap

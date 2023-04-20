@@ -29,106 +29,65 @@ No support available. You know our e-mail so if necessary send us your concerns.
 ### tree
 ```
 scala
-
-    ├── Main.scala
-
-    ├── affichage
-
-    │   ├── design
-
-    │   │   └── DrawDecorations.scala
-
-    │   └── resources.scala
-
-    └── machine
-
-        ├── event
-
-        │   ├── Scalaseries.scala
-
-        │   └── handling.scala
-
-        ├── go
-
-        │   ├── GameObject.scala
-
-        │   ├── invisible
-
-        │   │   ├── Inventory.scala
-
-        │   │   └── Player.scala
-
-        │   └── printable
-
-        │       ├── Alive.scala
-
-        │       ├── drawable.scala
-
-        │       ├── fixed
-
-        │       │   ├── buildings
-
-        │       │   │   ├── Buildings.scala
-
-        │       │   │   ├── GeorgesSand.scala
-
-        │       │   │   └── Producer.scala
-
-        │       │   ├── decoration
-
-        │       │   │   └── wall.scala
-
-        │       │   └── resources
-
-        │       │       ├── Resources.scala
-
-        │       │       └── tree.scala
-
-        │       └── movable
-
-        │           ├── characters
-
-        │           │   ├── Fighters.scala
-
-        │           │   ├── enemy
-
-        │           │   │   └── Centralien.scala
-
-        │           │   └── friendly
-
-        │           │       └── units
-
-        │           │           ├── Friendly.scala
-
-        │           │           ├── mathematicians
-
-        │           │           │   ├── highInter.scala
-
-        │           │           │   ├── init.scala
-
-        │           │           │   ├── lowInter.scala
-
-        │           │           │   └── pm.scala
-
-        │           │           └── physiciens
-
-        │           │               ├── alainAspect.scala
-
-        │           │               ├── highInter.scala
-
-        │           │               ├── init.scala
-
-        │           │               └── lowInter.scala
-
-        │           └── mouvable.scala
-
-        └── scene
-
-            ├── Point.scala
-
-            ├── aStar.scala
-
-            └── gameMap.scala
+├── Main.scala
+├── affichage
+│   ├── Resources.scala
+│   └── design
+│       ├── DrawCharacters.scala
+│       ├── DrawDecorations.scala
+│       ├── DrawInitial.scala
+│       └── RandomForest.scala
+└── machine
+    ├── event
+    │   ├── Handling.scala
+    │   └── Scalaseries.scala
+    ├── go
+    │   ├── GameObject.scala
+    │   ├── invisible
+    │   │   ├── Inventory.scala
+    │   │   └── Player.scala
+    │   └── printable
+    │       ├── Alive.scala
+    │       ├── drawable.scala
+    │       ├── fixed
+    │       │   ├── buildings
+    │       │   │   ├── Buildings.scala
+    │       │   │   ├── Producer.scala
+    │       │   │   ├── enemy
+    │       │   │   │   └── Centrale.scala
+    │       │   │   └── friendly
+    │       │   │       ├── GeorgesSand.scala
+    │       │   │       └── towers
+    │       │   │           ├── DefenseTower.scala
+    │       │   │           └── TeslaBuilding.scala
+    │       │   ├── decoration
+    │       │   │   └── Wall.scala
+    │       │   └── resource
+    │       │       ├── Resource.scala
+    │       │       └── Tree.scala
+    │       └── movable
+    │           ├── Movable.scala
+    │           └── characters
+    │               ├── Fighters.scala
+    │               ├── enemy
+    │               │   └── Centralien.scala
+    │               └── friendly
+    │                   └── units
+    │                       ├── Friendly.scala
+    │                       ├── mathematicians
+    │                       │   ├── Mathematician.scala
+    │                       │   ├── highInter.scala
+    │                       │   ├── lowInter.scala
+    │                       │   └── pm.scala
+    │                       └── physiciens
+    │                           ├── Physicien.scala
+    │                           ├── alainAspect.scala
+    │                           ├── highInter.scala
+    │                           └── lowInter.scala
+    └── scene
+        ├── AStar.scala
+        ├── GameMap.scala
+        └── Point.scala
 ```
 
 ### Implementation
@@ -142,8 +101,8 @@ scala
 - [x] Add a prompter at the bottom to show specification about characters and buildings
 - [ ] Add an introduction pannel
 - [ ] Don't forgot to make centraliens attack by wave
-- [ ] Add a remover for the units builder
-- [ ] Add a place for building buildings (defense towers, money extractors...)
+- [x] Add a remover for the units builder
+- [x] Add a place for building buildings (defense towers, money extractors...)
 - [ ] Increase the size of the map
 - [x] Add a tree placer
 - [x] Code a better IA for the Centralien (but not too good)

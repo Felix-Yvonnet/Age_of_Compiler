@@ -7,7 +7,7 @@ import machine.scene.{Point, GameMap}
 import machine.go.printable.movable.Movable
 import sfml.graphics.RenderWindow
 import affichage.Resources
-abstract class Fighters(position: Point, sprite_path: String) extends GameObject(position, sprite_path = sprite_path) with Movable:
+abstract class Fighters(position: Point) extends GameObject(position) with Movable:
   // Describes a character that can attack on another character or farm resources (all can do both)
 
   health = 500
@@ -52,7 +52,7 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
     scene.getAtPos(dest) match
       case Nil => this.targetSelection = None
       case _ =>
-        scene.getAtPos(dest).filter(_.isAlive) match
+        scene.getAtPos(dest).filter(_.maxLife > 0) match
           case Nil    => this.targetSelection = None
           case t :: q =>
             // Does not attack its friends
@@ -74,4 +74,4 @@ abstract class Fighters(position: Point, sprite_path: String) extends GameObject
     Resources.drawText("Attack Speed: " + this.diffTimeBeforeNextAttack, window, (15 * 40, 16 * 40))
     Resources.drawText("Range: " + this.rangeAttack, window, (15 * 40, 17 * 40))
     Resources.drawText("Speed: " + this.diffTimeBeforeNextMove, window, (5 * 40, 18 * 40))
-    Resources.drawText("Eye Sight: " + this.rangeAttack, window, (15 * 40, 18 * 40))
+    Resources.drawText("Eye Sight: " + this.rangeView, window, (15 * 40, 18 * 40))

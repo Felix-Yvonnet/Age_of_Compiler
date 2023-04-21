@@ -10,6 +10,7 @@ import scala.collection.mutable.ListBuffer
 import machine.scene.Point
 import machine.scene.GameMap
 import sfml.Immutable
+import affichage.design.DrawCharacters
 
 // Keep an eye on the past
 class Input private (
@@ -94,7 +95,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
 
   def handlePrint(): Unit =
     // Print everything needed
-    for arr <- 1 to scene.width; someGO <- scene.grid(scene.width - arr) do someGO.reverse.foreach(_.draw(window))
+    for arr <- 1 to scene.width; someGO <- scene.grid(scene.width - arr) do someGO.reverse.foreach(DrawCharacters.draw(scene, window, _))
 
     status.rectFst match
       case Some(_) =>

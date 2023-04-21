@@ -17,4 +17,4 @@ project/target/
 target/
 
 # VSCode
-.vscode*
+*.vscode*

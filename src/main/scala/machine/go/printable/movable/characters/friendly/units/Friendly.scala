@@ -3,7 +3,7 @@ package machine.go.printable.movable.characters.friendly.units
 import machine.scene.Point
 import machine.go.printable.movable.characters.Fighters
 
-abstract class Friendly(position: Point, sprite_path: String) extends Fighters(position, sprite_path):
+abstract class Friendly(position: Point) extends Fighters(position):
 
   isFriendly = true
   rangeAttack = 2

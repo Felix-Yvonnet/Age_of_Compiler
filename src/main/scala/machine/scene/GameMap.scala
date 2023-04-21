@@ -15,14 +15,20 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
   case class Actors(gamer: Player, enemy: Player)
   val actors = Actors(vectActors._1, vectActors._2)
 
-  def place_sthg(thing: GameObject, pos: Point): Unit =
+  def placeSthg(thing: GameObject, pos: Point): Unit =
     if !(grid(pos.x)(pos.y) contains thing) then
       grid(pos.x)(pos.y) match
         case t :: q => grid(pos.x)(pos.y) = thing :: grid(pos.x)(pos.y)
         case _      => grid(pos.x)(pos.y) = List(thing)
 
+  def placeSthg(thing: GameObject): Unit =
+    placeSthg(thing, thing.pos)
+
   def removeSthg(thing: GameObject, pos: Point): Unit =
     grid(pos.x)(pos.y) = grid(pos.x)(pos.y).filter(_ != thing)
+
+  def removeSthg(thing: GameObject): Unit =
+    removeSthg(thing, thing.pos)
 
   def getAtPos(i: Int, j: Int): List[GameObject] =
     if i < 0 || i >= width then
@@ -66,7 +72,7 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
       case t :: q if (t :: q).forall(_.isSuperposable) => Some(oldPos)
       case _ =>
         seen += oldPos
-        if getAtPos(oldPos).filter(_.isAlive) != Nil then
+        if getAtPos(oldPos).filter(_.maxLife > 0) != Nil then
           (oldPos getAllNeighboursIn this)
             .filter(pos => !(seen contains pos))
             .map(searchClosePlaceToPutUnits(_, seen).getOrElse(Point(-1, -1)))

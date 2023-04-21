@@ -7,7 +7,7 @@ import machine.scene.GameMap
 import machine.go.GameObject
 import scala.util.Random
 
-class Centralien(position: Point) extends Fighters(position, "moving_objects/characters/avg_centralien.png"):
+class Centralien(position: Point) extends Fighters(position):
   // The main class for enemy characters
   name = "centralien"
   isEnemy = true
@@ -23,6 +23,7 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
     // Choose the enemy to attack if it sees one
     this.targetSelection match
       case None =>
+        // find new enemies
         scene
           .allClotherThan(this.pos, this.rangeView)
           .map(scene.getAtPos(_))
@@ -53,11 +54,3 @@ class Centralien(position: Point) extends Fighters(position, "moving_objects/cha
     this.actionAttack(scene)
     this.move(scene)
 
-  override def draw(window: RenderWindow, position: Point): Unit =
-    if this.sprite_path != "" then
-      val sprite = Sprite(this.texture)
-      sprite.textureRect = (10, 15, 44, 64) // de dos
-      sprite.scale = (0.9, 0.9)
-      sprite.position = (position.x * 40, position.y * 40)
-      window.draw(sprite)
-      drawLifeBar(window)

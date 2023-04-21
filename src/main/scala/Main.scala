@@ -20,6 +20,8 @@ import machine.go.printable.movable.characters.friendly.units.physiciens.Physici
 import affichage.design.RandomForest
 import machine.go.printable.fixed.buildings.enemy.Centrale
 import machine.go.printable.fixed.buildings.friendly.towers.TeslaBuilding
+import affichage.design.DrawInitial
+import affichage.design.DrawCharacters
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -92,36 +94,13 @@ char.pos = Vector2[Int](100,10)
     trucATester.position = (11 * 40, 11 * 40)
      */
 
-    val mat = Physicien(Point(3, 3))
-    scene.place_sthg(mat, mat.pos)
-    val walle = Wall(Point(11, 0))
-    scene.place_sthg(walle, walle.pos)
-    val walle2 = Wall(Point(12, 0))
-    scene.place_sthg(walle2, walle2.pos)
-    val walle3 = Wall(Point(13, 0))
-    scene.place_sthg(walle3, walle3.pos)
 
-    val tree = Tree(Point(10, 10))
-    scene.place_sthg(tree, tree.pos)
-    val tesla = TeslaBuilding(Point(2, 0))
-    scene.place_sthg(tesla, tesla.pos)
-
-    val gs = GeorgesSand(Point(0, 0))
-    scene.place_sthg(gs, gs.pos)
-
-    val centrale = Centrale(Point(29, 19))
-    scene.place_sthg(centrale, centrale.pos)
-
-    val méchant = Centralien(Point(3, 7))
-    scene.place_sthg(méchant, méchant.pos)
-
-    val méchant2 = Centralien(Point(9, 7))
-    scene.place_sthg(méchant2, méchant2.pos)
+    val mat = Physicien(Point(3,3))
+    scene.placeSthg(mat)
+    DrawInitial.drawInit(scene)
 
     RandomForest.placeForests(scene)
 
-    window.view = Immutable(viewForTheCommentaries)
-    window.draw(Sprite())
     window.view = Immutable(viewForTheWorld)
     val decorationDrawer = DrawDecorations(scene)
     val handler = Handler(window, scene, ratioX, ratioY, viewForTheWorld, viewForTheCommentaries)

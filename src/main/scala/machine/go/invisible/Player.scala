@@ -10,6 +10,7 @@ import sfml.graphics.RectangleShape
 import sfml.graphics.Color
 import sfml.window.Event
 import machine.go.printable.fixed.buildings.friendly.towers.TeslaBuilding
+import affichage.design.DrawCharacters
 
 class Player(name: String):
 
@@ -41,7 +42,7 @@ class Player(name: String):
         if mousePos isWellFormedIn scene then
           if (scene getAtPos mousePos).forall(_.isSuperposable) then
             newThing.pos = mousePos 
-            scene.place_sthg(newThing, mousePos)
+            scene.placeSthg(newThing, mousePos)
             this.inventory.removeResource(Beton, 10)
             this.selected = None
           else
@@ -56,7 +57,7 @@ class Player(name: String):
     this.selected match
       case Some(elem) =>
         if mousePos isWellFormedIn scene then
-          elem.draw(window, mousePos)
+          DrawCharacters.draw(scene, window, elem, mousePos)
       case _ => ()
 
     if System.currentTimeMillis() - this.lastTimeColored > this.diffTimeColoration then
@@ -64,7 +65,6 @@ class Player(name: String):
 
     this.anErrorHasHappend match
       case Some(point) =>
-        println(point)
         val colorationRect = new RectangleShape((40,40))
         colorationRect.fillColor = Color(150, 50, 50, 100)
         colorationRect.outlineThickness = .1f

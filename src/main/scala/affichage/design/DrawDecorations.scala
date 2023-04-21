@@ -2,6 +2,9 @@ package affichage.design
 
 import machine.scene.GameMap
 import sfml.graphics.{RenderWindow, Texture, Sprite}
+import machine.go.printable.fixed.buildings.enemy.Centrale
+import machine.scene.Point
+import machine.go.printable.fixed.decoration.Wall
 
 class DrawDecorations(scene: GameMap):
 
@@ -19,7 +22,7 @@ class DrawDecorations(scene: GameMap):
     for i <- 0 until scene.width; j <- 0 until scene.height do
 
       val spriteForGreenFloor = getRandomBaseFloorPattern(i, j)
-      spriteForGreenFloor.position = (i * 40, j * 40)
+      spriteForGreenFloor.position = (i * scene.ratio.x, j * scene.ratio.y)
       window.draw(spriteForGreenFloor)
 
   def getRandomBaseFloorPattern(i: Int, j: Int) =

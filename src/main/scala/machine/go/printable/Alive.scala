@@ -10,12 +10,11 @@ import machine.go.invisible.*
 trait Alive extends GameObject:
   // Describe all living elements on the game : friendly or enemy characters and resources (eg tree)
 
-  var maxLife = 500
-  var health = this.maxLife
+  maxLife = 500
+  health = this.maxLife
 
   // What does it brings when killed, default for basic enemy killed
   var bonusWhenKilled: List[(ResourceType, Int)] = List((Money, 10))
-  isAlive = true
   override def isAttacked(damage: Int, scene: GameMap): Boolean =
     // Logic for loosing life, returns true if killed
     if this.health - damage <= 0 && this.existsInTheGame then

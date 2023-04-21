@@ -11,7 +11,7 @@ import machine.go.printable.movable.characters.friendly.units.physiciens.Physici
 import machine.go.printable.movable.characters.enemy.Centralien
 import machine.go.invisible.Money
 
-class ProductionBuilding(position: Point, sprite_path: String) extends Building(sprite_path, position):
+class ProductionBuilding(position: Point) extends Building(position):
 
   var lastTimeBuilding: Long = 0
   var diffTimeBeforeNextBuild = Map.empty[String, Long]
@@ -41,7 +41,7 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
             case "physicien"     => Physicien(newPosition)
             case _               => println("Unknown GO"); throw Exception("Unknown type")
 
-        scene.place_sthg(toBuildUnitGameObject, newPosition)
+        scene.placeSthg(toBuildUnitGameObject, newPosition)
         true
 
   override def action(scene: GameMap): Unit =
@@ -80,3 +80,8 @@ class ProductionBuilding(position: Point, sprite_path: String) extends Building(
               println(s"$element has been produced")
           corrNum -= 1
         })
+
+      if place.x <= 1 then
+        if place.y == 24 then
+          if !this.productionQueue.isEmpty then
+            scene.actors.gamer.inventory.addResource(Money, this.priceForEntity(this.productionQueue.dequeue()))

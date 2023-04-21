@@ -7,7 +7,7 @@ import machine.scene.Point
 import sfml.graphics.RenderWindow
 import affichage.Resources
 
-abstract class DefenseTower(position: Point, sprite_path: String) extends Fighters(position, sprite_path):
+abstract class DefenseTower(position: Point) extends Fighters(position):
   // ugly definition yet the simplest
 
   override def move(scene: GameMap): Unit = ()

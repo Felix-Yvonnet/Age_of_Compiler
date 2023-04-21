@@ -6,10 +6,12 @@ import sfml.graphics.*
 import machine.scene.GameMap
 import scala.util.Random
 
-class Centrale(position: Point) extends ProductionBuilding(position, "fixed_objects/Tilemap/tilemap_packed.png"):
+final class Centrale(position: Point) extends ProductionBuilding(position):
+  this.name = "centrale"
   isEnemy = true
   val diffTimeBeforeNextRandomProduction = 15000
   var lastTimeRandomProduction = 0
+  var randomDiff = 0
 
   diffTimeBeforeNextBuild = Map(
       "centralien" -> 15000
@@ -32,19 +34,11 @@ class Centrale(position: Point) extends ProductionBuilding(position, "fixed_obje
     throw new RuntimeException("Invalid probabilities")
 
   def ia() =
-    if System.currentTimeMillis() - this.lastTimeRandomProduction + Random
-        .between(-5000, 5000) > this.diffTimeBeforeNextRandomProduction
-    then this.productionQueue += selectRandomElement()
+    if System.currentTimeMillis() - this.lastTimeRandomProduction + this.randomDiff > this.diffTimeBeforeNextRandomProduction then 
+      this.productionQueue += selectRandomElement()
+      this.randomDiff = Random.between(-5000, 5000)
 
   override def action(scene: GameMap): Unit =
     ia()
     updateProduction(scene)
 
-  override def draw(window: RenderWindow, position: Point): Unit =
-    if this.sprite_path != "" then
-      val sprite = Sprite(this.texture)
-      sprite.textureRect = (3 * 16, 8 * 16, 4 * 16, 4 * 16)
-      sprite.scale(0.7, 0.7)
-      sprite.position = (position.x * 40, position.y * 40)
-      window.draw(sprite)
-      drawLifeBar(window)

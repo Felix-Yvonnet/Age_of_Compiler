@@ -5,7 +5,7 @@ import machine.go.GameObject
 import machine.go.printable.Alive
 import sfml.graphics.RenderWindow
 
-class Building(sprite_path: String, position: Point) extends GameObject(position, sprite_path) with Alive:
+class Building(position: Point) extends GameObject(position) with Alive:
   // destroying a building does not gives resources
   bonusWhenKilled = List()
   isSuperposable = false

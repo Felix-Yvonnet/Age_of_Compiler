@@ -7,33 +7,18 @@ import machine.scene.Point
 import machine.scene.GameMap
 import machine.go.invisible.ResourceType
 
-class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
+class GameObject(var pos: Point = Point(0, 0)):
   // The general class giving basic properties for all its child
   var isSuperposable: Boolean = true
-  val pathToTextures = "src/resources/"
   var isEnemy: Boolean = false
   var isFriendly: Boolean = false
-  var isAlive: Boolean = false
+  var maxLife: Int = 0
+  var health: Int = 0
   var existsInTheGame: Boolean = true
   var name: String = ""
 
-  // Get the texture of the object (will be moved later in order to have one texture for all characters of a specific type)
-  val texture = Texture()
-  if sprite_path != "" then texture.loadFromFile(pathToTextures + sprite_path)
-
   // What happens when we right click while selected
   def rightClicked(scene: GameMap, dest: Point): Unit = ()
-
-  // How to draw basically
-  def draw(window: RenderWindow, position: Point): Unit =
-    if this.sprite_path != "" then
-      val sprite = Sprite(this.texture)
-      sprite.position = (position.x * 40, position.y * 40)
-      window.draw(sprite)
-
-
-  def draw(window: RenderWindow): Unit =
-    draw(window, this.pos)
 
   def drawSelected(window: RenderWindow): Unit = ()
   def prompted(place: Point, scene: GameMap): Unit = ()
@@ -47,4 +32,3 @@ class GameObject(var pos: Point = Point(0, 0), var sprite_path: String = ""):
   // destroy the texture to avoid memory problems
   def destroy(): Unit =
     existsInTheGame = false
-    this.texture.close()

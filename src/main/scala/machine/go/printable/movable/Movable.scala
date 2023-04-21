@@ -38,11 +38,11 @@ trait Movable extends Alive:
       case t :: q =>
         if t.isSuperposable then
           scene.removeSthg(this, this.pos)
-          scene.place_sthg(this, dest)
+          scene.placeSthg(this, dest)
           this.pos = dest
       case _ =>
         scene.removeSthg(this, this.pos)
-        scene.place_sthg(this, dest)
+        scene.placeSthg(this, dest)
         this.pos = dest
 
   override def rightClicked(scene: GameMap, dest: Point): Unit

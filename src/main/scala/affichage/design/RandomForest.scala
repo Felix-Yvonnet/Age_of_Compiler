@@ -26,7 +26,7 @@ object RandomForest:
     val forestSize = Random.nextInt(maxForestSize - minForestSize + 1) + minForestSize
     for i <- 0 until forestSize; j <- 0 until forestSize do {
       if x + i >= 0 && x + i < scene.width && y + j >= 0 && y + j < scene.height && scene.isAccessible(Point(x + i, y + j)) then {
-        scene.place_sthg(Tree(Point(x + i, y + j)), Point(x + i, y + j))
+        scene.placeSthg(Tree(Point(x + i, y + j)), Point(x + i, y + j))
       }
     }
 
@@ -36,7 +36,9 @@ object RandomForest:
     while x < scene.width do
       var y = 0
       while y < scene.height do
-        if scene.isAccessible(x, y) && Random.nextDouble() < treeProbability && (Point(x, y) distanceTo Point(0, 0)) >= 5 then
+        if scene.isAccessible(x, y) && Random.nextDouble() < treeProbability &&
+          (Point(x, y) distanceTo Point(0, 0)) >= 5 && 
+          (Point(x, y) distanceTo Point(scene.width-1, scene.height-1)) >= 16 then
           RandomForest.generateForest(x, y, scene)
         y += 1
 
@@ -63,14 +65,14 @@ object RandomForest:
           var newRandomPosForTree = Point(Random.nextInt(scene.width), Random.nextInt(scene.height))
           while !(scene.getAtPos(newRandomPosForTree).filter(!_.isSuperposable).isEmpty) do
             newRandomPosForTree = Point(Random.nextInt(scene.width), Random.nextInt(scene.height))
-          scene.place_sthg(Tree(newRandomPosForTree), newRandomPosForTree)
+            scene.placeSthg(Tree(newRandomPosForTree), newRandomPosForTree)
           treePosition = newRandomPosForTree :: treePosition
         else println("No place found")
 
       treePosition(Random.nextInt(treePosition.length)) getNeighboursIn scene match
         case t :: q =>
           val newPlace = ((t :: q)(Random.nextInt((t :: q).length)))
-          scene.place_sthg(Tree(newPlace), newPlace)
+          scene.placeSthg(Tree(newPlace), newPlace)
         case Nil => ()
 
       lastTimeAppearing = System.currentTimeMillis()

@@ -13,4 +13,3 @@ final class Physicien(position: Point) extends Friendly(position):
   maxLife = 1000
   health = maxLife
   damage = 200
-

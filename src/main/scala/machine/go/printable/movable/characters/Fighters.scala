@@ -66,11 +66,10 @@ abstract class Fighters(position: Point) extends GameObject(position) with Movab
     this.lastTimeChanged = System.currentTimeMillis()
     move(scene)
 
-
-  override def drawSelected(window: RenderWindow): Unit = 
+  override def drawSelected(window: RenderWindow): Unit =
     Resources.drawText(this.name, window, (0, 18 * 40))
     Resources.drawText("Damage: " + this.damage, window, (5 * 40, 16 * 40))
-    Resources.drawText("Health: " + this.health+"/"+this.maxLife, window, (5 * 40, 17 * 40))
+    Resources.drawText("Health: " + this.health + "/" + this.maxLife, window, (5 * 40, 17 * 40))
     Resources.drawText("Attack Speed: " + this.diffTimeBeforeNextAttack, window, (15 * 40, 16 * 40))
     Resources.drawText("Range: " + this.rangeAttack, window, (15 * 40, 17 * 40))
     Resources.drawText("Speed: " + this.diffTimeBeforeNextMove, window, (5 * 40, 18 * 40))

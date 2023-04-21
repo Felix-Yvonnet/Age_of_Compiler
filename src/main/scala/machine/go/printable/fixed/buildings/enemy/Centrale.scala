@@ -34,11 +34,10 @@ final class Centrale(position: Point) extends ProductionBuilding(position):
     throw new RuntimeException("Invalid probabilities")
 
   def ia() =
-    if System.currentTimeMillis() - this.lastTimeRandomProduction + this.randomDiff > this.diffTimeBeforeNextRandomProduction then 
+    if System.currentTimeMillis() - this.lastTimeRandomProduction + this.randomDiff > this.diffTimeBeforeNextRandomProduction then
       this.productionQueue += selectRandomElement()
       this.randomDiff = Random.between(-5000, 5000)
 
   override def action(scene: GameMap): Unit =
     ia()
     updateProduction(scene)
-

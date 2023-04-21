@@ -94,8 +94,7 @@ char.pos = Vector2[Int](100,10)
     trucATester.position = (11 * 40, 11 * 40)
      */
 
-
-    val mat = Physicien(Point(3,3))
+    val mat = Physicien(Point(3, 3))
     scene.placeSthg(mat)
     DrawInitial.drawInit(scene)
 

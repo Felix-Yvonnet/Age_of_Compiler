@@ -37,9 +37,9 @@ object RandomForest:
       var y = 0
       while y < scene.height do
         if scene.isAccessible(x, y) && Random.nextDouble() < treeProbability &&
-          (Point(x, y) distanceTo Point(0, 0)) >= 5 && 
-          (Point(x, y) distanceTo Point(scene.width-1, scene.height-1)) >= 16 then
-          RandomForest.generateForest(x, y, scene)
+          (Point(x, y) distanceTo Point(0, 0)) >= 5 &&
+          (Point(x, y) distanceTo Point(scene.width - 1, scene.height - 1)) >= 16
+        then RandomForest.generateForest(x, y, scene)
         y += 1
 
       x += 1

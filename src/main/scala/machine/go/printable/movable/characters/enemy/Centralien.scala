@@ -53,4 +53,3 @@ class Centralien(position: Point) extends Fighters(position):
     ia(scene)
     this.actionAttack(scene)
     this.move(scene)
-

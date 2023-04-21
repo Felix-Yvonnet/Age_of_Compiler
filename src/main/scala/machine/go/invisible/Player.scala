@@ -17,8 +17,8 @@ class Player(name: String):
   // Define the building creation constants
   var lastTimeBuilding: Long = 0
   var priceForEntity: Map[String, Int] = Map(
-        "tesla" -> 0
-    )
+      "tesla" -> 0
+  )
   var selected: Option[GameObject] = None
 
   // For error coloration
@@ -32,16 +32,16 @@ class Player(name: String):
   def draw(window: RenderWindow): Unit =
     Resources.drawText("Beton : " + inventory.getResourceAmount(Beton), window, (0, 16 * 40))
     Resources.drawText("Money : " + inventory.getResourceAmount(Money), window, (0, 16 * 40 + 30))
-    Resources.drawText("Tesla Tower" , window, (5 * 5 * 40, 16 * 40))
-    Resources.drawText("500 beton" , 15, window, (5 * 5 * 40, 16 * 40 + 30))
-    
+    Resources.drawText("Tesla Tower", window, (5 * 5 * 40, 16 * 40))
+    Resources.drawText("500 beton", 15, window, (5 * 5 * 40, 16 * 40 + 30))
+
   def isLeftClickedWhileProbablyBuying(mousePos: Point, scene: GameMap): Unit =
     // What happen if we try to put the building somewhere
     this.selected match
       case Some(newThing) =>
         if mousePos isWellFormedIn scene then
           if (scene getAtPos mousePos).forall(_.isSuperposable) then
-            newThing.pos = mousePos 
+            newThing.pos = mousePos
             scene.placeSthg(newThing, mousePos)
             this.inventory.removeResource(Beton, 10)
             this.selected = None
@@ -56,16 +56,14 @@ class Player(name: String):
   def drawBuying(window: RenderWindow, mousePos: Point, scene: GameMap): Unit =
     this.selected match
       case Some(elem) =>
-        if mousePos isWellFormedIn scene then
-          DrawCharacters.draw(scene, window, elem, mousePos)
+        if mousePos isWellFormedIn scene then DrawCharacters.draw(scene, window, elem, mousePos)
       case _ => ()
 
-    if System.currentTimeMillis() - this.lastTimeColored > this.diffTimeColoration then
-      this.anErrorHasHappend = None
+    if System.currentTimeMillis() - this.lastTimeColored > this.diffTimeColoration then this.anErrorHasHappend = None
 
     this.anErrorHasHappend match
       case Some(point) =>
-        val colorationRect = new RectangleShape((40,40))
+        val colorationRect = new RectangleShape((40, 40))
         colorationRect.fillColor = Color(150, 50, 50, 100)
         colorationRect.outlineThickness = .1f
         colorationRect.outlineColor = Color(250, 50, 50, 200)
@@ -76,5 +74,4 @@ class Player(name: String):
   def findWhatToDoWhenSomeoneIsProbablyBuying(mousePos: Point) =
     assert(mousePos.y >= 20)
     if mousePos.x >= 25 && mousePos.y <= 22 then
-      if this.inventory.getResourceAmount(Beton) >= 10 then
-        this.selected = Some(TeslaBuilding(Point(0,0)))
+      if this.inventory.getResourceAmount(Beton) >= 10 then this.selected = Some(TeslaBuilding(Point(0, 0)))

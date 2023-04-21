@@ -1,8 +1,7 @@
 package machine.go.printable.fixed.resource
 
 import machine.scene.Point
-import sfml.graphics._
-
+import sfml.graphics.*
 
 import machine.go.printable.fixed.resource.Resource
 class Tree(position: Point) extends Resource(position):

@@ -8,4 +8,3 @@ final class TeslaBuilding(position: Point) extends DefenseTower(position):
   damage = 250
   rangeAttack = 5
   isFriendly = true
-

@@ -5,6 +5,4 @@ import machine.go.printable.Alive
 import machine.scene.Point
 
 class LSV(position: Point) extends GameObject(position) with Alive:
-    var x = true
-  
-
+  var x = true

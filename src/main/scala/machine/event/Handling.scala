@@ -20,7 +20,7 @@ class Input private (
     var rectFstForDrawing: Point
 ):
   def this() =
-    this(Map[Keyboard.Key, Int]().empty, List(), None, Point(0,0))
+    this(Map[Keyboard.Key, Int]().empty, List(), None, Point(0, 0))
 
 class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, viewMainMap: View, viewPrompter: View):
   // Does all checks and prints I don't want to put in the Main loop
@@ -50,7 +50,7 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
             for i <- fst.x.min(mousePos.x) to fst.x.max(mousePos.x) do
               for j <- fst.y.min(mousePos.y) to fst.y.max(mousePos.y) do addSelectedToStatus(scene.getAtPos(i, j))
 
-            if (status.rectFst.getOrElse(Point(0,0)) distanceTo getCoords()) < 1 then
+            if (status.rectFst.getOrElse(Point(0, 0)) distanceTo getCoords()) < 1 then
               scene.actors.gamer.isLeftClickedWhileProbablyBuying(mousePos, scene)
 
             status.rectFst = None
@@ -95,7 +95,8 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
 
   def handlePrint(): Unit =
     // Print everything needed
-    for arr <- 1 to scene.width; someGO <- scene.grid(scene.width - arr) do someGO.reverse.foreach(DrawCharacters.draw(scene, window, _))
+    for arr <- 1 to scene.width; someGO <- scene.grid(scene.width - arr) do
+      someGO.reverse.foreach(DrawCharacters.draw(scene, window, _))
 
     status.rectFst match
       case Some(_) =>
@@ -109,14 +110,13 @@ class Handler(window: RenderWindow, scene: GameMap, ratioX: Int, ratioY: Int, vi
         window.draw(selectionRect)
       case None => ()
 
-
     val mousePos = getCoords()
     scene.actors.gamer.drawBuying(window, mousePos, scene)
     window.view = window.defaultView
     scene.actors.gamer.draw(window)
     status.selected match
       case head :: next => head.drawSelected(window)
-      case _ => 
+      case _            =>
     window.view = viewMainMap
 
   def handleAction(): Unit =

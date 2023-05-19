@@ -6,5 +6,6 @@ import sfml.graphics.*
 final class TeslaBuilding(position: Point) extends DefenseTower(position):
   name = "tesla"
   damage = 250
-  rangeAttack = 5
+  rangeAttack = 4
+  rangeView = 4
   isFriendly = true

@@ -12,7 +12,6 @@ import machine.scene.GameMap
 import sfml.Immutable
 import machine.go.invisible.Player
 import machine.event.Scalaseries
-import affichage.design.DrawDecorations
 import machine.go.printable.movable.characters.enemy.Centralien
 import machine.go.printable.fixed.buildings.friendly.GeorgesSand
 import scala.collection.immutable.Queue
@@ -22,6 +21,8 @@ import machine.go.printable.fixed.buildings.enemy.Centrale
 import machine.go.printable.fixed.buildings.friendly.towers.TeslaBuilding
 import affichage.design.DrawInitial
 import affichage.design.DrawCharacters
+import affichage.Resources
+import machine.go.printable.fixed.buildings.friendly.*
 
 /*
 val map = scala.collection.mutable.HashMap.empty[Int,String]
@@ -71,7 +72,7 @@ char.pos = Vector2[Int](100,10)
     // views
     val viewForTheWorld = View((0, 0, width, height))
     viewForTheWorld.viewport = (0.0, 0.0, 1.0, 0.80)
-    val viewForTheCommentaries = View((0, 0, width, height))
+    val viewForTheCommentaries = View((0, 0, width, height * 2 / 10))
     viewForTheCommentaries.viewport = (0.0, 0.80, 1.0, 0.20)
 
     // the window that will be shown
@@ -94,20 +95,21 @@ char.pos = Vector2[Int](100,10)
     trucATester.position = (11 * 40, 11 * 40)
      */
 
-    val mat = Physicien(Point(3, 3))
+    val mat = LSV(Point(3, 3))
     scene.placeSthg(mat)
+    val ru = RU(Point(20, 0))
+    scene.placeSthg(ru)
+    val fstCont = Centralien(Point(22, 0))
+    scene.placeSthg(fstCont)
     DrawInitial.drawInit(scene)
-
     RandomForest.placeForests(scene)
 
     window.view = Immutable(viewForTheWorld)
-    val decorationDrawer = DrawDecorations(scene)
     val handler = Handler(window, scene, ratioX, ratioY, viewForTheWorld, viewForTheCommentaries)
     while window.isOpen() do
-      RandomForest.addMoreTrees(scene)
       handler.handleEvent()
       window.clear()
-      decorationDrawer.drawBaseFloor(window)
+
       handler.handleAction()
       handler.handlePrint()
       window.display()

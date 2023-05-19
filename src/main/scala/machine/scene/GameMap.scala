@@ -6,9 +6,14 @@ import scala.collection.mutable.Set
 import machine.go.printable.movable.Movable
 import machine.go.GameObject
 import machine.go.invisible.Player
+import machine.go.printable.fixed.buildings.friendly.Technology
+import machine.scene.Point
+import machine.go.printable.movable.characters.enemy.Centralien
 
 final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2[Int], val vectActors: (Player, Player)):
   // The map of the world and every actors present in it
+
+  var name = ""
 
   val width = grid.length
   val height = grid(0).length
@@ -52,18 +57,39 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
     isAccessible(Point(positionx, positiony))
 
   def allClotherThan(point: Point, range: Int): List[Point] =
-    allClotherThan(point, point, range, Set())
+    allClotherThan(point, point, range, Set(point))
 
   def allClotherThan(currentPos: Point, initial: Point, range: Int, seen: Set[Point]): List[Point] =
-    seen += currentPos
-    val neighbours = (currentPos getAllNeighboursIn this).filter(pos => {
-      !(seen contains pos) &&
-      (pos.x >= 0) && (pos.x < this.width) && (pos.y >= 0) && (pos.y < this.height) &&
-      ((pos distanceTo initial) <= range)
-    })
-    neighbours ++ neighbours.map(allClotherThan(_, initial, range, seen)).flatten
+    if (initial distanceManTo currentPos) >= range then Nil
+    else
+      val neighbours = (currentPos getAllNeighboursIn this).filter(pos => {
+        !(seen contains pos) &&
+        (pos isWellFormedIn this)
+      })
+      neighbours foreach (seen += _)
+      neighbours ++ neighbours.map(allClotherThan(_, initial, range, seen)).flatten
 
   def searchClosePlaceToPutUnits(originalPos: Point): Option[Point] =
+    // val queue = scala.collection.mutable.Queue(originalPos)
+    // val seen = Set[Point]()
+//
+    // while !queue.isEmpty do
+    //   val current = queue.dequeue()
+    //   this getAtPos current match
+    //     case head :: next => if head.isSuperposable then return Some(current)
+    //     case Nil          => return Some(current)
+//
+    //   val neighbours = (current getAllNeighboursIn this).filter(position => {
+    //     this getAtPos position match
+    //       case t :: q => t.isSuperposable || t.isInstanceOf[Centralien]
+    //       case Nil    => true
+    //   })
+//
+    //   neighbours.foreach(pos => {
+    //     seen += pos
+    //     queue.enqueue(pos)
+    //   })
+
     searchClosePlaceToPutUnits(originalPos, Set[Point]())
 
   def searchClosePlaceToPutUnits(oldPos: Point, seen: Set[Point]): Option[Point] =
@@ -80,3 +106,31 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
             case Nil    => None
             case t :: q => Some(t)
         else None
+
+  def findClosestEnemy(initialPos: Point): Option[Point] =
+    val queue = scala.collection.mutable.Queue(initialPos)
+    val seen = Set[Point]()
+    var rez = None
+
+    while !queue.isEmpty do
+      val current = queue.dequeue()
+      this getAtPos current match
+        case head :: next => if head.isSuperposable then return Some(current)
+        case Nil          => return Some(current)
+
+      val neighbours = (current getAllNeighboursIn this).filter(position => {
+        this getAtPos position match
+          case t :: q => t.isSuperposable || t.isInstanceOf[Centralien]
+          case Nil    => true
+      })
+
+      neighbours.foreach(pos => {
+        seen += pos
+        queue.enqueue(pos)
+      })
+    rez
+
+  def getTechLevel(tech: Technology): Boolean =
+    this.actors.gamer.hasUnlockedTech.getOrElse(tech, false)
+  def unlockTech(tech: Technology): Unit =
+    this.actors.gamer.hasUnlockedTech(tech) = true

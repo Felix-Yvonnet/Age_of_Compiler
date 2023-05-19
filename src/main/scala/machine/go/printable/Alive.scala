@@ -22,9 +22,10 @@ trait Alive extends GameObject:
       this.destroy()
       this.bonusWhenKilled.foreach((typ, amount) => scene.actors.gamer.inventory.addResource(typ, amount))
       true
-    else
+    else if this.existsInTheGame then
       this.health -= damage
       false
+    else true
 
   def drawLifeBar(window: RenderWindow): Unit =
     // Draw a lifebar over the character once it has lost life

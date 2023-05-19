@@ -7,7 +7,8 @@ import machine.scene.Point
 import machine.scene.GameMap
 import machine.go.invisible.ResourceType
 
-class GameObject(var pos: Point = Point(0, 0)):
+@SerialVersionUID(101)
+class GameObject(var pos: Point = Point(0, 0)) extends Serializable:
   // The general class giving basic properties for all its child
   var isSuperposable: Boolean = true
   var isEnemy: Boolean = false
@@ -16,6 +17,8 @@ class GameObject(var pos: Point = Point(0, 0)):
   var health: Int = 0
   var existsInTheGame: Boolean = true
   var name: String = ""
+  var capacity: Boolean = false
+  var color: Color = Color.Black()
 
   // What happens when we right click while selected
   def rightClicked(scene: GameMap, dest: Point): Unit = ()

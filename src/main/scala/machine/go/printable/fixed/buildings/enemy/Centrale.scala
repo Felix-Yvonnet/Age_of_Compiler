@@ -9,9 +9,11 @@ import scala.util.Random
 final class Centrale(position: Point) extends ProductionBuilding(position):
   this.name = "centrale"
   isEnemy = true
-  val diffTimeBeforeNextRandomProduction = 15000
-  var lastTimeRandomProduction = 0
-  var randomDiff = 0
+  val diffTimeBeforeNextRandomProduction: Long = 15000
+  var lastTimeRandomProduction: Long = 0
+  var randomDiff: Long = 0
+  var limitAppearXavier = 5
+  var presentXavier = false
 
   diffTimeBeforeNextBuild = Map(
       "centralien" -> 15000
@@ -33,11 +35,24 @@ final class Centrale(position: Point) extends ProductionBuilding(position):
     // This should never happen unless the probabilities don't sum to 1.0
     throw new RuntimeException("Invalid probabilities")
 
-  def ia() =
-    if System.currentTimeMillis() - this.lastTimeRandomProduction + this.randomDiff > this.diffTimeBeforeNextRandomProduction then
+  def ia(scene: GameMap) =
+    var totNumAlly = 0
+    scene.grid.foreach(
+        _.foreach(
+            _ match
+              case t :: q => totNumAlly += (if t.isFriendly then 1 else 0)
+              case _      => ()
+        )
+    )
+    if totNumAlly > limitAppearXavier && presentXavier then
+      presentXavier = true
+      this.productionQueue += "xavier"
+    else if System.currentTimeMillis() - this.lastTimeRandomProduction + this.randomDiff > this.diffTimeBeforeNextRandomProduction
+    then
       this.productionQueue += selectRandomElement()
       this.randomDiff = Random.between(-5000, 5000)
+      this.lastTimeRandomProduction = System.currentTimeMillis()
 
   override def action(scene: GameMap): Unit =
-    ia()
+    ia(scene)
     updateProduction(scene)

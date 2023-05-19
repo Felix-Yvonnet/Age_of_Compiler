@@ -22,7 +22,6 @@ object Resources:
     drawText(message, window, (0, 0))
 
   def drawText(message: String, window: RenderWindow, pos: Vector2[Float]): Unit =
-
     text.string = message
     text.position = pos
     window.draw(text)

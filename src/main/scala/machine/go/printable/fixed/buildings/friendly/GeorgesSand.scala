@@ -12,9 +12,11 @@ class GeorgesSand(position: Point) extends ProductionBuilding(position):
 
   diffTimeBeforeNextBuild = Map(
       "mathematician" -> 5000,
-      "physicien" -> 10000
+      "physicien" -> 10000,
+      "design" -> 15000
   )
   priceForEntity = Map(
       "mathematician" -> 10,
-      "physicien" -> 10
+      "physicien" -> 10,
+      "design" -> 15
   )

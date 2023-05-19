@@ -10,6 +10,10 @@ import affichage.Resources
 abstract class DefenseTower(position: Point) extends Fighters(position):
   // ugly definition yet the simplest
 
+  var isBuilding: Boolean = true
+  var rateBuilding: Long = 15000
+  health = 0
+
   override def move(scene: GameMap): Unit = ()
 
   def ia(scene: GameMap) =
@@ -25,14 +29,21 @@ abstract class DefenseTower(position: Point) extends Fighters(position):
       case Some(enemy) =>
         if (enemy.pos distanceTo this.pos) > this.rangeView then targetSelection = None
 
+  def build(): Unit =
+    this.health = ((this.maxLife * System.currentTimeMillis()) / this.rateBuilding).toInt
+    if health > this.maxLife then
+      this.health = this.maxLife
+      this.isBuilding = false
+
   override def action(scene: GameMap): Unit =
-    ia(scene)
-    this.actionAttack(scene)
-    this.move(scene)
+    if !this.isBuilding then
+      ia(scene)
+      this.actionAttack(scene)
+    else this.build()
 
   override def drawSelected(window: RenderWindow): Unit =
-    Resources.drawText(this.name, window, (0, 18 * 40))
-    Resources.drawText("Damage: " + this.damage, window, (5 * 40, 16 * 40))
-    Resources.drawText("Health: " + this.health + "/" + this.maxLife, window, (5 * 40, 17 * 40))
-    Resources.drawText("Attack Speed: " + this.diffTimeBeforeNextAttack, window, (15 * 40, 16 * 40))
-    Resources.drawText("Range: " + this.rangeAttack, window, (15 * 40, 17 * 40))
+    Resources.drawText(this.name, window, (0, 20 * 4))
+    Resources.drawText("Damage: " + this.damage, window, (5 * 40, 0))
+    Resources.drawText("Health: " + this.health + "/" + this.maxLife, window, (15 * 40, 0))
+    Resources.drawText("Attack Speed: " + this.diffTimeBeforeNextAttack, window, (15 * 40, 10 * 4))
+    Resources.drawText("Range: " + this.rangeAttack, window, (5 * 40, 10 * 4))

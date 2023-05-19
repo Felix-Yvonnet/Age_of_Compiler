@@ -11,8 +11,13 @@ import sfml.graphics.Color
 import sfml.window.Event
 import machine.go.printable.fixed.buildings.friendly.towers.TeslaBuilding
 import affichage.design.DrawCharacters
+import machine.go.printable.fixed.buildings.friendly.Technology
+import scala.collection.mutable.Map
 
 class Player(name: String):
+
+  // Define things to define the progression of the player
+  val hasUnlockedTech: Map[Technology, Boolean] = Map.empty[Technology, Boolean]
 
   // Define the building creation constants
   var lastTimeBuilding: Long = 0
@@ -30,10 +35,10 @@ class Player(name: String):
   val inventory: Inventory = new Inventory
 
   def draw(window: RenderWindow): Unit =
-    Resources.drawText("Beton : " + inventory.getResourceAmount(Beton), window, (0, 16 * 40))
-    Resources.drawText("Money : " + inventory.getResourceAmount(Money), window, (0, 16 * 40 + 30))
-    Resources.drawText("Tesla Tower", window, (5 * 5 * 40, 16 * 40))
-    Resources.drawText("500 beton", 15, window, (5 * 5 * 40, 16 * 40 + 30))
+    Resources.drawText("Beton : " + inventory.getResourceAmount(Beton), window, (0, 0))
+    Resources.drawText("Money : " + inventory.getResourceAmount(Money), window, (0, 30))
+    Resources.drawText("Tesla Tower", window, (5 * 5 * 40, 0))
+    Resources.drawText("500 beton", 15, window, (5 * 5 * 40, (15 * 20) / 10))
 
   def isLeftClickedWhileProbablyBuying(mousePos: Point, scene: GameMap): Unit =
     // What happen if we try to put the building somewhere

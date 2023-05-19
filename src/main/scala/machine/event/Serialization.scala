@@ -11,8 +11,8 @@ import machine.scene.Point
 import affichage.Button
 import machine.go.printable.movable.characters.friendly.units.mathematicians.Mathematician
 import machine.go.printable.movable.characters.friendly.units.physiciens.Physicien
-import machine.go.printable.movable.characters.enemy._
-import machine.go.printable.fixed.buildings.friendly._
+import machine.go.printable.movable.characters.enemy.*
+import machine.go.printable.fixed.buildings.friendly.*
 import machine.go.printable.fixed.buildings.friendly.towers.TeslaBuilding
 import machine.go.printable.fixed.buildings.enemy.Centrale
 
@@ -41,6 +41,7 @@ object Serialization:
     rezString
 
   def save(scene: GameMap, name: String = "") =
+    // find a new possible path to save the scene and save it
     val pPath = "./savedFiles/"
     val ext = ".save"
     val path = Paths.get("./savedFiles/")
@@ -84,28 +85,27 @@ object Serialization:
       val enemy = Player("Çontralien")
       val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX, ratioY), (player, enemy))
       val newGOS = differentVar(1).split("-")
-      for (k <- 0 until newGOS.length) do 
+      for k <- 0 until newGOS.length do
         val posAndGO = newGOS(k).split(":")
         val posIJ: Array[String] = posAndGO(0).split(",")
         val i = posIJ(0).toInt
         val j = posIJ(1).toInt
         val goAnds = posAndGO(1).split("+")
-        goAnds foreach (goAnd => 
+        goAnds foreach (goAnd =>
           val goAndHealth = goAnd split ":"
           val newgo = goAndHealth(0) match
-            case "mathematician" => Mathematician(Point(i,j))
-            case "physicien" => Physicien(Point(i,j))
-            case "centralien" => Centralien(Point(i,j))
-            case "xavier" => XavierMiel(Point(i,j))
-            case "centrale" => Centrale(Point(i,j))
-            case "ru" => RU(Point(i,j))
-            case "lsv" => LSV(Point(i,j))
-            case "georgessand" => GeorgesSand(Point(i,j))
-            scene.placeSthg(newgo)
-          )
+            case "mathematician" => Mathematician(Point(i, j))
+            case "physicien"     => Physicien(Point(i, j))
+            case "centralien"    => Centralien(Point(i, j))
+            case "xavier"        => XavierMiel(Point(i, j))
+            case "centrale"      => Centrale(Point(i, j))
+            case "ru"            => RU(Point(i, j))
+            case "lsv"           => LSV(Point(i, j))
+            case "georgessand"   => GeorgesSand(Point(i, j))
+          scene.placeSthg(newgo)
+        )
 
       scene
-
 
     catch
       case _ =>

@@ -12,17 +12,20 @@ final class Centrale(position: Point) extends ProductionBuilding(position):
   val diffTimeBeforeNextRandomProduction: Long = 15000
   var lastTimeRandomProduction: Long = 0
   var randomDiff: Long = 0
-  var limitAppearXavier = 5
+  var limitAppearXavier = 7
   var presentXavier = false
 
   diffTimeBeforeNextBuild = Map(
-      "centralien" -> 15000
+      "centralien" -> 15000,
+      "xavier" -> 0
   )
   priceForEntity = Map(
-      "centralien" -> 0
+      "centralien" -> 0,
+      "xavier" -> 0
   )
   val probabilityAppearing = Map(
-      "centralien" -> 1
+      "centralien" -> 1,
+      "xavier" -> 0
   )
 
   def selectRandomElement(): String =

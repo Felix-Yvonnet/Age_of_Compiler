@@ -82,7 +82,7 @@ char.pos = Vector2[Int](100,10)
 
     // Define the playing characters
     val player = Player("Héro")
-    val enemy = Player("Centralien")
+    val enemy = Player("Çontralien")
     // define the game map
     val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX, ratioY), (player, enemy))
 

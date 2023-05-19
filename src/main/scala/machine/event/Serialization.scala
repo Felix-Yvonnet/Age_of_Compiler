@@ -9,16 +9,19 @@ import sfml.graphics.RenderWindow
 import affichage.Resources
 import machine.scene.Point
 import affichage.Button
-
-// add @SerialiseUID(101)
-// add @transient before we don'tr want
+import machine.go.printable.movable.characters.friendly.units.mathematicians.Mathematician
+import machine.go.printable.movable.characters.friendly.units.physiciens.Physicien
+import machine.go.printable.movable.characters.enemy._
+import machine.go.printable.fixed.buildings.friendly._
+import machine.go.printable.fixed.buildings.friendly.towers.TeslaBuilding
+import machine.go.printable.fixed.buildings.enemy.Centrale
 
 object Serialization:
 
   def savePos(scene: GameMap, i: Int, j: Int): String =
     scene.getAtPos(i, j) match
       case t :: q =>
-        s"-$i,$j:" + (t :: q).foldLeft("") { (acc, go) => acc + "+" + go.name }
+        s"-$i,$j:" + (t :: q).foldLeft("") { (acc, go) => acc + "+" + go.name + ":" + go.health }
       case _ => ""
 
   def saveInventory(scene: GameMap): String =
@@ -79,7 +82,30 @@ object Serialization:
       player.inventory.addResource(Money, amountMoney)
       player.inventory.addResource(Beton, amountBeton)
       val enemy = Player("Çontralien")
-      GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX, ratioY), (player, enemy))
+      val scene = GameMap(Scalaseries.giveAGoodGridWithNoNullToThisManPlease(shapeX, shapeY), (ratioX, ratioY), (player, enemy))
+      val newGOS = differentVar(1).split("-")
+      for (k <- 0 until newGOS.length) do 
+        val posAndGO = newGOS(k).split(":")
+        val posIJ: Array[String] = posAndGO(0).split(",")
+        val i = posIJ(0).toInt
+        val j = posIJ(1).toInt
+        val goAnds = posAndGO(1).split("+")
+        goAnds foreach (goAnd => 
+          val goAndHealth = goAnd split ":"
+          val newgo = goAndHealth(0) match
+            case "mathematician" => Mathematician(Point(i,j))
+            case "physicien" => Physicien(Point(i,j))
+            case "centralien" => Centralien(Point(i,j))
+            case "xavier" => XavierMiel(Point(i,j))
+            case "centrale" => Centrale(Point(i,j))
+            case "ru" => RU(Point(i,j))
+            case "lsv" => LSV(Point(i,j))
+            case "georgessand" => GeorgesSand(Point(i,j))
+            scene.placeSthg(newgo)
+          )
+
+      scene
+
 
     catch
       case _ =>

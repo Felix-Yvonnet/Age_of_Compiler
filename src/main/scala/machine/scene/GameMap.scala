@@ -110,17 +110,14 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
   def findClosestEnemy(initialPos: Point): Option[Point] =
     val queue = scala.collection.mutable.Queue(initialPos)
     val seen = Set[Point]()
-    var rez = None
 
     while !queue.isEmpty do
       val current = queue.dequeue()
-      this getAtPos current match
-        case head :: next => if head.isSuperposable then return Some(current)
-        case Nil          => return Some(current)
+      if (this getAtPos current).filter(_.isInstanceOf[Centralien]) != Nil then return Some(current)
 
       val neighbours = (current getAllNeighboursIn this).filter(position => {
         this getAtPos position match
-          case t :: q => t.isSuperposable || t.isInstanceOf[Centralien]
+          case t :: q => t.isSuperposable
           case Nil    => true
       })
 
@@ -128,7 +125,7 @@ final class GameMap(val grid: Array[Array[List[GameObject]]], val ratio: Vector2
         seen += pos
         queue.enqueue(pos)
       })
-    rez
+    None
 
   def getTechLevel(tech: Technology): Boolean =
     this.actors.gamer.hasUnlockedTech.getOrElse(tech, false)

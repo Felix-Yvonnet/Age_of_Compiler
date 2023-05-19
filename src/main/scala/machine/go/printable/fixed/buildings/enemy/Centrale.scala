@@ -44,7 +44,7 @@ final class Centrale(position: Point) extends ProductionBuilding(position):
               case _      => ()
         )
     )
-    if totNumAlly > limitAppearXavier && presentXavier then
+    if totNumAlly > limitAppearXavier && !presentXavier then
       presentXavier = true
       this.productionQueue += "xavier"
     else if System.currentTimeMillis() - this.lastTimeRandomProduction + this.randomDiff > this.diffTimeBeforeNextRandomProduction

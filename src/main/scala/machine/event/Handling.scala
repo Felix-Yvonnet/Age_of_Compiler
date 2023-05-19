@@ -140,6 +140,15 @@ class Handler(
     if status.isOnEscaped then handleEscapedPrint()
     else handleClassicalPrint()
 
+  var buttonToSave =
+    Button(3, 5, scene.width - 3, 7, "Save at 1", () => { Serialization.save(scene, 1); status.isOnWrite = false })
+  var buttonToSave1 =
+    Button(3, 9, scene.width - 3, 11, "Save at 2", () => { Serialization.save(scene, 2); status.isOnWrite = false })
+  var buttonToSave2 =
+    Button(3, 13, scene.width - 3, 15, "Save at 3", () => { Serialization.save(scene, 3); status.isOnWrite = false })
+  var buttonToGoBack = 
+    Button(3, 17, scene.width - 3, 19, "Go back", () => { status.isOnWrite = false; status.isOnChoose = false})
+
   def handleWrite(): Unit =
     Resources.drawText(
         "Give a name to save file",
@@ -148,9 +157,11 @@ class Handler(
         (scene.width * scene.ratio.x / 2 - 6 * scene.ratio.x, 1 * scene.ratio.y)
     )
     val mousePos = getCoords()
-    var buttonToSave =
-      Button(3, 5, scene.width - 3, 7, "Save without name", () => { Serialization.save(scene); status.isOnWrite = false })
     buttonToSave.draw(window, mousePos, scene)
+    buttonToSave1.draw(window, mousePos, scene)
+    buttonToSave2.draw(window, mousePos, scene)
+    buttonToGoBack.draw(window, mousePos, scene)
+
 
   def handleChoose(): Unit =
     Resources.drawText("Choose a game", 50, window, (scene.width * scene.ratio.x / 2 - 3 * scene.ratio.x, 1 * scene.ratio.y))
@@ -169,6 +180,7 @@ class Handler(
       indice += 4
       buttonPath.draw(window, mousePos, scene)
     }
+    buttonToGoBack.draw(window, mousePos, scene)
 
     continueButton.draw(window, mousePos, scene)
     loadButton.draw(window, mousePos, scene)

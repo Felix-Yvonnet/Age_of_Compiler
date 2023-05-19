@@ -40,33 +40,35 @@ object Serialization:
     rezString += saveShape(scene)
     rezString
 
-  def save(scene: GameMap, name: String = "") =
+  def save(scene: GameMap, ind: Int) =
     // find a new possible path to save the scene and save it
-    val pPath = "./savedFiles/"
+    //  val pPath = "./savedFiles/"
+    //  val ext = ".save"
+    //  val path = Paths.get("./savedFiles/")
+    //  if !(Files.exists(path) && Files.isDirectory(path)) then Files.createDirectory(path)
+    //  val newName =
+    //    if name != "" then name
+    //    else
+    //      var k = 0
+    //      while Files.exists(Paths.get(pPath + s"unnamedFile$k$ext")) do k += 1
+    //      s"unnamedFile$k"
     val ext = ".save"
     val path = Paths.get("./savedFiles/")
     if !(Files.exists(path) && Files.isDirectory(path)) then Files.createDirectory(path)
-    val newName =
-      if name != "" then name
-      else
-        var k = 0
-        while Files.exists(Paths.get(pPath + s"unnamedFile$k$ext")) do k += 1
-        s"unnamedFile$k"
-
-    val pw = new PrintWriter(new File(pPath + newName + ext))
+    val pPath = "./savedFiles/"
+    val pw = new PrintWriter(new File(pPath + "backup" + ind + ext))
     pw.write(stringOfScene(scene))
     pw.close
 
   def findAllPossiblePaths(): List[String] =
     val path = Paths.get("./savedFiles/")
     if !(Files.exists(path) && Files.isDirectory(path)) then Files.createDirectory(path)
+    // ugly code to be more "scala friendly"
     var compt = 0
     File("./savedFiles/").listFiles.filter(_.isFile).toList.map(_.getName).filter { x =>
       compt += 1
       compt < 4
     }
-
-  def chooseTheSave(scene: GameMap, window: RenderWindow, mousePos: Point) = ()
 
   def loadGameMap(path: String): GameMap =
     try

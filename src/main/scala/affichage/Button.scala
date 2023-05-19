@@ -31,7 +31,7 @@ class Button(
         30,
         window,
         (
-            topCornerx * scene.ratio.x,
+            topCornerx * scene.ratio.x + scene.ratio.x,
             topCornery * scene.ratio.y + (bottomCornery - topCornery) * scene.ratio.y / 2 - scene.ratio.y / 2
         )
     )
